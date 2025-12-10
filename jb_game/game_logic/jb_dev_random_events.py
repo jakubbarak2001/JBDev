@@ -1,9 +1,7 @@
-from jb_game.jb_dev_stats import JBStats
-from jb_game.jb_dev_decision import Decision
+from jb_game.game_logic.jb_dev_stats import JBStats
+from jb_game.game_logic.jb_dev_decision import Decision
 from random import randint
 from random import choice
-
-
 
 class RandomEvents:
     """Class containing random events that turn up during the gameplay, every 3 days."""
@@ -19,7 +17,7 @@ class RandomEvents:
             RandomEvents.random_event_corpse_in_care_home
         ]
 
-    def select_random_event(self, stats:JBStats) -> None:
+    def select_random_event(self, stats: JBStats) -> None:
         """Chooses one random event at once, then removes it from the list."""
         if not self.random_events_list:
             return
@@ -43,10 +41,10 @@ class RandomEvents:
               "\n2. [GAIN RANDOM AMOUNT OF CODING SKILLS] STAY AT HOME AND CODE."
               "\n\nWHAT IS YOUR DECISION?: ")
 
-        decision = Decision('', ('1', '2'))
-        decision.create_decision()
+        # REFACTOR: One line decision
+        select_choice = Decision.ask(('1', '2'))
 
-        if decision.decision_variable_name == "1":
+        if select_choice == "1":
             random_event_chance_roll = randint(3500, 12500)
             stats.increment_stats_value_money(random_event_chance_roll)
             input("\nYou've reluctantly agreed to the overtime, at least the shift was calm."
@@ -54,7 +52,7 @@ class RandomEvents:
                   f"\n[OUTCOME]: +{random_event_chance_roll} MONEY."
                   "\n\n(CONTINUE...)")
 
-        elif decision.decision_variable_name == "2":
+        elif select_choice == "2":
             random_event_chance_roll = randint(15, 40)
             stats.increment_stats_coding_skill(random_event_chance_roll)
             input("\nAlthough your boss wasn't happy with your decision, you've decided to stay at home"
@@ -84,10 +82,10 @@ class RandomEvents:
               "\n2. [PCR HATRED + 10] DON't PAY ANYTHING."
               "\n\nWHAT IS YOUR DECISION?: ")
 
-        decision = Decision('', ('1', '2'))
-        decision.create_decision()
+        # REFACTOR: One line decision
+        select_choice = Decision.ask(('1', '2'))
 
-        if decision.decision_variable_name == "1":
+        if select_choice == "1":
             stats.increment_stats_pcr_hatred(5)
             stats.increment_stats_value_money(-1000)
             input("\n'Sure, buy them something nice'. "
@@ -99,7 +97,7 @@ class RandomEvents:
                   "\n\n(CONTINUE...)"
                   )
 
-        elif decision.decision_variable_name == "2":
+        elif select_choice == "2":
             stats.increment_stats_pcr_hatred(15)
             input("\n'No...I don't want to contribute'"
                   "\nShe pauses, her mouth opens, she stares at you. You always thought that she is around her 40s, "
@@ -146,10 +144,10 @@ class RandomEvents:
               "\n2. [PCR HATRED +10] KEEP IT INSIDE AND SAY GENERAL INFORMATION."
               "\n\nWHAT IS YOUR DECISION?: ")
 
-        decision = Decision('', ('1', '2'))
-        decision.create_decision()
+        # REFACTOR: One line decision
+        select_choice = Decision.ask(('1', '2'))
 
-        if decision.decision_variable_name == "1":
+        if select_choice == "1":
             vent_chance_roll = randint(1, 100)
 
             if vent_chance_roll <= 80:
@@ -184,7 +182,7 @@ class RandomEvents:
                       f"\n\n[OUTCOME]: PCR HATRED +25, MONEY -2500 CZK."
                       "\n\n(CONTINUE...)")
 
-        elif decision.decision_variable_name == "2":
+        elif select_choice == "2":
             stats.increment_stats_pcr_hatred(10)
             input("\nYou feel the words crawling up your throat, but you swallow them back down."
                   "\nYou put on your standard-issue smile and say something about 'stable job, helping people, "
@@ -231,10 +229,10 @@ class RandomEvents:
               "\n2. ACCEPT AND DRAG HIM. [95% clean | 5% spill]"
               "\n\nWHAT IS YOUR DECISION?: ")
 
-        decision = Decision('', ('1', '2'))
-        decision.create_decision()
+        # REFACTOR: One line decision
+        select_choice = Decision.ask(('1', '2'))
 
-        if decision.decision_variable_name == "1":
+        if select_choice == "1":
             refusal_roll = randint(1, 100)
 
             if refusal_roll <= 35:
@@ -330,10 +328,10 @@ class RandomEvents:
               "\n2. [PCR HATRED +20] STAY, FIX THE MISTAKE AND DESTROY WHAT’S LEFT OF YOUR SOUL."
               "\n\nWHAT IS YOUR DECISION?: ")
 
-        decision = Decision('', ('1', '2'))
-        decision.create_decision()
+        # REFACTOR: One line decision
+        select_choice = Decision.ask(('1', '2'))
 
-        if decision.decision_variable_name == "1":
+        if select_choice == "1":
             stats.increment_stats_value_money(-2500)
             stats.increment_stats_pcr_hatred(-10)
             input("\nYou look at the papers. Then at your boss. Then back at the papers."
@@ -350,7 +348,7 @@ class RandomEvents:
                   f"\n\n[OUTCOME]: MONEY -2500 CZK, PCR HATRED -10."
                   "\n\n(CONTINUE...)")
 
-        elif decision.decision_variable_name == "2":
+        elif select_choice == "2":
             stats.increment_stats_pcr_hatred(20)
             input("\nYou swallow your pride, sit down and take the report."
                   "\nYour hands feel heavy. Your brain feels like wet concrete. But you start rewriting."
@@ -387,28 +385,56 @@ class RandomEvents:
               "he has never seen a steering wheel in his entire life."
               "\n\nYou ask him what he teaches."
               "\n'Algorithms. Systems architecture. Low-level optimization. And recently — machine learning basics.'"
-              "\nHe shrugs. 'Students only want AI now. Nobody wants to understand pointers anymore.'"
-              "\n\nYou laugh. He doesn’t.")
+              "\nHe shrugs. 'Students only want AI now. Nobody wants to understand pointers anymore.'")
 
-        print("\nThe traffic keeps flowing slowly. People complain, cars honk, and yet… you find yourself talking "
-              "to this guy like he's from another planet. A better planet. A planet where people build things instead "
-              "of filling out forms and writing statements at 3 AM.")
+        print("\nHe looks at you with a sharp, analyzing gaze, ignoring your uniform entirely."
+              "\n'You have intelligent eyes. You are not just a traffic cone stand. Tell me... do you write code?'")
 
-        print("\nHe gives you a short, precise monologue about problem-solving, abstraction layers, and how to "
-              "think like a developer. Not technical — philosophical. Almost like he's trying to give you a cheat code "
-              "for life itself.")
+        # LOGIC: Check if player qualifies
+        can_code = stats.coding_experience > 50
 
-        print("\nFinally, when the tow truck arrives, he shakes your hand and says:"
-              "\n\n'If you ever get tired of this job — and trust me, you will — come find me. Developers are always "
-              "needed. Police officers? Only when something terrible happens.'"
-              "\n\nThen he winks and walks away.")
+        # Display options based on skill
+        if can_code:
+            print("\n1. [SKILL CHECK: PASSED] 'Actually, I am something of a developer myself.'")
+            print("2. [IMPOSTER SYNDROME] Stay silent. 'Me? No. I just... work here.'")
+            valid_options = ('1', '2')
+        else:
+            print(f"\n1. [LOCKED - REQUIRES 51 CODING SKILL] (Current: {stats.coding_experience})")
+            print("2. 'Me? No. I just... work here.'")
+            valid_options = ('2',)
 
-        stats.increment_stats_coding_skill(10)
+        print("\nWHAT IS YOUR DECISION?: ")
+        select_choice = Decision.ask(valid_options)
 
-        input("\nYou stand there for a moment. Cars pass. The city keeps moving. "
-              "\nBut inside your head, something shifted. Something opened."
-              f"\n\n[OUTCOME]: CODING SKILLS +10."
-              "\n\n(CONTINUE...)")
+        # OPTION 1: THE DEVELOPER PATH
+        if select_choice == "1":
+            stats.increment_stats_coding_skill(30)  # High reward
+            input("\nYou adjust your belt, look around to make sure your colleague isn't listening, and reply:"
+                  "\n'I work with Python. Backend mostly. Trying to get into AI integration.'"
+                  "\n\nThe Professor's eyes light up. 'Python? Good for prototyping. But tell me, how do you handle "
+                  "memory management when you scale? Do you understand what the Global Interpreter Lock actually does?'"
+                  "\n\nYou spend the next 20 minutes in a deep technical debate. He quizzes you, challenges you, "
+                  "and eventually nods in approval."
+                  "\n\n'Not bad,' he says. 'Actually, quite good. You have the mind for it. Why are you wearing this costume?'"
+                  "\nHe writes an email address on a piece of paper. 'Send me your GitHub. We always look for talent.'"
+                  "\n\nYou walk away feeling validated for the first time in years."
+                  f"\n\n[OUTCOME]: CODING SKILLS +30."
+                  "\n\n(CONTINUE...)")
+
+        # OPTION 2: THE IMPOSTER SYNDROME PATH
+        elif select_choice == "2":
+            stats.increment_stats_coding_skill(10)  # Small reward
+            input("\nYou feel the words forming in your throat—'I study Python', 'I want to build apps'—but "
+                  "the fear chokes them down."
+                  "\n'Me? No,' you say, shaking your head. 'I just follow orders.'"
+                  "\n\nThe Professor looks disappointed for a split second, then shrugs."
+                  "\n'Pity. You have the look. Well, let me tell you something anyway...'"
+                  "\n\nHe gives you a short, precise monologue about problem-solving and abstraction layers."
+                  "\n'If you ever get tired of this job — and trust me, you will — learn to build things. "
+                  "Police officers preserve the status quo. Developers build the future.'"
+                  "\n\nYou listen. You learn something. But it hurts that you didn't speak up."
+                  f"\n\n[OUTCOME]: CODING SKILLS +10."
+                  "\n\n(CONTINUE...)")
 
 
     @staticmethod
@@ -515,3 +541,4 @@ class RandomEvents:
         stats.increment_stats_pcr_hatred(20)
         input("\n[OUTCOME]: PCR HATRED +20."
               "\n\n(CONTINUE...)")
+

@@ -1,14 +1,16 @@
 """Contains everything regarding storytelling."""
-from jb_game.jb_dev_stats import JBStats
+from jb_game.game_logic.jb_dev_stats import JBStats
 from random import randint
-from jb_dev_decision import Decision
+from jb_game.game_logic.jb_dev_decision import Decision
 
 class Story:
     """Contains the most important story elements, mostly text strings."""
-    def __init__(self, stats:JBStats):
+    def __init__(self, stats: JBStats):
         """Initialises itself."""
         self.stats = stats
-    def start_game_message(self):
+
+    @staticmethod
+    def start_game_message():
         """Gives a neatly formatted welcoming message, for whenever you start a game."""
         print("\nWelcome to JB - the game! \n\nIn this game, you will be playing as a young and perspective police "
               "officer in northern part of Bohemia, where sun never rises and criminality is growing rapidly. "
@@ -20,7 +22,8 @@ class Story:
               "hatred of police under 100."
               "\nIn the following section, you will be able to choose your difficulty level, good luck and have fun!")
 
-    def start_the_car_incident_event(self, stats):
+    @staticmethod
+    def start_the_car_incident_event(stats):
         """Contains the story of first game's event - the famous car incident of JB."""
         print("\nARC I. - J.B. BEGINS")
         print("\nDAY I. - 1.7.2025")
@@ -55,11 +58,10 @@ class Story:
         )
         roll_1 = (randint(1, 100))
 
-        report_incident_decision = (
-            Decision('', ("1", "2")))
-        Decision.create_decision(report_incident_decision)
+        # REFACTOR 1: New Decision System
+        report_incident_decision = Decision.ask(("1", "2"))
 
-        if report_incident_decision.decision_variable_name == "1":
+        if report_incident_decision == "1":
             if roll_1 >= 80:
                 stats.increment_stats_pcr_hatred(5)
                 stats.increment_stats_value_money(-500)
@@ -111,18 +113,19 @@ class Story:
                     "\n2. [100%] Admit your guilt, be humble, repent your actions and hope for the best."
                     "\n\n(WHAT ARE YOU GOING TO DO?): "
                 )
-                choose_to_call_a_lawyer = (
-                    Decision('', ("1", "2")))
-                Decision.create_decision(choose_to_call_a_lawyer)
 
-                from jb_game.jb_dev_car_incident_event import CarIncident
+                # REFACTOR 2: New Decision System
+                choose_to_call_a_lawyer = Decision.ask(("1", "2"))
 
-                if choose_to_call_a_lawyer.decision_variable_name == "1":
+                # Local import to avoid circular dependency
+                from jb_game.game_logic.jb_dev_car_incident_event import CarIncident
+
+                if choose_to_call_a_lawyer == "1":
                     CarIncident.lawyer_paul_goodman_is_called(stats)
-                elif choose_to_call_a_lawyer.decision_variable_name == "2":
+                elif choose_to_call_a_lawyer == "2":
                     CarIncident.make_a_punishment_roll_for_the_car_incident(stats)
 
-        elif report_incident_decision.decision_variable_name == "2":
+        elif report_incident_decision == "2":
             if roll_1 >= 80:
                 stats.increment_stats_pcr_hatred(5)
                 stats.increment_stats_value_money(-500)
@@ -183,14 +186,15 @@ class Story:
                     "\n2. [100%] Say that you are sorry."
                     "\n\n(WHAT ARE YOU GOING TO DO?): "
                 )
-                choose_to_call_a_lawyer = (
-                    Decision('', ("1", "2")))
-                Decision.create_decision(choose_to_call_a_lawyer)
 
-                from jb_game.jb_dev_car_incident_event import CarIncident
+                # REFACTOR 3: New Decision System
+                choose_to_call_a_lawyer = Decision.ask(("1", "2"))
 
-                if choose_to_call_a_lawyer.decision_variable_name == "1":
+                # Local import to avoid circular dependency
+                from jb_game.game_logic.jb_dev_car_incident_event import CarIncident
+
+                if choose_to_call_a_lawyer == "1":
                     CarIncident.lawyer_paul_goodman_is_called(stats)
 
-                elif choose_to_call_a_lawyer.decision_variable_name == "2":
+                elif choose_to_call_a_lawyer == "2":
                     CarIncident.make_a_punishment_roll_for_the_car_incident(stats)

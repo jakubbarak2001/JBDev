@@ -10,8 +10,15 @@ from jb_dev_random_events import RandomEvents
 class Game:
     """Sets the basic gaming mechanics, rules, win/loose conditions, difficulty levels."""
 
-    def __init__(self, stats:
-    JBStats, day_cycle: DayCycle, events_list: RandomEvents):
+    DIFFICULTY_SETTINGS = {
+        "1": {"name": "EASY", "money": 85000, "coding": 10, "hatred": 10},
+        "2": {"name": "MEDIUM", "money": 65000, "coding": 5, "hatred": 15},
+        "3": {"name": "HARD", "money": 35000, "coding": 0, "hatred": 25},
+        "4": {"name": "INSANE", "money": 20000, "coding": 0, "hatred": 50},
+        # 5 NIGHTMARE difficulty placeholder
+    }
+
+    def __init__(self, stats: JBStats, day_cycle: DayCycle, events_list: RandomEvents):
         """Initialise self based on JB Stats class."""
         self.stats = stats
         self.day_cycle = day_cycle
@@ -21,88 +28,65 @@ class Game:
         self.python_bootcamp = False
         self.car_incident_stress = True
 
-
     def set_difficulty_level(self):
-        """Lets user choose what difficulty level he wants."""
+        """Lets user choose what difficulty level he wants using the dictionary."""
         while True:
-            select_game_difficulty = input("\nPlease, select the game's difficulty"
-                                           "\n1. Easy - 85.000,- CZK, Coding Skills 10, PCR Hatred 10"
-                                           "\n2. Medium - 65.000,- CZK, Coding Skills 5, PCR Hatred 15"
-                                           "\n3. Hard - 35.000,- CZK, Coding Skills 0, PCR Hatred 25"
-                                           "\n4. Insane - 20.000,- CZK, Coding SKills 0, PCR Hatred 50"
-                                           "\n5. NIGHTMARE - (DOESN'T WORK YET)"
-                                           "\n\n(Enter any number from 1-4): ")
-            if select_game_difficulty == "1":
-                confirm_select = input("\nYou selected 'EASY', is that correct? (y/n): ")
-                if confirm_select != "y":
-                    self.selected_difficulty = 'easy'
+            print("\nPlease, select the game's difficulty:")
+
+            for key, setting in self.DIFFICULTY_SETTINGS.items():
+                print(
+                    f"{key}. {setting['name']} - {setting['money']},- CZK, Coding Skills {setting['coding']}, PCR Hatred {setting['hatred']}")
+
+            print("\n(Enter a number from the list above): ")
+
+            # SELECTION LOGIC:
+            choice = input("> ").strip()
+
+            if choice in self.DIFFICULTY_SETTINGS:
+                settings = self.DIFFICULTY_SETTINGS[choice]
+
+                # Double check with the user
+                confirm_select = input(f"\nYou selected '{settings['name']}', is that correct? (y/n): ")
+                if confirm_select.lower() != "y":
                     continue
-                else:
-                    print("\nEASY mode selected: - 85.000,- CZK, Coding Skills 10, PCR Hatred 10.")
-                    self.stats.available_money = 85000
-                    self.stats.coding_experience = 10
-                    self.stats.pcr_hatred = 10
-            elif select_game_difficulty == "2":
-                confirm_select = input("\nYou selected 'MEDIUM', is that correct? (y/n): ")
-                if confirm_select != "y":
-                    self.selected_difficulty = 'medium'
-                    continue
-                else:
-                    print("\nMEDIUM mode selected: - 65.000,- CZK, Coding Skills 5, PCR Hatred 15.")
-                    self.stats.available_money = 65000
-                    self.stats.coding_experience = 5
-                    self.stats.pcr_hatred = 15
-            elif select_game_difficulty == "3":
-                confirm_select = input("\nYou selected 'HARD', is that correct? (y/n): ")
-                if confirm_select != "y":
-                    self.selected_difficulty = 'hard'
-                    continue
-                else:
-                    print("\nHARD mode selected: - 35.000,- CZK, Coding Skills 0, PCR Hatred 25.")
-                    self.stats.available_money = 35000
-                    self.stats.coding_experience = 0
-                    self.stats.pcr_hatred = 25
-            elif select_game_difficulty == "4":
-                confirm_select = input("\nYou selected 'INSANE', is that correct? (y/n): ")
-                if confirm_select != "y":
-                    self.selected_difficulty = 'insane'
-                    continue
-                else:
-                    print("\nINSANE mode selected: - 20.000,- CZK, Coding Skills 0, PCR Hatred 50.")
-                    self.stats.available_money = 20000
-                    self.stats.coding_experience = 0
-                    self.stats.pcr_hatred = 50
+
+                # Apply the settings
+                print(f"\n{settings['name']} mode selected.")
+                self.selected_difficulty = settings['name'].lower()
+                self.stats.available_money = settings['money']
+                self.stats.coding_experience = settings['coding']
+                self.stats.pcr_hatred = settings['hatred']
+
+                # Show the stats and exit loop
+                self.stats.get_stats_command()
+                input("\n(PRESS ANY KEY TO CONTINUE.)")
+                break
             else:
                 print("\nWrong input, try again.")
-                continue
-            self.stats.get_stats_command()
-            input("\n(PRESS ANY KEY TO CONTINUE.)")
-            break
 
     def main_menu(self):
         """Basic UI, containing selectable options."""
         while True:
-            (print
-                           ("\nMAIN MENU:"
-                            "\n1.SHOW STATS"
-                            "\n2.SELECT ACTIVITY"
-                            "\n3.SHOW CONTACTS"
-                            "\n4.END THE DAY."
-                            "\nSELECT YOUR OPTION (1-4): ")
-                           )
-            menu_select_decision = (
-                Decision('', ("1", "2", "3", "4")))
-            Decision.create_decision(menu_select_decision)
+            print(
+                "\nMAIN MENU:"
+                "\n1.SHOW STATS"
+                "\n2.SELECT ACTIVITY"
+                "\n3.SHOW CONTACTS"
+                "\n4.END THE DAY."
+                "\nSELECT YOUR OPTION (1-4): "
+            )
 
-            if menu_select_decision.decision_variable_name == "1":
+            # REFACTOR: One line decision
+            choice = Decision.ask(("1", "2", "3", "4"))
+
+            if choice == "1":
                 print(f"\nCurrent day: #{self.day_cycle.current_day}/30.")
                 self.stats.get_stats_command()
 
-            elif menu_select_decision.decision_variable_name == "2":
+            elif choice == "2":
                 self.select_activity()
 
-
-            elif menu_select_decision.decision_variable_name == "3":
+            elif choice == "3":
                 print(
                     "\nYou open up your phone list, to see following contacts(DOESNT WORK IN THIS VERSION):"
                     "\n1.MM"
@@ -114,29 +98,35 @@ class Game:
                     "\nSELECT YOUR OPTION (1-6): "
                 )  # later: self.show_contacts()
 
-            elif menu_select_decision.decision_variable_name == "4":
-                while not self.activity_selected:
-                    end_day_with_no_activity = (
-                        input("\nYou haven't selected your daily activity, are you sure you want to continue?"
-                          "\n(y/n): "))
-                    if end_day_with_no_activity == "y":
-                        break
-                    else:
-                        Game.main_menu(self)
+            elif choice == "4":
+                # LOGIC: If activity not done, ask for confirmation
+                if not self.activity_selected:
+                    print("\nYou haven't selected your daily activity.")
+                    confirm = input("Are you sure you want to end the day? (y/n): ").strip().lower()
+
+                    if confirm != "y":
+                        continue  # <--- This jumps back to the main menu loop safely!
+
+                # End of Day Logic
                 print(f"\nEnding day #{self.day_cycle.current_day}...")
                 self.day_cycle.next_day()
-                print(f"\nStarting day #{self.day_cycle.current_day}/30")
-                if self.day_cycle.current_day % 3 == 0:
-                    self.events_list.select_random_event(self.stats)
-                    print(f"\nStarting day #{self.day_cycle.current_day}/30")
-                    self.day_cycle.next_day()
-                self.activity_selected = False
-                self.stats.increment_stats_pcr_hatred(+5)
-                if self.python_bootcamp:
-                    self.stats.increment_stats_coding_skill(+5)
 
-            else:
-                print("Wrong input, try again.")
+                # Random Event Trigger (Every 3 days)
+                if self.day_cycle.current_day % 3 == 0:
+                    print(f"\nStarting day #{self.day_cycle.current_day}/30")
+                    self.events_list.select_random_event(self.stats)
+                    # Note: You might not need next_day() again here unless events consume a day
+                else:
+                    print(f"\nStarting day #{self.day_cycle.current_day}/30")
+
+                # Reset Daily Flags
+                self.activity_selected = False
+
+                # Apply Daily Effects
+                self.stats.increment_stats_pcr_hatred(5)
+                if self.python_bootcamp:
+                    self.stats.increment_stats_coding_skill(5)
+
 
     def select_activity(self):
         """Lets you select a daily activity once per day, through the game's menu."""
@@ -150,11 +140,9 @@ class Game:
                 "\n5.RETURN TO MENU"
                 "\nSELECT YOUR OPTION (1-5):"
             )
-            menu_select_decision_activity = (
-                Decision('', ("1", "2", "3", "4", "5")))
-            Decision.create_decision(menu_select_decision_activity)
 
-            choice = menu_select_decision_activity.decision_variable_name
+            # REFACTOR: One line decision
+            choice = Decision.ask(("1", "2", "3", "4", "5"))
 
             if choice == "1":
                 self.activity_gym()
@@ -177,11 +165,11 @@ class Game:
               "\n1. [33/33/33%] WE GO GYM!"
               "\n2. RETURN TO MENU"
               "\nSELECT YOUR OPTION (1-2):")
-        activity_is_selected = (
-            Decision('', ("1", "2")))
-        Decision.create_decision(activity_is_selected)
 
-        if activity_is_selected.decision_variable_name == "1":
+        # REFACTOR: One line decision
+        choice = Decision.ask(("1", "2"))
+
+        if choice == "1":
             activity_roll = randint(1, 3)
             if activity_roll == 1:
                 self.stats.increment_stats_value_money(-400)
@@ -203,7 +191,7 @@ class Game:
             self.stats.get_stats_command()
             input("\nCONTINUE...")
             self.activity_selected = True
-        elif activity_is_selected.decision_variable_name == "2":
+        elif choice == "2":
             self.main_menu()
 
     def activity_meditate(self):
@@ -213,11 +201,11 @@ class Game:
               "\n1. [90/10%] BREATHE IN, BREATHE OUT..."
               "\n2. RETURN TO MENU"
               "\nSELECT YOUR OPTION (1-2):")
-        activity_is_selected = (
-            Decision('', ("1", "2")))
-        Decision.create_decision(activity_is_selected)
 
-        if activity_is_selected.decision_variable_name == "1":
+        # REFACTOR: One line decision
+        choice = Decision.ask(("1", "2"))
+
+        if choice == "1":
             activity_roll = randint(1, 10)
             if activity_roll <= 9:
                 self.stats.increment_stats_pcr_hatred(-15)
@@ -231,7 +219,7 @@ class Game:
             self.stats.get_stats_command()
             input("\nCONTINUE...")
             self.activity_selected = True
-        elif activity_is_selected.decision_variable_name == "2":
+        elif choice == "2":
             self.main_menu()
 
     def activity_bouncer(self):
@@ -243,11 +231,11 @@ class Game:
               "\n2. [5/20/50/20/5%]WORK AS A BOUNCER AT A STRIP BAR"
               "\n3. RETURN TO MENU"
               "\nSELECT YOUR OPTION (1-3):")
-        activity_is_selected = (
-            Decision('', ("1", "2", "3")))
-        Decision.create_decision(activity_is_selected)
 
-        if activity_is_selected.decision_variable_name == "1":
+        # REFACTOR: One line decision
+        choice = Decision.ask(("1", "2", "3"))
+
+        if choice == "1":
             activity_roll = randint(1, 100)
             if activity_roll <= 70:
                 self.stats.increment_stats_pcr_hatred(10)
@@ -275,7 +263,7 @@ class Game:
             input("\nCONTINUE...")
             self.activity_selected = True
 
-        elif activity_is_selected.decision_variable_name == "2":
+        elif choice == "2":
             activity_roll = randint(1, 100)
             if activity_roll <= 5:
                 self.stats.increment_stats_value_money(35000)
@@ -346,7 +334,7 @@ class Game:
             self.activity_selected = True
 
 
-        elif activity_is_selected.decision_variable_name == "3":
+        elif choice == "3":
             self.main_menu()
 
     def activity_python(self):
@@ -361,12 +349,12 @@ class Game:
               "\n3. [50.000CZK] JOIN AN ON-LINE BOOTCAMP (GAIN BUFF FOR THE REST OF THE GAME)"
               "\n4. RETURN TO MENU"
               "\nSELECT YOUR OPTION (1-4):")
-        activity_is_selected = (
-            Decision('', ("1", "2", "3", "4")))
-        Decision.create_decision(activity_is_selected)
+
+        # REFACTOR: One line decision
+        choice = Decision.ask(("1", "2", "3", "4"))
 
         # 1) FREE STUDY – 80% +5, 20% +10
-        if activity_is_selected.decision_variable_name == "1":
+        if choice == "1":
             activity_roll = randint(1, 100)
             if activity_roll <= 80:
                 self.stats.increment_stats_coding_skill(5)
@@ -392,7 +380,7 @@ class Game:
             self.activity_selected = True
 
         # 2) PAID TUTOR – 60% +10, 30% +15, 10% +25
-        elif activity_is_selected.decision_variable_name == "2":
+        elif choice == "2":
             # Pay for the session
             self.stats.increment_stats_value_money(-1500)
             activity_roll = randint(1, 100)
@@ -430,7 +418,7 @@ class Game:
             self.activity_selected = True
 
         # 3) ONLINE BOOTCAMP – PLACEHOLDER FOR PERMANENT BUFF
-        elif activity_is_selected.decision_variable_name == "3":
+        elif choice == "3":
             self.stats.increment_stats_value_money(-50000)
             print(
                 "\nYou sign a contract and pay for an on-line Python bootcamp."
@@ -447,7 +435,7 @@ class Game:
             self.activity_selected = True
 
         # 4) RETURN TO MAIN MENU
-        elif activity_is_selected.decision_variable_name == "4":
+        elif choice == "4":
             self.main_menu()
 
         else:
