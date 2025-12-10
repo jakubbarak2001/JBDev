@@ -1,9 +1,9 @@
-from jb_game.jb_dev_car_incident_event import CarIncident
-from jb_game.jb_dev_random_events import RandomEvents
-from jb_game.jb_dev_stats import JBStats
+from jb_game.game_logic.jb_dev_car_incident_event import CarIncident
+from jb_game.game_logic.jb_dev_random_events import RandomEvents
+from jb_game.game_logic.jb_dev_stats import JBStats
 from jb_dev_day_cycle import DayCycle
 from jb_dev_game import Game
-from jb_game.jb_dev_story import Story
+from jb_game.game_logic.jb_dev_story import Story
 
 
 def main():
@@ -26,28 +26,22 @@ if __name__ == "__main__":
     main()
 
 
-# 25.11.2025 - State of the game.
+# 10.12.2025 - State of the game.
 
 # DONE:
 
 # CAR INCIDENT EVENT, MULTIPLE DECISIONS.
 # 20-30 MINS OF GAMEPLAY
 # 3 FULLY WORKING STATS: CODING, MONEY, HATRED
-# 100 CODING CHECK
-# DAYS CALCULATOR
-# GAME MENU:
-# 1. SELECT ACTIVITY (ONLY ONE ACTIVITY DAILY: 1. GYM, 2. READ, 3. STUDY PYTHON, 4. BOUNCER NIGHT SHIFT)
-# 2. STATS REPORT
-# 5. END THE DAY.
+# GAME MENU
 # RANDOM EVENTS WORKING: 7 RANDOM EVENTS
 # DAY CYCLE FULLY WORKING.
 # DEBUFFS AND BUFFS
-
+# GAME REFACTORED FOR BETTER SCALING
 # TO BE DONE:
 
 # HIGH PRIORITY:
 
-# STATS - 0 MONEY BACKGROUND CHECK, 100 HATRED BACKGROUND CHECK
 # DAY24 - MM LUNCH EVENT - GOOD/NEUTRAL/BAD ENDING - NO RNG, ONLY YOUR CHOICES, OPTIONS BASED ON PREREQUIREMENTS
 # (1. DO YOU HAVE ENOUGH MONEY TO LEAVE NOW? "HELL YEAH (>100k, +2MM POINTS, >50k, +1MM POINTS)" ETC...)...POSSIBLE OUTCOMES:
 # (2. HOW MUCH DO YOU ACTUALLY HATE POLICE NOW? (>75, 2+MM POINTS, >30, 1+MM POINTS) ETC...
