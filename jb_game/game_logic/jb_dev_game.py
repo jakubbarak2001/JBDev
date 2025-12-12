@@ -102,31 +102,45 @@ class Game:
                 if not self.activity_selected:
                     print("\nYou haven't selected your daily activity.")
                     confirm = input("Are you sure you want to end the day? (y/n): ").strip().lower()
-
                     if confirm != "y":
-                        continue  # <--- This jumps back to the main menu loop safely!
+                        continue
 
-                # End of Day Logic
                 self.day_cycle.day_end_message()
-                self.day_cycle.next_day()
 
-                # Random Event Trigger (Every 3 days)
-                if self.day_cycle.current_day % 3 == 0:
-                    self.day_cycle.day_start_message()
-                    self.events_list.select_random_event(self.stats)
-                    self.day_cycle.day_end_message()
-                    self.day_cycle.next_day()
-                    self.day_cycle.day_start_message()
-                else:
-                    self.day_cycle.day_start_message()
-
-                # Reset Daily Flags
-                self.activity_selected = False
-
-                # Apply Daily Effects
                 self.stats.increment_stats_pcr_hatred(5)
                 if self.python_bootcamp:
                     self.stats.increment_stats_coding_skill(5)
+
+                self.day_cycle.next_day()
+
+                if self.day_cycle.current_day % 3 == 0:
+
+                    if self.day_cycle.current_day < 22:
+
+                        event_happened = self.events_list.select_random_event(self.stats)
+
+                        if event_happened:
+                            self.day_cycle.day_end_message()
+
+                            self.stats.increment_stats_pcr_hatred(5)
+                            if self.python_bootcamp:
+                                print("\n[PYTHON BOOTCAMP] Your investment is starting to pay off! (+5 Coding Skills).")
+                                self.stats.increment_stats_coding_skill(5)
+
+                            if self.stats.ai_paperwork_buff:
+                                print("\n[AI AUTOMATION] Your script handled the paperwork efficiently. (-2 Hatred)")
+                                self.stats.increment_stats_pcr_hatred(-2)
+
+                            if self.stats.daily_btc_income > 0:
+                                print(
+                                    f"\n[PASSIVE INCOME] The Turkish fraudster sent his daily tribute: +{self.stats.daily_btc_income} CZK.")
+                                self.stats.increment_stats_value_money(self.stats.daily_btc_income)
+
+                            self.day_cycle.next_day()
+
+                self.day_cycle.day_start_message()
+
+                self.activity_selected = False
 
 
     def select_activity(self):

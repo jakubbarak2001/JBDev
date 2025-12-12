@@ -9,7 +9,8 @@ class JBStats:
         self.available_money = available_money
         self.coding_experience = coding_experience
         self.pcr_hatred = pcr_hatred
-        self.cow_counter = 0
+        self.daily_btc_income = 0
+        self.ai_paperwork_buff = False
 
     def stats_description_money(self):
         """Stats description message, describing the value of available money stat in plain language."""
