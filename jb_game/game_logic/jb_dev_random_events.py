@@ -8,27 +8,39 @@ class RandomEvents:
     def __init__(self) -> None:
         """Initialises itself and the list of events."""
         self.random_events_list = [
-            RandomEvents.random_event_israeli_developer,
-            RandomEvents.random_event_nightmare_wolf,
-            RandomEvents.random_event_civilian_small_talk,
-            RandomEvents.random_event_admin_mistake_after_shift,
-            RandomEvents.random_event_overtime_offer,
-            RandomEvents.random_event_birthday_gift,
-            RandomEvents.random_event_corpse_in_care_home
+            RandomEvents.israeli_developer,
+            RandomEvents.nightmare_wolf,
+            RandomEvents.civilian_small_talk,
+            RandomEvents.admin_mistake_after_shift,
+            RandomEvents.overtime_offer,
+            RandomEvents.birthday_gift,
+            RandomEvents.corpse_in_care_home,
+            RandomEvents.forgotten_usb,
+            RandomEvents.turkish_fraud,
+            RandomEvents.ethics_seminar,
+            RandomEvents.printer_incident,
+            RandomEvents.citizen_of_czechoslovakia,
+            RandomEvents.paperwork_overload,
+            RandomEvents.dispatch_blue_screen,
+            RandomEvents.tech_bro_speeding
         ]
 
-    def select_random_event(self, stats: JBStats) -> None:
-        """Chooses one random event at once, then removes it from the list."""
+    def select_random_event(self, stats: JBStats) -> bool:
+        """
+        Chooses one random event at once, then removes it from the list.
+        Returns True if an event ran, False if the list was empty.
+        """
         if not self.random_events_list:
-            return
+            return False  # <--- List is empty, tell the Game class nothing happened!
 
         else:
             random_event_selection = choice(self.random_events_list)
             self.random_events_list.remove(random_event_selection)
             random_event_selection(stats)
+            return True  # <--- Event successfully ran
 
     @staticmethod
-    def random_event_overtime_offer(stats: JBStats) -> None:
+    def overtime_offer(stats: JBStats) -> None:
         """Event with overtime offer."""
         input("\nRANDOM EVENT!"
               "\n\n(CONTINUE...)")
@@ -62,7 +74,7 @@ class RandomEvents:
 
 
     @staticmethod
-    def random_event_birthday_gift(stats: JBStats) -> None:
+    def birthday_gift(stats: JBStats) -> None:
         """Event with your colleagues celebrating their B-day."""
         input("\nRANDOM EVENT!"
               "\n\n(CONTINUE...)")
@@ -105,7 +117,7 @@ class RandomEvents:
                   "\nYou don't react and hold your cold hearted expression towards her, "
                   "\nnot breaking the contact with her even for a mere second."
                   "\nAfter that short moment, that felt to you like eternity. She puts her hands on her hips, and tilts "
-                  "\nher head slightly towards, after which she says with a motherly tone 'JB...\n'"
+                  "\nher head slightly towards, after which she says with a motherly tone 'JB...'\n"
                   "\nAfter that, another moment of silence occurs, you respond only by staring directly into her soul. "
                   "\nSuddenly, she recognises, that something is really wrong with you."
                   "\nYou are no longer taking anything from anyone. "
@@ -118,7 +130,7 @@ class RandomEvents:
                   )
 
     @staticmethod
-    def random_event_civilian_small_talk(stats: JBStats) -> None:
+    def civilian_small_talk(stats: JBStats) -> None:
         """Event where an old civilian tries to make small talk and asks about your job."""
         input("\nRANDOM EVENT!"
               "\n\n(CONTINUE...)")
@@ -195,7 +207,7 @@ class RandomEvents:
                   "\n\n(CONTINUE...)")
 
     @staticmethod
-    def random_event_corpse_in_care_home(stats: JBStats) -> None:
+    def corpse_in_care_home(stats: JBStats) -> None:
         """Event involving a decomposing corpse found in a care home."""
         input("\nRANDOM EVENT!"
               "\n\n(CONTINUE...)")
@@ -300,7 +312,7 @@ class RandomEvents:
                   "\n\n(CONTINUE...)")
 
     @staticmethod
-    def random_event_admin_mistake_after_shift(stats: JBStats) -> None:
+    def admin_mistake_after_shift(stats: JBStats) -> None:
         """Event where you have to stay after night shift to fix an administrative mistake."""
         input("\nRANDOM EVENT!"
               "\n\n(CONTINUE...)")
@@ -365,7 +377,7 @@ class RandomEvents:
                   "\n\n(CONTINUE...)")
 
     @staticmethod
-    def random_event_israeli_developer(stats: JBStats) -> None:
+    def israeli_developer(stats: JBStats) -> None:
         """Event where you meet an Israeli senior developer who teaches CS at Tel Aviv University."""
         input("\nRANDOM EVENT!"
               "\n\n(CONTINUE...)")
@@ -436,7 +448,7 @@ class RandomEvents:
                   "\n\n(CONTINUE...)")
 
     @staticmethod
-    def random_event_nightmare_wolf(stats: JBStats) -> None:
+    def nightmare_wolf(stats: JBStats) -> None:
         """
         Nightmare event based on a real dream.
         Refactored to be shorter, punchier, and focused on dissociation/gaslighting.
@@ -502,3 +514,346 @@ class RandomEvents:
         input("\n[OUTCOME]: PCR HATRED +20 (Night terror)."
               "\n\n(CONTINUE...)")
 
+    @staticmethod
+    def citizen_of_czechoslovakia(stats: JBStats) -> None:
+        """
+        Event 6: The 'Influencer' / Sovereign Citizen.
+        Flavor: Absurd bureaucracy meets YouTube harassment.
+        """
+        input("\nRANDOM EVENT!"
+              "\n\n(CONTINUE...)")
+        print("\nYou pull over a beat-up Felicia for a broken taillight. Routine stop.")
+        print("As you approach the window, a phone is shoved into your face.")
+        print("\n'AM I BEING DETAINED? AM I BEING DETAINED?' screams a teenager with a cracking voice.")
+        print(
+            "'I am a free citizen of the Federal Republic of Czechoslovakia! The Czech Republic is a corporation!'")
+        print("\nHe is live-streaming to 12 viewers. He refuses to show ID because 'ID is a slave contract'.")
+
+        print("\n1. [IGNORE] Walk away. It's not worth the paperwork or the YouTube comments.")
+        print("2. [ARREST] Smash the window, drag him out. Law is Law.")
+
+        select_choice = Decision.ask(('1', '2'))
+
+        if select_choice == "1":
+            stats.increment_stats_pcr_hatred(15)
+            print("\nYou sigh, turn off your body cam for a second to rub your eyes, and get back in your car.")
+            print("The kid screams 'VICTORY!' as you drive away.")
+            print("You saved 3 hours of paperwork, but you lost a piece of your soul.")
+            print("\n[OUTCOME]: +15 PCR HATRED (Humiliation).")
+
+        elif select_choice == "2":
+            stats.increment_stats_pcr_hatred(5)
+            stats.increment_stats_value_money(-1000)
+            print("\nYou've had enough. You break the window. He screams like a banshee.")
+            print("You arrest him for obstruction.")
+            print("\nLater, you find out his parents are lawyers. The paperwork takes 6 hours.")
+            print("Your boss fines you for the 'unnecessary property damage' to the Felicia.")
+            print("\n[OUTCOME]: -1000 CZK (Fine), +5 PCR HATRED (At least you silenced him).")
+
+        input("\n(CONTINUE...)")
+
+    @staticmethod
+    def printer_incident(stats: JBStats) -> None:
+        """
+        Event 1: The Printer.
+        Mechanic: Coding Skill RNG Check (Skill * 2 = % Chance).
+        """
+        input("\nRANDOM EVENT!"
+              "\n\n(CONTINUE...)")
+        print("\nThe station's only printer—a relic from 2004—has jammed again.")
+        print("There is a queue of 3 angry colleagues waiting to print their reports.")
+        print("The 'IT Guy' is on vacation in Croatia for the next 2 weeks.")
+        print("\nYou look at the error code: 'PC LOAD LETTER'.")
+
+        success_chance = stats.coding_experience * 2
+        if success_chance > 100: success_chance = 100
+
+        print(f"\n1. [CODING CHECK: {success_chance}%] Try to fix the driver logic and spooler.")
+        print("2. [IGNORE] Walk away. Not your problem.")
+
+        select_choice = Decision.ask(('1', '2'))
+
+        if select_choice == "1":
+            roll = randint(1, 100)
+            if roll <= success_chance:
+                stats.increment_stats_coding_skill(10)
+                print("\nYou open the terminal interface. You bypass the spooler, clear the cache manually,")
+                print("and restart the daemon. The printer roars to life.")
+                print("Your colleagues look at you like you just performed a miracle.")
+                print("\n[SUCCESS]: +10 CODING SKILL (Real-world application).")
+            else:
+                stats.increment_stats_value_money(-2000)
+                stats.increment_stats_pcr_hatred(15)
+                print("\nYou try to mess with the settings... and smoke starts coming out.")
+                print("It's hardlocked. Dead. Brick.")
+                print("The Commander comes out. 'JB, did you break government property?'")
+                print("You have to pay for the repair service.")
+                print("\n[FAILURE]: -2000 CZK, +15 PCR HATRED.")
+
+        elif select_choice == "2":
+            stats.increment_stats_pcr_hatred(5)
+            print("\nYou decide not to risk it. You hand write your report.")
+            print("It takes 45 minutes longer.")
+            print("\n[OUTCOME]: +5 PCR HATRED.")
+
+        input("\n(CONTINUE...)")
+
+    @staticmethod
+    def ethics_seminar(stats: JBStats) -> None:
+        """
+        Event 2: Mandatory Ethics.
+        Mechanic: Pure RNG Risk/Reward.
+        """
+        input("\nRANDOM EVENT!"
+              "\n\n(CONTINUE...)")
+        print("\nMandatory Training: 'Synergy and Ethics in Modern Policing'.")
+        print("It's a 4-hour PowerPoint presentation in a non-ventilated room.")
+        print("The lecturer is reading every single bullet point out loud.")
+
+        print("\n1. [RISK] Sleep in the back row (Recover mental health).")
+        print("2. [SAFE] Listen and suffer.")
+
+        select_choice = Decision.ask(('1', '2'))
+
+        if select_choice == "1":
+            roll = randint(1, 100)
+            if roll <= 50:
+                stats.increment_stats_value_money(-500)
+                stats.increment_stats_pcr_hatred(10)
+                print("\nYou drift off... peaceful darkness...")
+                print("'JB! WAKE UP!'")
+                print("Everyone is staring at you. The lecturer writes your name down.")
+                print("\n[FAILURE]: -500 CZK (Salary deduction), +10 PCR HATRED.")
+            else:
+                stats.increment_stats_pcr_hatred(-15)
+                print("\nYou master the art of sleeping with your eyes open.")
+                print("You wake up refreshed just as the applause starts.")
+                print("\n[SUCCESS]: -15 PCR HATRED (Best nap ever).")
+
+        elif select_choice == "2":
+            stats.increment_stats_pcr_hatred(10)
+            print("\nYou force yourself to listen. It's agony.")
+            print("You learn nothing, but you survive.")
+            print("\n[OUTCOME]: +10 PCR HATRED.")
+
+        input("\n(CONTINUE...)")
+
+    @staticmethod
+    def forgotten_usb(stats: JBStats) -> None:
+        """
+        Event 21: The USB Stick.
+        Mechanic: Virus (-Skill) vs Crypto (+Money).
+        """
+        input("\nRANDOM EVENT!"
+              "\n\n(CONTINUE...)")
+        print("\nYou are patting down a suspect's jacket in the evidence locker.")
+        print("You feel a lump. It's a black USB drive with a taped label: 'DO NOT TOUCH'.")
+        print("Curiosity kills the cat... but satisfaction brought it back.")
+
+        print("\n1. [RISK] Plug it into your personal laptop.")
+        print("2. [SAFE] Don't touch it.")
+
+        select_choice = Decision.ask(('1', '2'))
+
+        if select_choice == "1":
+            print("\nYou boot up your laptop and insert the drive...")
+            roll = randint(1, 100)
+
+            if roll <= 50:
+                stats.increment_stats_coding_skill(-25)
+                print("\nSCREEECH! Your speakers blast noise.")
+                print("A skull appears on your screen. All your Python projects are being encrypted.")
+                print("It's a nasty ransomware. You have to format everything.")
+                print("\n[FAILURE]: -25 CODING SKILL (You lost your projects).")
+            else:
+                stats.increment_stats_value_money(25000)
+                print("\nIt opens. A text file contains a private key.")
+                print("You check the wallet... there is some leftover Ethereum!")
+                print("You quickly transfer it to your account.")
+                print("\n[SUCCESS]: +25.000 CZK.")
+
+        elif select_choice == "2":
+            print("\nYou leave it in the evidence room. Probably for the best.")
+
+        input("\n(CONTINUE...)")
+
+    @staticmethod
+    def turkish_fraud(stats: JBStats) -> None:
+        """
+        NEW EVENT: Internet Fraud / Heritage.
+        Mechanic: Requires 75+ Coding to unlock Passive Income.
+        """
+        input("\nRANDOM EVENT!"
+              "\n\n(CONTINUE...)")
+        print("\nAn old man comes to the station, shaking and crying.")
+        print("'They stole my money! My uncle died in Turkey! He was a billionaire!'")
+        print("\nYou listen to the story. It's the classic 'Prince Heritage' scam.")
+        print("The victim sent 100.000 CZK to an account in Istanbul to 'release the funds'.")
+        print("\nUsually, you would just file a report and file it into the trash.")
+        print("But you look at the email headers the victim printed out.")
+        print("You recognize the IP masking. It's lazy.")
+
+        print(f"\n[REQ: 75 CODING SKILL] Current Skill: {stats.coding_experience}")
+
+        print("1. [CODING] Track the scammer and turn the tables.")
+        print("2. [GENERIC] 'I'm sorry sir, the money is gone.'")
+
+        select_choice = Decision.ask(('1', '2'))
+
+        if select_choice == "1":
+            if stats.coding_experience >= 75:
+                # SUCCESS
+                stats.daily_btc_income += 5000  # Add to stats object
+                stats.increment_stats_pcr_hatred(-20)
+                print("\nYou tell the old man to wait. You open your laptop.")
+                print("You trace the packet route, bypass their cheap VPN, and find their real server.")
+                print("You access their webcam. You take a screenshot of the scammer.")
+                print(
+                    "\nYou send them one email: 'I know who you are. Send me 5k CZK a day in BTC, or I send this to the Turkish police.'")
+                print("\nFive minutes later, your wallet pings.")
+                print("\n[CRITICAL SUCCESS]: You gained PASSIVE INCOME! (+5.000 CZK Daily).")
+                print("You tell the old man you'll 'look into it' and send him home.")
+            else:
+                # FAILED SKILL CHECK
+                print("\nYou try to track them, but their encryption is too good.")
+                print("You just wasted an hour staring at a matrix screen.")
+                print("You have to tell the old man the truth.")
+                stats.increment_stats_pcr_hatred(10)
+                print("\n[FAILURE]: +10 PCR HATRED.")
+
+        elif select_choice == "2":
+            stats.increment_stats_pcr_hatred(10)
+            print("\nYou explain to him that the billionaire uncle doesn't exist.")
+            print("He cries. You watch. It's just another Tuesday.")
+            print("\n[OUTCOME]: +10 PCR HATRED.")
+
+        input("\n(CONTINUE...)")
+
+    @staticmethod
+    def dispatch_blue_screen(stats: JBStats) -> None:
+        """
+        Event: The Dispatch System Crash.
+        Theme: Chaos vs. Competence.
+        """
+        input("\nRANDOM EVENT!"
+              "\n\n(CONTINUE...)")
+        print("\nIt is Friday night. The radio is screaming. Total chaos.")
+        print("Suddenly, the main dispatch monitor flickers and dies.")
+        print("\nBSOD. 'CRITICAL_PROCESS_DIED'.")
+        print("\nThe Commander starts hitting the monitor with his baton.")
+        print("'IT SUPPORT IS CLOSED! WE ARE BLIND!'")
+
+        print(f"\n[REQ: 30 CODING SKILL] Current: {stats.coding_experience}")
+
+        print("1. [CODING] Push him aside and fix it via PowerShell.")
+        print("2. [CHAOS] Watch it burn. Enjoy the silence.")
+
+        select_choice = Decision.ask(('1', '2'))
+
+        if select_choice == "1":
+            if stats.coding_experience >= 30:
+                stats.increment_stats_pcr_hatred(-10)
+                stats.increment_stats_coding_skill(5)
+                print("\nYou type `Restart-Service DispatchCore -Force`.")
+                print("The screen flickers back to life. The map reloads.")
+                print("The Commander stares at you. 'Good work, JB.'")
+                print("For a moment, you feel useful.")
+                print("\n[SUCCESS]: -10 PCR HATRED, +5 CODING SKILL.")
+            else:
+                stats.increment_stats_pcr_hatred(10)
+                print("\nYou try to open the terminal, but your hands are shaking.")
+                print("The Commander yells: 'GET OUT OF THE WAY!'")
+                print("You failed to help. Now you just look like an idiot.")
+                print("\n[FAILURE]: +10 PCR HATRED.")
+
+        elif select_choice == "2":
+            stats.increment_stats_pcr_hatred(-5)
+            print("\nYou sip your coffee.")
+            print("Without the dispatch software, no one can send you anywhere.")
+            print("For 20 minutes, there is peace.")
+            print("\n[OUTCOME]: -5 PCR HATRED (Schadenfreude).")
+
+        input("\n(CONTINUE...)")
+
+    @staticmethod
+    def tech_bro_speeding(stats: JBStats) -> None:
+        """
+        Event: The Porsche Taycan Driver.
+        Theme: Networking opportunity vs. Ego.
+        """
+        input("\nRANDOM EVENT!"
+              "\n\n(CONTINUE...)")
+        print("\nYou clock a Porsche Taycan doing 180 km/h in a 90 zone.")
+        print("You pull him over. The driver is younger than you, wearing pajamas.")
+        print("His laptop is open on the passenger seat. VS Code is running.")
+        print("\n'Officer, make it quick,' he says, not looking up. 'I'm deploying to production.'")
+
+        print("\n1. [DUTY] Ticket him.")
+        print("2. [CURIOSITY] Ask him about his stack.")
+
+        select_choice = Decision.ask(('1', '2'))
+
+        if select_choice == "1":
+            stats.increment_stats_pcr_hatred(15)
+            print("\nYou write him a ticket for 5000 CZK.")
+            print("He scans the QR code and pays it instantly without blinking.")
+            print("'Cool. Bye.' He zooms off.")
+            print("You realize your monthly salary is his hourly rate.")
+            print("\n[OUTCOME]: +15 PCR HATRED (Reality check).")
+
+        elif select_choice == "2":
+            stats.increment_stats_coding_skill(15)
+            print("\n'You deploying on Friday?' you ask. 'That's brave.'")
+            print("He stops typing. He looks at you. 'You code?'")
+            print("\nYou talk for 10 minutes. He shows you a trick for optimizing Docker containers.")
+            print("He drives off with a warning, but you learned something valuable.")
+            print("\n[OUTCOME]: +15 CODING SKILL.")
+
+        input("\n(CONTINUE...)")
+
+    @staticmethod
+    def paperwork_overload(stats: JBStats) -> None:
+        """
+        Event: The Paperwork Mountain.
+        Mechanic: Unlockable Daily Buff (AI Automation).
+        """
+        input("\nRANDOM EVENT!"
+              "\n\n(CONTINUE...)")
+        print("\nYou walk into the office. Your desk is gone.")
+        print("It has been replaced by a literal tower of files. Theft reports, accidents, lost dogs.")
+        print("The admin lady smirks. 'Boss wants this done by tomorrow morning.'")
+        print("\nIt looks like 12 hours of manual data entry. A nightmare.")
+
+        print(f"\n[REQ: 40 CODING SKILL] Current: {stats.coding_experience}")
+
+        print("1. [CODING] 'Fuck it.' Write a Python script to automate the forms.")
+        print("2. [MANUAL] Grind through it. Suffering is part of the job.")
+
+        select_choice = Decision.ask(('1', '2'))
+
+        if select_choice == "1":
+            if stats.coding_experience >= 40:
+                stats.ai_paperwork_buff = True
+                stats.increment_stats_coding_skill(5)
+                print("\nYou lock the door. You open your laptop.")
+                print("You write a scraper using Selenium and a text-filler script.")
+                print("You hit ENTER. The computer starts doing the work for you.")
+                print("You spend the rest of the shift drinking coffee and watching the progress bar.")
+                print("\n[CRITICAL SUCCESS]: AI AUTOMATION UNLOCKED!")
+                print("Your script will now handle reports daily. (-2 Hatred per day).")
+            else:
+                stats.increment_stats_pcr_hatred(20)
+                print("\nYou try to automate it, but you mess up the regex.")
+                print("The script fills every form with 'NULL'.")
+                print("You have to redo EVERYTHING by hand. It takes all night.")
+                print("\n[FAILURE]: +20 PCR HATRED.")
+
+        elif select_choice == "2":
+            stats.increment_stats_pcr_hatred(20)
+            print("\nYou sit down. You pick up a pen.")
+            print("Name. Date. Incident. Signature.")
+            print("Name. Date. Incident. Signature.")
+            print("By 4 AM, you forgot your own name.")
+            print("\n[OUTCOME]: +20 PCR HATRED.")
+
+        input("\n(CONTINUE...)")
