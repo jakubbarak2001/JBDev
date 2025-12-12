@@ -5,7 +5,7 @@ from jb_game.game_logic.jb_dev_stats import JBStats
 from jb_game.game_logic.jb_dev_day_cycle import DayCycle
 from jb_game.game_logic.jb_dev_decision import Decision
 from jb_game.game_logic.jb_dev_random_events import RandomEvents
-
+from jb_game.game_logic.jb_dev_endings import GameEndings
 
 class Game:
     """Sets the basic gaming mechanics, rules, win/loose conditions, difficulty levels."""
@@ -26,6 +26,27 @@ class Game:
         self.activity_selected = False
         self.python_bootcamp = False
         self.car_incident_stress = True
+
+    def check_game_status(self):
+        """
+        Runs automatically to check if the player has lost.
+        Also prints warnings if stats are critical.
+        """
+        red = "\033[91m"
+        yellow = "\033[93m"
+        reset = "\033[0m"
+
+        if self.stats.pcr_hatred >= 100:
+            GameEndings.mental_breakdown_ending(self.stats)
+
+        if self.stats.available_money <= 0:
+            GameEndings.homeless_ending(self.stats)
+
+        if self.stats.pcr_hatred > 70:
+            print(f"\n{red}[WARNING] HATRED AT {self.stats.pcr_hatred}%! ONE BAD DAY WILL BREAK YOU.{reset}")
+
+        if self.stats.available_money < 5000:
+            print(f"\n{yellow}[WARNING] LOW FUNDS ({self.stats.available_money} CZK). POVERTY IMMINENT.{reset}")
 
     def set_difficulty_level(self):
         """Lets user choose what difficulty level he wants using the dictionary."""
@@ -66,6 +87,9 @@ class Game:
     def main_menu(self):
         """Basic UI, containing selectable options."""
         while True:
+
+            self.check_game_status()
+
             print(
                 "\nMAIN MENU:"
                 "\n1.SHOW STATS"
