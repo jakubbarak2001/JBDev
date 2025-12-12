@@ -510,8 +510,8 @@ class RandomEvents:
         print("You are tangled in your sheets, soaking wet. Your heart is hammering against your ribs.")
         print("The room is silent. But you can still feel the phantom pressure of the tape on your mouth.")
 
-        stats.increment_stats_pcr_hatred(20)
-        input("\n[OUTCOME]: PCR HATRED +20 (Night terror)."
+        stats.increment_stats_pcr_hatred(10)
+        input("\n[OUTCOME]: PCR HATRED +10 (Night terror)."
               "\n\n(CONTINUE...)")
 
     @staticmethod
