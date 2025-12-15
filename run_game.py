@@ -36,7 +36,7 @@ def spawn_game_console():
     ctypes.windll.kernel32.AllocConsole()
 
     # 2. Set the Title
-    ctypes.windll.kernel32.SetConsoleTitleW("JB: THE DARKEST SHIFT")
+    ctypes.windll.kernel32.SetConsoleTitleW("REFACTOR")
 
     # 3. CRITICAL: Re-connect system inputs/outputs
     sys.stdout = open("CONOUT$", "w", encoding="utf-8")
