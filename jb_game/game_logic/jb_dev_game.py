@@ -223,30 +223,36 @@ class Game:
         choice = Decision.ask(("1", "2"))
 
         if choice == "1":
-            activity_roll = randint(1, 3)
-            if activity_roll == 1:
-                self.stats.increment_stats_value_money(-400)
-                self.stats.increment_stats_pcr_hatred(-25)
-                print("\nDude the pump you had was EPIC, you even hit a new PR!"
-                      "\nYou feel strong and unstoppable, this was a great training."
-                      "\n[OUTCOME]: -400 CZK, -25 PCR HATRED")
-            elif activity_roll == 2:
-                self.stats.increment_stats_value_money(-400)
-                self.stats.increment_stats_pcr_hatred(-15)
-                print("\nYou feel great after this workout, it's awesome that"
-                      "\nyou can come to better thoughts in the gym and relax."
-                      "\n[OUTCOME]: -400 CZK, -15 PCR HATRED")
-            elif activity_roll == 3:
-                self.stats.increment_stats_value_money(-400)
-                self.stats.increment_stats_pcr_hatred(-10)
-                print("\nYou had better trainings in the past, but you still enjoyed this one."
-                      "\n[OUTCOME]: -400 CZK, -10 PCR HATRED")
-            self.stats.get_stats_command()
-            input("\nCONTINUE...")
-            self.activity_selected = True
+            cost = 400
+            if self.stats.try_spend_money(cost):
+                activity_roll = randint(1, 3)
+
+                if activity_roll == 1:
+                    self.stats.increment_stats_pcr_hatred(-25)
+                    print("\nDude the pump you had was EPIC, you even hit a new PR!"
+                          "\nYou feel strong and unstoppable, this was a great training."
+                          f"\n[OUTCOME]: -{cost} CZK, -25 PCR HATRED")
+                elif activity_roll == 2:
+                    self.stats.increment_stats_pcr_hatred(-15)
+                    print("\nYou feel great after this workout, it's awesome that"
+                          "\nyou can come to better thoughts in the gym and relax."
+                          f"\n[OUTCOME]: -{cost} CZK, -15 PCR HATRED")
+                elif activity_roll == 3:
+                    self.stats.increment_stats_pcr_hatred(-10)
+                    print("\nYou had better trainings in the past, but you still enjoyed this one."
+                          f"\n[OUTCOME]: -{cost} CZK, -10 PCR HATRED")
+
+                self.stats.get_stats_command()
+                input("\nCONTINUE...")
+                self.activity_selected = True
+
+            else:
+                print(
+                    f"\n[INSUFFICIENT FUNDS] You check your wallet... you don't even have {cost} CZK for the gym entry.")
+                input("\n(PRESS ENTER)")
+                self.activity_gym()
+
         elif choice == "2":
-            self.main_menu()
-        else:
             self.main_menu()
 
     def activity_therapy(self):
@@ -260,15 +266,25 @@ class Game:
         choice = Decision.ask(("1", "2"))
 
         if choice == "1":
-            self.stats.increment_stats_pcr_hatred(-25)
-            self.stats.increment_stats_value_money(-1500)
-            print("\nYou call your therapist, you can finally vent out, it's a great relief.")
-            print("\nShe listens to you and actually tries to help you.")
-            print("\nShe reminds you that your situation is only temporary and that what job you do doesn't define who you are.")
-            print("\nYou feel a great sense of relief after this session.")
-            print(f"\n[OUTCOME]: -1500 CZK, -25 PCR HATRED")
-            self.activity_selected = True
-            self.stats.get_stats_command()
+            cost = 1500
+            if self.stats.try_spend_money(cost):
+                self.stats.increment_stats_pcr_hatred(-25)
+
+                print("\nYou call your therapist, you can finally vent out, it's a great relief.")
+                print("\nShe listens to you and actually tries to help you.")
+                print(
+                    "\nShe reminds you that your situation is only temporary and that what job you do doesn't define who you are.")
+                print("\nYou feel a great sense of relief after this session.")
+                print(f"\n[OUTCOME]: -{cost} CZK, -25 PCR HATRED")
+
+                self.stats.get_stats_command()
+                self.activity_selected = True
+
+            else:
+                # NEW: Insufficient funds logic
+                print(f"\n[INSUFFICIENT FUNDS] Therapy is a luxury you can't afford right now. You need {cost} CZK.")
+                input("\n(PRESS ENTER)")
+                self.activity_therapy()
 
         elif choice == "2":
             self.main_menu()
@@ -403,6 +419,7 @@ class Game:
         choice = Decision.ask(("1", "2", "3", "4"))
 
         if choice == "1":
+            # Free option, no check needed
             activity_roll = randint(1, 100)
             if activity_roll <= 80:
                 self.stats.increment_stats_coding_skill(5)
@@ -428,60 +445,75 @@ class Game:
             self.activity_selected = True
 
         elif choice == "2":
-            self.stats.increment_stats_value_money(-1500)
-            activity_roll = randint(1, 100)
+            cost = 2500
+            # NEW: Check funds
+            if self.stats.try_spend_money(cost):
+                activity_roll = randint(1, 100)
 
-            if activity_roll <= 65:
-                self.stats.increment_stats_coding_skill(10)
-                print(
-                    "\nYou jump on a call with a mid-level developer from Fiverr."
-                    "\nHe’s not a genius, but he is practical. He shows you how to structure your files,"
-                    "\nexplains why your functions are a mess, and fixes a few key bad habits."
-                    "\nYou leave the session with clearer thinking and a to-do list."
-                    "\n[OUTCOME]: -2.500 CZK, +10 CODING SKILLS"
-                )
-            elif activity_roll <= 90:
-                self.stats.increment_stats_coding_skill(15)
-                print(
-                    "\nYou luck out. Your tutor is actually sharp as hell."
-                    "\nThey share their screen, walk you through refactoring, and explain OOP in a way "
-                    "\nthat finally clicks with your brain."
-                    "\nYou end the session tired but energized, with a feeling that you’ve leveled up."
-                    "\n[OUTCOME]: -2.500 CZK, +15 CODING SKILLS"
-                )
-            elif activity_roll <= 100:
-                self.stats.increment_stats_coding_skill(25)
-                print(
-                    "\nYou accidentally booked a beast. Senior dev, ten years in the field."
-                    "\nHe doesn’t waste a second: code review, patterns, mental models, how to think like an engineer."
-                    "\nYou fill pages of notes, your brain is fried, but something inside you has shifted."
-                    "\nThis wasn’t just tutoring – this was a paradigm shift."
-                    "\n[OUTCOME]: -2.500 CZK, +25 CODING SKILLS"
-                )
+                if activity_roll <= 65:
+                    self.stats.increment_stats_coding_skill(10)
+                    print(
+                        "\nYou jump on a call with a mid-level developer from Fiverr."
+                        "\nHe’s not a genius, but he is practical. He shows you how to structure your files,"
+                        "\nexplains why your functions are a mess, and fixes a few key bad habits."
+                        "\nYou leave the session with clearer thinking and a to-do list."
+                        f"\n[OUTCOME]: -{cost} CZK, +10 CODING SKILLS"
+                    )
+                elif activity_roll <= 90:
+                    self.stats.increment_stats_coding_skill(15)
+                    print(
+                        "\nYou luck out. Your tutor is actually sharp as hell."
+                        "\nThey share their screen, walk you through refactoring, and explain OOP in a way "
+                        "\nthat finally clicks with your brain."
+                        "\nYou end the session tired but energized, with a feeling that you’ve leveled up."
+                        f"\n[OUTCOME]: -{cost} CZK, +15 CODING SKILLS"
+                    )
+                elif activity_roll <= 100:
+                    self.stats.increment_stats_coding_skill(25)
+                    print(
+                        "\nYou accidentally booked a beast. Senior dev, ten years in the field."
+                        "\nHe doesn’t waste a second: code review, patterns, mental models, how to think like an engineer."
+                        "\nYou fill pages of notes, your brain is fried, but something inside you has shifted."
+                        "\nThis wasn’t just tutoring – this was a paradigm shift."
+                        f"\n[OUTCOME]: -{cost} CZK, +25 CODING SKILLS"
+                    )
 
-            self.stats.get_stats_command()
-            input("\nCONTINUE...")
-            self.activity_selected = True
+                self.stats.get_stats_command()
+                input("\nCONTINUE...")
+                self.activity_selected = True
+
+            else:
+                print(
+                    f"\n[INSUFFICIENT FUNDS] You check your bank account. You only have {self.stats.available_money} CZK.")
+                print(f"You need {cost} CZK for the tutor.")
+                input("\n(PRESS ENTER)")
+                self.activity_python()
 
         elif choice == "3":
-            self.stats.increment_stats_value_money(-35000)
-            print(
-                "\nYou sign a contract and pay for an on-line Python bootcamp."
-                "\nDeadlines, assignments, code reviews, community, mentors – the full package."
-                "\nFrom now on, your coding skill will keep on growing daily!."
-                "\nThis is no longer a hobby. This is a commitment."
-                "\n[OUTCOME]: -35.000 CZK, [BOOTCAMP BUFF ACTIVATED +5 CODING SKILL EVERYDAY]"
-            )
+            cost = 35000
+            if self.stats.try_spend_money(cost):
+                print(
+                    "\nYou sign a contract and pay for an on-line Python bootcamp."
+                    "\nDeadlines, assignments, code reviews, community, mentors – the full package."
+                    "\nFrom now on, your coding skill will keep on growing daily!."
+                    "\nThis is no longer a hobby. This is a commitment."
+                    f"\n[OUTCOME]: -{cost} CZK, [BOOTCAMP BUFF ACTIVATED +5 CODING SKILL EVERYDAY]"
+                )
 
-            self.python_bootcamp = True
+                self.python_bootcamp = True
+                self.stats.get_stats_command()
+                input("\nCONTINUE...")
+                self.activity_selected = True
 
-            self.stats.get_stats_command()
-            input("\nCONTINUE...")
-            self.activity_selected = True
+            else:
+                print(f"\n[INSUFFICIENT FUNDS] Transaction Declined. You need {cost} CZK.")
+                print("That is a lot of money. Maybe stick to free docs for now?")
+                input("\n(PRESS ENTER)")
+                self.activity_python()
 
-        # 4) RETURN TO MAIN MENU
         elif choice == "4":
             self.main_menu()
 
         else:
             print("\nYou already did your daily activity today.")
+            self.main_menu()
