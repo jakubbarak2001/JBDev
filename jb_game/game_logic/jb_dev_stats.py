@@ -12,6 +12,18 @@ class JBStats:
         self.daily_btc_income = 0
         self.ai_paperwork_buff = False
 
+    def try_spend_money(self, amount: int) -> bool:
+        """
+        Attempts to spend a specific amount of money.
+        Returns True if successful (money deducted).
+        Returns False if insufficient funds (no money deducted).
+        """
+        if self.available_money >= amount:
+            self.increment_stats_value_money(-amount)
+            return True
+        else:
+            return False
+
     def stats_description_money(self):
         """Stats description message, describing the value of available money stat in plain language."""
         # DATA: The thresholds and their corresponding messages
