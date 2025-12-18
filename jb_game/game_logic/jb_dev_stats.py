@@ -11,6 +11,8 @@ class JBStats:
         self.pcr_hatred = pcr_hatred
         self.daily_btc_income = 0
         self.ai_paperwork_buff = False
+        self.colonel_day = 30
+        self.final_boss_buff = None
 
     def try_spend_money(self, amount: int) -> bool:
         """
