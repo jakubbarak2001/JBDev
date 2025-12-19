@@ -1,7 +1,15 @@
 import sys
 import time
+import os
+import pygame
 from jb_game.game_logic.jb_dev_stats import JBStats
 from jb_game.game_logic.jb_dev_decision import Decision
+
+
+def resource_path(relative_path):
+    """ Get absolute path to resource (Works for Dev & EXE) """
+    base_path = getattr(sys, '_MEIPASS', os.path.abspath("."))
+    return os.path.join(base_path, relative_path)
 
 
 class MMEvent:
@@ -25,8 +33,23 @@ class MMEvent:
             time.sleep(delay)
         print()  # Print a newline at the end
 
+    def _play_music(self, track_name):
+        """Helper to play music tracks smoothly."""
+        try:
+            music_path = resource_path(track_name)
+            pygame.mixer.init()
+            pygame.mixer.music.load(music_path)
+            pygame.mixer.music.play(-1)  # Loop indefinitely
+            pygame.mixer.music.set_volume(0.3)
+        except Exception as e:
+            print(f"\n[SYSTEM] Audio Warning: Could not play music '{track_name}' ({e})")
+
     def trigger_event(self, stats: JBStats):
         """Main entry point for the Day 24 event."""
+
+        # --- MUSIC START: THE ARRIVAL ---
+        self._play_music("mm_event_the_arrival.mp3")
+
         red = "\033[91m"
         reset = "\033[0m"
 
@@ -39,6 +62,7 @@ class MMEvent:
         self._coding_reality_check(stats)
         self._financial_reality_check(stats)
         self._hatred_motivation_check(stats)
+        self._timing_decision_phase(stats)
         self._ending_phase(stats)
 
         return
@@ -145,6 +169,10 @@ class MMEvent:
         input()
 
         print("Silence. Absolute silence.")
+
+        # --- MUSIC SWITCH: THE AWAKENING ---
+        self._play_music("mm_event_the_awakening.mp3")
+
         print("The truth hits you like a physical blow.")
         print("You look down at the table. You whisper it.")
         print()
