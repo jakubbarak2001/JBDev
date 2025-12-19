@@ -75,10 +75,10 @@ class MMEvent:
         print("You look at yourself in the mirror. You look like a mess. Bags under your eyes, pale skin,")
         print("post-shift exhaustion vibrating in your hands.")
         print("\nMM always cared about image. High-end fashion, perfumes, good posture.")
-        print("You could stop by the mall and buy something sharp to show him you aren't completely dead inside yet.")
+        print("You could stop by the mall and buy something sharp to show him you aren't completely dead inside yet.\n")
 
-        print("\n1. [PAY 12.500 CZK] ORIGINAL FIT MASH POLO SHIRT + TOBACCO HONEY GUERLAIN EDP, he has no idea what is coming... ")
-        print("\n2. [PAY 2.500 CZK] GET A NEW CUT AND BUY NEW COOL SHIRT")
+        print("1. [PAY 12.500 CZK] ORIGINAL FIT MASH POLO SHIRT + TOBACCO HONEY GUERLAIN EDP, he has no idea what is coming... ")
+        print("2. [PAY 2.500 CZK] GET A NEW CUT AND BUY NEW COOL SHIRT")
         print("3. [FREE] GO AS IS. Sweatpants and a hoodie. You don't have energy to pretend.")
 
         choice = Decision.ask(("1", "2" "3"))
@@ -106,6 +106,8 @@ class MMEvent:
             print("\nYou splash some cold water on your face. This is who you are right now.")
             print("If he's really your friend, he won't care about the hoodie.")
             print("\n[OUTCOME]: NO CHANGE.")
+
+        input("\n(PRESS ENTER)")
 
     def _meeting_phase(self, stats: JBStats):
         """Phase 2: The Meeting and conversation topic."""
@@ -143,6 +145,8 @@ class MMEvent:
             print("He appreciates that you actually listen.")
             print("\n[OUTCOME]: +MM AFFECTION.")
 
+        input("\n(PRESS ENTER)")
+
     def _drop_the_bomb_phase(self, stats: JBStats):
         """Phase 3: The realization and interruption."""
         red = "\033[91m"
@@ -154,11 +158,10 @@ class MMEvent:
         print("\n'You know, MM,' you start, your voice cracking slightly. 'It was really inspiring when you left.'")
         print("'I don't really know what to do next, I'm kind of lost, and...'")
 
-        # Dramatic interruption
         print("\nHe puts his hand up. He stops you mid-sentence.")
         print("He looks you dead in the eye. The restaurant noise fades away.")
+        input("\n(PRESS ENTER)")
 
-        # Emphasized Text
         print(f"\n{bold}'Stop lying to yourself, JB.'{reset}")
         time.sleep(1.5)
         print(f"\n{bold}'You exactly know what to do.'{reset}")
@@ -168,23 +171,28 @@ class MMEvent:
         print("\n(Press any key to let that sink in...)")
         input()
 
-        print("Silence. Absolute silence.")
+        self._slow_print("Silence. Absolute silence.", delay=0.10)
 
         # --- MUSIC SWITCH: THE AWAKENING ---
         self._play_music("mm_event_the_awakening.mp3")
 
-        print("The truth hits you like a physical blow.")
-        print("You look down at the table. You whisper it.")
-        print()
-
-        # SLOW ROLL REVEAL
+        self._slow_print(f"{bold}The truth hits you like a physical blow.{reset}", delay=0.05)
+        self._slow_print(f"{bold}You look down at the table. You whisper it.{reset}", delay=0.05)
+        time.sleep(0.5)
         self._slow_print(f"{bold}{red}'You are right...'{reset}", delay=0.15)
         time.sleep(0.5)
         self._slow_print(f"{bold}{red}'I... I want to quit.'{reset}", delay=0.20)
 
-        print("\nAs you say those words, the reality of your debt and the Colonel's face flash before your eyes.")
-        stats.increment_stats_pcr_hatred(25)
-        print(f"\n{red}[CRITICAL EFFECT]: +25 PCR HATRED (The Fear of leaving is now real).{reset}")
+        self._slow_print("\nAs you say those words, the reality of your debt and the Colonel's face flash before your eyes.", delay=0.05)
+        if stats.pcr_hatred >= 60:
+            print(f"\n{red}[RELIEF]: -15 PCR HATRED (It feels so good to say aloud what you already knew).{reset} ")
+        else:
+            stats.increment_stats_pcr_hatred(15)
+            print(f"\n{red}[CRITICAL EFFECT]: +15 PCR HATRED (The Fear of leaving is now real).{reset}")
+
+        print(f"\n{stats.get_stats_command()}")
+        input("\n(PRESS ENTER)")
+
 
     def _coding_reality_check(self, stats: JBStats):
         """Phase 4: The Skill Check based on coding experience."""
@@ -192,6 +200,7 @@ class MMEvent:
         print("'Do you have the skills? If you leave tomorrow, can you feed yourself?'")
 
         print(f"\n[REALITY CHECK] Current Coding Experience: {stats.coding_skill}")
+        input("\n(PRESS ENTER TO EVALUATE)")
 
         if stats.coding_skill >= 200:
             self.mm_points += 2
@@ -235,10 +244,11 @@ class MMEvent:
     def _financial_reality_check(self, stats: JBStats):
         """Phase 5: Money Check. Can you afford the exit fee?"""
         print("\nMM takes a sip of his drink. 'Skills are one thing. But freedom isn't free.'")
-        print("'They are going to make you pay for your uniform, your training, every single cent.'")
+        print("'They are going to make you pay for your uniform, your training, every single koruna.'")
         print("'Do you have the cash? Or are you going to be in debt the moment you walk out?'")
 
         print(f"\n[REALITY CHECK] Current Savings: {stats.available_money} CZK")
+        input("\n(PRESS ENTER TO EVALUATE)")
 
         if stats.available_money >= 200000:
             # RICH
@@ -272,7 +282,7 @@ class MMEvent:
             print("\n[OUTCOME]: -MM AFFECTION (Financial Risk).")
 
         else:
-            # BROKE (<50k)
+            # BROKE
             self.mm_points -= 2
             print("\nYou are broke. You have nothing.")
             print("If you quit, you will be in immediate debt with no income.")
@@ -280,11 +290,14 @@ class MMEvent:
             print("MM looks at you like you are a child. 'So you want to quit but you can't afford it?'")
             print("\n[OUTCOME]: -MM AFFECTION (Total Disaster).")
 
+        input("\n(PRESS ENTER)")
+
     def _hatred_motivation_check(self, stats: JBStats):
         """Phase 6: The Motivation. How much do you hate the system?"""
         print("\nMM finishes his steak. He wipes his mouth.")
         print("'One last thing. The system. The Colonel. The meaningless orders.'")
         print("'What do you really feel about them? Is this just burnout, or is it personal?'")
+        print(f"\n[REALITY CHECK] Current PCR HATRED: {stats.pcr_hatred}")
 
         print("\n1. [PURE RAGE] 'I hate them. I want to watch the station burn.'")
         print("2. [HATRED] 'I'm done. I despise what I've become here.'")
@@ -331,6 +344,8 @@ class MMEvent:
             print("'Wow. Stockholm Syndrome much? You are defending the cage you are trapped in.'")
             print("\n[OUTCOME]: -MM AFFECTION, -25 PCR HATRED (Pathetic).")
 
+        input("\n(PRESS ENTER)")
+
     def _timing_decision_phase(self, stats: JBStats):
         """Phase 7: The Decision. When do you face the Final Boss?"""
         red = "\033[91m"
@@ -340,11 +355,11 @@ class MMEvent:
         print("\nMM's expression darkens. The nostalgia is gone.")
         time.sleep(1)
         print(f"\n'One last thing, JB. {bold}The Colonel.{reset}'")
-        time.sleep(1.5)
+        time.sleep(2.5)
 
         print("'I know you think he is just a bureaucrat. But don't underestimate him.'")
         print(f"'He is the one who hired you, remember? He personally admitted you to the academy.'")
-        time.sleep(1.0)
+        time.sleep(3.0)
 
         print(f"'He sees you as his project. His success story. His {bold}'Good Soldier'{reset}.'")
         time.sleep(1.5)
@@ -394,7 +409,6 @@ class MMEvent:
         print("\nThe lunch is over. You pay the bill.")
         print("You walk out into the cold street. The wind hits your face.")
 
-        # High Score: The "Good Ending" with 5 choices
         if self.mm_points > 8:
             print(f"\n{bold}MM stops you before you leave.{reset}")
             print("'Wait, JB. I have a good feeling about this. You are actually ready.'")
@@ -403,7 +417,6 @@ class MMEvent:
 
             self._good_ending_selection(stats)
 
-        # Medium Score: Neutral Ending
         elif self.mm_points >= 5:
             print(f"\nMM shakes your hand. His grip is firm.")
             print("'It’s going to be hell, JB. He will try to break you.'")
@@ -414,7 +427,6 @@ class MMEvent:
             print(f"\n{bold}[STATUS ACQUIRED]: STOIC ANCHOR{reset}")
             print("(Passive: The Colonel's fear attacks deal 25% less damage to your Mental State.)")
 
-        # Low Score: Bad Ending
         else:
             print(f"\nMM looks at you with pity. He doesn't shake your hand.")
             print("'JB, you remind me of that one dude from HS,'")

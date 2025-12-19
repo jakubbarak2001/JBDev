@@ -103,7 +103,6 @@ class Game:
                 "\nSELECT YOUR OPTION (1-4): "
             )
 
-            # REFACTOR: One line decision
             choice = Decision.ask(("1", "2", "3", "4"))
 
             if choice == "1":
@@ -126,7 +125,6 @@ class Game:
                 )  # later: self.show_contacts()
 
             elif choice == "4":
-                # LOGIC: If activity not done, ask for confirmation
                 if not self.activity_selected:
                     print("\nYou haven't selected your daily activity.")
                     confirm = input("Are you sure you want to end the day? (y/n): ").strip().lower()
@@ -138,18 +136,17 @@ class Game:
                 self.stats.increment_stats_pcr_hatred(5)
                 if self.python_bootcamp:
                     self.stats.increment_stats_coding_skill(5)
-                    if self.python_bootcamp:
-                        print("\n[PYTHON BOOTCAMP] Your investment is starting to pay off! (+5 Coding Skills).")
-                        self.stats.increment_stats_coding_skill(5)
+                    print("\n[PYTHON BOOTCAMP] Your investment is starting to pay off! (+5 Coding Skills).")
 
-                    if self.stats.ai_paperwork_buff:
-                        print("\n[AI AUTOMATION] Your script handled the paperwork efficiently. (-5 Hatred)")
-                        self.stats.increment_stats_pcr_hatred(-5)
 
-                    if self.stats.daily_btc_income > 0:
-                        print(
-                            f"\n[PASSIVE INCOME] The Turkish fraudster sent his daily tribute: +{self.stats.daily_btc_income} CZK.")
-                        self.stats.increment_stats_value_money(self.stats.daily_btc_income)
+                if self.stats.ai_paperwork_buff:
+                    print("\n[AI AUTOMATION] Your script handled the paperwork efficiently. (-5 Hatred)")
+                    self.stats.increment_stats_pcr_hatred(-5)
+
+                if self.stats.daily_btc_income > 0:
+                    print(
+                        f"\n[PASSIVE INCOME] The Turkish fraudster sent his daily tribute: +{self.stats.daily_btc_income} CZK.")
+                    self.stats.increment_stats_value_money(self.stats.daily_btc_income)
 
                 self.day_cycle.next_day()
 
@@ -197,12 +194,11 @@ class Game:
                 "\n1.GYM"
                 "\n2.THERAPY"
                 "\n3.BOUNCER NIGHT SHIFT"
-                "\n4.LEARN PYTHON"
+                "\n4.CODING"
                 "\n5.RETURN TO MENU"
                 "\nSELECT YOUR OPTION (1-5):"
             )
 
-            # REFACTOR: One line decision
             choice = Decision.ask(("1", "2", "3", "4", "5"))
 
             if choice == "1":
@@ -426,7 +422,6 @@ class Game:
         choice = Decision.ask(("1", "2", "3", "4"))
 
         if choice == "1":
-            # Free option, no check needed
             activity_roll = randint(1, 100)
             if activity_roll <= 80:
                 self.stats.increment_stats_coding_skill(5)
@@ -448,12 +443,11 @@ class Game:
                 )
 
             self.stats.get_stats_command()
-            input("\nCONTINUE...")
+            input("\n(PRESS ENTER)")
             self.activity_selected = True
 
         elif choice == "2":
             cost = 2500
-            # NEW: Check funds
             if self.stats.try_spend_money(cost):
                 activity_roll = randint(1, 100)
 
@@ -486,7 +480,7 @@ class Game:
                     )
 
                 self.stats.get_stats_command()
-                input("\nCONTINUE...")
+                input("\n(PRESS ENTER)")
                 self.activity_selected = True
 
             else:
@@ -498,7 +492,7 @@ class Game:
 
         elif choice == "3":
             cost = 35000
-            if self.stats.try_spend_money(cost):
+            if self.stats.try_spend_money(cost) and not self.python_bootcamp:
                 print(
                     "\nYou sign a contract and pay for an on-line Python bootcamp."
                     "\nDeadlines, assignments, code reviews, community, mentors – the full package."
@@ -509,8 +503,13 @@ class Game:
 
                 self.python_bootcamp = True
                 self.stats.get_stats_command()
-                input("\nCONTINUE...")
+                input("\n(PRESS ENTER)")
                 self.activity_selected = True
+
+            elif self.python_bootcamp:
+                print("\nYou have already joined the bootcamp!")
+                input("\n(PRESS ENTER)")
+                self.activity_python()
 
             else:
                 print(f"\n[INSUFFICIENT FUNDS] Transaction Declined. You need {cost} CZK.")
