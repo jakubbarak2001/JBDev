@@ -179,7 +179,8 @@ class Game:
                             self.day_cycle.next_day()
 
                     if self.day_cycle.current_day == 24:
-                        self.day_cycle.day_start_message()
+                        mm_event = MMEvent()
+                        mm_event.trigger_event(self.stats)
 
 
 
