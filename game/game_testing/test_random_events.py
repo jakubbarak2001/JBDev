@@ -1,5 +1,7 @@
-import pytest
 from unittest.mock import patch
+
+import pytest
+
 from game.game_logic.random_events import RandomEvents
 from game.game_logic.stats import Stats
 
@@ -307,7 +309,7 @@ def test_event_turkish_success(mock_randint, mock_decision, _, events, stats):
 
     events.turkish_fraud(stats)
     assert stats.daily_btc_income == 2500
-    assert stats.pcr_hatred == -20
+    assert stats.pcr_hatred == - 20
 
 
 @patch('builtins.input')
@@ -338,7 +340,7 @@ def test_event_dispatch_fix_success(mock_decision, _, events, stats):
     stats.coding_skill = 35
 
     events.dispatch_blue_screen(stats)
-    assert stats.pcr_hatred == -10
+    assert stats.pcr_hatred == - 10
     assert stats.coding_skill == 40  # 35 + 5
 
 

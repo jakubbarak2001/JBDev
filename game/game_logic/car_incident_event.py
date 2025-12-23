@@ -4,10 +4,13 @@ Contains ALL logic, text, and outcomes for this specific story arc.
 Refactored for High Cohesion, Dark Humor, and Better Balancing.
 """
 from random import randint
-from game.game_logic.stats import Stats
+
+from rich import print
+
 from game.game_logic.decision_options import Decision
 from game.game_logic.press_enter_to_continue import continue_prompt
-from rich import print
+from game.game_logic.stats import Stats
+
 
 class CarIncident:
     """
@@ -25,7 +28,8 @@ class CarIncident:
         # --- THE CHOICE: Risk vs. Safety ---
         print("\nYou stand between the cars. The silence of the parking lot is heavy.")
         print("You have a split second decision to make before a colleague walks out with a cigarette.")
-        print("\n1. [RISK: 50%] THE 'MACGYVER' MANEUVER. Try to buff out the scratch with spit and your sleeve. If it works, you saw nothing.")
+        print(
+            "\n1. [RISK: 50%] THE 'MACGYVER' MANEUVER. Try to buff out the scratch with spit and your sleeve. If it works, you saw nothing.")
         print("2. [SAFE] THE 'GOOD SOLDIER'. Go inside, report it, fill out the forms, and accept the humiliation.")
 
         choice = Decision.ask(("1", "2"))
@@ -39,7 +43,6 @@ class CarIncident:
         print("\n[red]FROM THIS MOMENT, THE GRIND BEGINS[/red]: YOU WILL GAIN +5 PCR HATRED DAILY.")
         print("[green]YOUR MAIN OBJECTIVE[/green]: IN NEXT 30 DAYS, YOU NEED TO BECOME A FULLSTACK DEVELOPER.")
         continue_prompt()
-
 
     @staticmethod
     def _play_intro_scene():
@@ -85,9 +88,9 @@ class CarIncident:
         )
 
         stats.increment_stats_pcr_hatred(10)
-        stats.increment_stats_value_money(-2000)
+        stats.increment_stats_value_money(- 2000)
 
-        print("\n[OUTCOME]: -2.000 CZK (Deductible), +10 PCR HATRED (Humiliation).")
+        print("\n[OUTCOME]: -2.000 CZK (Deductible), - 10 PCR HATRED (Humiliation).")
         print("At least it's over. No lawyers. No Colonel. Just pure, unadulterated bureaucracy.")
 
     @staticmethod
@@ -109,7 +112,7 @@ class CarIncident:
             print("\nYou jump into your car and drive away, heart pounding.")
             print("You got away with it. You magnificent bastard.")
 
-            stats.increment_stats_pcr_hatred(-5) # Feeling of victory reduces hatred
+            stats.increment_stats_pcr_hatred(-5)  # Feeling of victory reduces hatred
             print("\n[OUTCOME]: 0 CZK LOST, -5 PCR HATRED (The thrill of crime).")
 
         else:
@@ -150,7 +153,7 @@ class CarIncident:
             stats.increment_stats_value_money(-8000)
             print("\nYou sign the paper. Your hand is shaking.")
             print("You walk out 8.000 CZK poorer and with a hatred for this place that burns like acid.")
-            print("\n[OUTCOME]: -8.000 CZK, +25 PCR HATRED.")
+            print("\n[OUTCOME]: -8.000 CZK, + 25 PCR HATRED.")
 
         elif choice == "2":
             CarIncident._scenario_better_call_paul(stats)
@@ -162,15 +165,15 @@ class CarIncident:
         """
         print(
             "\nYou look the Boss in the eye and push the paper back."
-            "\n'No. I'm calling my lawyer.'"
+            "\n'No. Im calling my lawyer.'"
             "\nThe Boss laughs. 'Lawyer? JB, you can't afford a lawyer.'"
-            "\n'You clearly haven't heard of Paul Goodman,' you reply."
+            "\nYou clearly have not heard of Paul Goodman,' you reply."
         )
         continue_prompt()
 
         print("\nYou call Paul. He answers on the first ring.")
         print("'Did you say Police Department? Discrimination? Emotional distress? Say no more.'")
-        print("'I'll take the case Pro Bono. We go to war.'")
+        print("'Ill take the case Pro Bono. We go to war.'")
 
         continue_prompt()
 
@@ -190,7 +193,7 @@ class CarIncident:
 
             print(f"\n[CRITICAL SUCCESS]: You received a settlement of {payout} CZK!")
             print("Your boss refuses to make eye contact with you.")
-            print("[OUTCOME]: +15.000 CZK, -30 PCR HATRED (Justice tastes sweet).")
+            print("[OUTCOME]: + 15.000 CZK, -30 PCR HATRED (Justice tastes sweet).")
 
         else:
             # THE BIG LOSS

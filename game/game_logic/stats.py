@@ -1,4 +1,5 @@
 """Define most important stats for JB."""
+from rich import print
 class Stats:
     """Creates stats for JB."""
     def __init__(self, available_money=0, coding_experience=0, pcr_hatred=0):

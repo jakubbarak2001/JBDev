@@ -1,9 +1,11 @@
 """A simple day calculator, accessible from main menu."""
+from rich import print
 
 
 class DayCycle:
     """Creates day counter, accessible from Game class's menu method."""
-    def __init__(self, current_day = 1):
+
+    def __init__(self, current_day=1):
         """Initialises itself, starting from day 1"""
         self.current_day = current_day
 
@@ -17,12 +19,8 @@ class DayCycle:
 
     def day_start_message(self):
         """Prints message about starting a new day."""
-        yellow = "\033[93m"
-        reset = "\033[0m"
-        print(f"\n{yellow}Starting day #{self.current_day}/30{reset}")
+        print(f"\n[gold]Starting day #{self.current_day}/30[/gold]")
 
     def day_end_message(self):
         """Prints message about ending the current day."""
-        yellow = "\033[93m"
-        reset = "\033[0m"
-        print(f"\n{yellow}Ending day #{self.current_day}/30{reset}")
+        print(f"\n[gold]Ending day #{self.current_day}/30[/gold]")

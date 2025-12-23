@@ -1,12 +1,16 @@
-import sys
-import time
 import os
 import random
+import sys
+import time
+
 import pygame
-from game.game_logic.stats import Stats
+from rich import print
+
 from game.game_logic.decision_options import Decision
 from game.game_logic.game_endings import GoodEnding
 from game.game_logic.press_enter_to_continue import continue_prompt
+from game.game_logic.stats import Stats
+
 
 def resource_path(relative_path):
     """ Get absolute path to resource (Works for Dev & EXE) """
@@ -42,18 +46,26 @@ class ColonelEvent:
             print(f"\n[SYSTEM] Audio Warning: Could not play music '{track_name}' ({e})")
 
     def _slow_print(self, text, delay=0.04, bold=False, color=None):
-        if color:
-            sys.stdout.write(color)
+        # Prepare style codes
+        style = ""
         if bold:
-            sys.stdout.write(self.bold)
+            style += self.bold
+        if color:
+            style += color
+
+        # Apply style at beginning
+        sys.stdout.write(style)
+        sys.stdout.flush()
 
         for char in text:
             sys.stdout.write(char)
             sys.stdout.flush()
             time.sleep(delay)
 
+        # Always reset at the end
         sys.stdout.write(self.reset)
-        print()
+        sys.stdout.flush()
+        print()  # new line
 
     def _draw_hp_bar(self, current_hp, max_hp=100):
         blocks = int(current_hp / 10)
@@ -63,11 +75,16 @@ class ColonelEvent:
         return f"[{bar_visual}] {current_hp}/{max_hp} HP"
 
     def _print_hud(self, round_name):
-        print("" + "=" * 50)
-        print(f" {self.bold}{round_name.upper()}{self.reset}")
+        print("\n" + "=" * 50)
+        print(f"{self.bold}{round_name.upper()}{self.reset}")
         print("=" * 50)
-        print(f"{self.green}JB      {self._draw_hp_bar(self.jb_hp)}{self.reset}")
-        print(f"{self.red}COLONEL {self._draw_hp_bar(self.colonel_hp)}{self.reset}")
+
+        jb_bar = self._draw_hp_bar(self.jb_hp)
+        print(f"{self.green}{self.bold}JB      {jb_bar}{self.reset}")
+
+        col_bar = self._draw_hp_bar(self.colonel_hp)
+        print(f"{self.red}{self.bold}COLONEL {col_bar}{self.reset}")
+
         print("-" * 50 + "\n")
         time.sleep(1)
 
@@ -81,7 +98,7 @@ class ColonelEvent:
             print(f"\n{self.green}[PASSIVE]: 'Legal Nuke' applied. Colonel starts with -35 HP.{self.reset}")
         elif stats.final_boss_buff == "FIRST_STRIKE":
             self.colonel_hp -= 20
-            print(f"\n{self.green}[PASSIVE]: 'Aggressive Opening' applied. Colonel starts with -20 HP.{self.reset}")
+            print(f"\n{self.green}[PASSIVE]: 'Aggressive Opening' applied. Colonel starts with - 20 HP.{self.reset}")
         elif stats.final_boss_buff == "IMPOSTER_SYNDROME":
             print(f"\n{self.red}[WARNING]: You have Imposter Syndrome. You are vulnerable.{self.reset}")
 
@@ -95,7 +112,7 @@ class ColonelEvent:
 
     def _round_one(self, stats):
         self._print_hud("Round 1")
-        self._slow_print("It is early morning. You hand your superior the resignation.", delay=0.03)
+        self._slow_print("It is early morning. You hand your superior the resignation.", delay=0.02)
         self._slow_print("'I need to call the Colonel.'", delay=0.05, color=self.red)
         time.sleep(1)
         self._slow_print("\nThree hours later, the black Superb arrives. He sits inside for 5 minutes.", delay=0.04)
@@ -106,16 +123,16 @@ class ColonelEvent:
                              delay=0.02)
         else:
             self.jb_hp -= 10
-            self._slow_print(f"\n{self.red}[ANXIETY HIT]: The waiting is torture. (-10 HP){self.reset}", delay=0.02)
+            self._slow_print(f"\n{self.red}[ANXIETY HIT]: The waiting is torture. (- 10 HP){self.reset}", delay=0.02)
         continue_prompt()
 
     def _round_two(self, stats):
         self._print_hud("Round 2")
-        self._slow_print("He enters. The room goes silent. Your colleagues look down.", delay=0.03)
+        self._slow_print("He enters. The room goes silent. Your colleagues look down.", delay=0.02)
 
         if stats.final_boss_buff == "IMPOSTER_SYNDROME":
             self.jb_hp -= 10
-            self._slow_print(f"\n{self.red}[DEBUFF]: You feel like a fraud. (-10 HP){self.reset}", delay=0.02)
+            self._slow_print(f"\n{self.red}[DEBUFF]: You feel like a fraud. (- 10 HP){self.reset}", delay=0.02)
         else:
             self._slow_print(f"\n{self.green}[STOIC]: You hold his gaze.{self.reset}", delay=0.02)
         continue_prompt()
@@ -125,7 +142,7 @@ class ColonelEvent:
         self._play_music("colonel_arrives.mp3")
 
         self._slow_print("He invites you upstairs. He makes coffee. The silence is heavy.", delay=0.04)
-        self._slow_print("'Black? Two sugars?' he asks.", delay=0.03)
+        self._slow_print("'Black? Two sugars?' he asks.", delay=0.02)
         self._slow_print("Then, he attacks.", delay=0.05, bold=True)
         continue_prompt()
 
@@ -164,14 +181,14 @@ class ColonelEvent:
 
         if stats.final_boss_buff == "LEGAL_NUKE":
             self._slow_print(f"\n{self.green}[AUTO-COUNTER]: You slap the file MM gave you on the table.{self.reset}",
-                             delay=0.03)
-            self._slow_print("'Paragraph 4B, Colonel. The debt is void.'", delay=0.03)
-            self._slow_print("The Colonel chokes on his coffee. He is furious.", delay=0.03)
+                             delay=0.02)
+            self._slow_print("'Paragraph 4B, Colonel. The debt is void.'", delay=0.02)
+            self._slow_print("The Colonel chokes on his coffee. He is furious.", delay=0.02)
             self.colonel_hp -= 15
-            self._slow_print(f"{self.green}[CRITICAL]: Colonel takes -15 HP DMG!{self.reset}")
+            self._slow_print(f"{self.green}[CRITICAL]: Colonel takes - 15 HP DMG!{self.reset}")
             return
 
-        self._slow_print(f"He smiles coldly. '80,000 CZK. Immediately. Or I call the lawyers.'", delay=0.03)
+        self._slow_print(f"He smiles coldly. '80,000 CZK. Immediately. Or I call the lawyers.'", delay=0.02)
         self._slow_print(f"Your Savings: {stats.available_money} CZK", delay=0.01)
 
         options = []
@@ -184,7 +201,7 @@ class ColonelEvent:
             self._slow_print("1. [STAMMER] 'I... I will pay you later.'", delay=0.02)
             choice = Decision.ask(("1",))
             self.jb_hp -= 10
-            self._slow_print(f"\n{self.red}[FAILURE]: He sees your fear. You take -10 HP DMG.{self.reset}")
+            self._slow_print(f"\n{self.red}[FAILURE]: He sees your fear. You take - 10 HP DMG.{self.reset}")
         else:
             for opt in options:
                 print(opt)
@@ -196,12 +213,12 @@ class ColonelEvent:
                 self.colonel_hp -= 20
                 self._slow_print(
                     f"\n{self.green}[DOMINANCE]: You throw the money on the table. He is shocked.{self.reset}")
-                self._slow_print(f"{self.green}Colonel takes -20 HP DMG.{self.reset}")
+                self._slow_print(f"{self.green}Colonel takes - 20 HP DMG.{self.reset}")
             elif choice == "2":
                 self.colonel_hp -= 10
                 self._slow_print(
                     f"\n{self.green}[STOIC]: You show him your account app. He realizes he can't threaten you.{self.reset}")
-                self._slow_print(f"{self.green}Colonel takes -10 HP DMG.{self.reset}")
+                self._slow_print(f"{self.green}Colonel takes - 10 HP DMG.{self.reset}")
 
     def _attack_why_quit(self, stats):
         """Attack 2: The Motivation Check."""
@@ -229,7 +246,7 @@ class ColonelEvent:
             self.colonel_hp -= 20
             self._slow_print(
                 f"\n{self.green}[PERK]: You mention the job offer. His control over you vanishes.{self.reset}")
-            self._slow_print(f"{self.green}Colonel takes -20 HP DMG.{self.reset}")
+            self._slow_print(f"{self.green}Colonel takes - 20 HP DMG.{self.reset}")
             return
 
         roll = random.randint(1, 100)
@@ -259,7 +276,7 @@ class ColonelEvent:
         else:
             self.jb_hp -= 20
             self._slow_print(f"\n{self.red}[FAILURE]: Your voice cracks. He smells weakness.{self.reset}")
-            self._slow_print(f"{self.red}You take -20 HP DMG.{self.reset}")
+            self._slow_print(f"{self.red}You take - 20 HP DMG.{self.reset}")
 
     def _attack_civilian_void(self, stats):
         """Attack 3: The Fear of Irrelevance."""
@@ -268,7 +285,7 @@ class ColonelEvent:
             delay=0.04)
         self._slow_print(
             "'Here, people fear you. Respect you. Out there? You are just another civilian waiting in line.'",
-            delay=0.03)
+            delay=0.02)
 
         print("\nCHOOSE YOUR DEFENSE:")
         print("1. [CODING] 'I don't need their fear. I have skills that build the future.'")
@@ -282,29 +299,29 @@ class ColonelEvent:
                 self.colonel_hp -= 20
                 self._slow_print(
                     f"\n{self.green}[SUCCESS]: You laugh. 'I write the logic that runs your world.' He looks confused.{self.reset}")
-                self._slow_print(f"{self.green}Colonel takes -20 HP DMG.{self.reset}")
+                self._slow_print(f"{self.green}Colonel takes - 20 HP DMG.{self.reset}")
             else:
                 self.jb_hp -= 15
                 self._slow_print(
                     f"\n{self.red}[FAILURE]: You stutter. You aren't good enough at coding yet to believe it.{self.reset}")
-                self._slow_print(f"{self.red}You take -15 HP DMG.{self.reset}")
+                self._slow_print(f"{self.red}You take - 15 HP DMG.{self.reset}")
 
         elif choice == "2":
             if stats.pcr_hatred >= 60:
                 self.colonel_hp -= 15
                 self._slow_print(
                     f"\n{self.green}[RAGE]: Your hatred burns brighter than his rank. He steps back.{self.reset}")
-                self._slow_print(f"{self.green}Colonel takes -15 HP DMG.{self.reset}")
+                self._slow_print(f"{self.green}Colonel takes - 15 HP DMG.{self.reset}")
             else:
                 self.jb_hp -= 10
                 self._slow_print(
                     f"\n{self.red}[WEAKNESS]: You don't sound convinced. You still crave the power.{self.reset}")
-                self._slow_print(f"{self.red}You take -10 HP DMG.{self.reset}")
+                self._slow_print(f"{self.red}You take - 10 HP DMG.{self.reset}")
 
         elif choice == "3":
             self.jb_hp -= 20
             self._slow_print(f"\n{self.red}[SUBMISSION]: You admit it. He smiles predatorily.{self.reset}")
-            self._slow_print(f"{self.red}You take -20 HP DMG.{self.reset}")
+            self._slow_print(f"{self.red}You take - 20 HP DMG.{self.reset}")
 
     def _attack_brotherhood(self, stats):
         """Attack 4: The Guilt Trip about Colleagues."""
@@ -312,15 +329,15 @@ class ColonelEvent:
             f"\n{self.red}[COLONEL ATTACK]: 'And what about your team? Lieutenant? The rookies?'{self.reset}",
             delay=0.04)
         self._slow_print("'You are abandoning them in the trenches. They will rot in overtime because YOU left.'",
-                         delay=0.03)
+                         delay=0.02)
 
         if stats.final_boss_buff == "STOIC_ANCHOR":
             self._slow_print(
                 f"\n{self.green}[PASSIVE]: Stoic Anchor active. You realize everyone is responsible for their own life.{self.reset}",
-                delay=0.03)
+                delay=0.02)
             self._slow_print("'They have the same choice I do, Colonel.'")
             self.colonel_hp -= 10
-            self._slow_print(f"{self.green}Colonel takes -10 HP DMG.{self.reset}")
+            self._slow_print(f"{self.green}Colonel takes - 10 HP DMG.{self.reset}")
             return
 
         print("\nCHOOSE YOUR DEFENSE:")
@@ -333,23 +350,23 @@ class ColonelEvent:
             if stats.pcr_hatred >= 50:
                 self.colonel_hp -= 15
                 self._slow_print(f"\n{self.green}[TRUTH]: 'The system failed them, Colonel. Not me.'{self.reset}")
-                self._slow_print(f"{self.green}Colonel takes -15 HP DMG.{self.reset}")
+                self._slow_print(f"{self.green}Colonel takes - 15 HP DMG.{self.reset}")
             else:
                 self.jb_hp -= 15
                 self._slow_print(f"\n{self.red}[GUILT]: You lie. You will miss them. The guilt hits you.{self.reset}")
-                self._slow_print(f"{self.red}You take -15 HP DMG.{self.reset}")
+                self._slow_print(f"{self.red}You take - 15 HP DMG.{self.reset}")
 
         elif choice == "2":
             self.jb_hp -= 10
             self._slow_print(f"\n{self.red}[PAIN]: It hurts to admit. He sees your hesitation.{self.reset}")
-            self._slow_print(f"{self.red}You take -10 HP DMG.{self.reset}")
+            self._slow_print(f"{self.red}You take - 10 HP DMG.{self.reset}")
 
     def _attack_safety_net(self, stats):
         """Attack 5: The Golden Handcuffs (Pension/Benefits)."""
         self._slow_print(
             f"\n{self.red}[COLONEL ATTACK]: 'You are a fool. The pension! The benefits! The stability!'{self.reset}",
             delay=0.04)
-        self._slow_print("'You are throwing away a guaranteed future for... what? Coding scripts?'", delay=0.03)
+        self._slow_print("'You are throwing away a guaranteed future for... what? Coding scripts?'", delay=0.02)
 
         print("\nCHOOSE YOUR DEFENSE:")
         print("1. [MONEY] 'I have enough savings to be my own pension.'")
@@ -367,13 +384,13 @@ class ColonelEvent:
                 self.jb_hp -= 15
                 self._slow_print(
                     f"\n{self.red}[POOR]: You bluff, but you know you'll be broke in 3 months.{self.reset}")
-                self._slow_print(f"{self.red}You take -15 HP DMG.{self.reset}")
+                self._slow_print(f"{self.red}You take - 15 HP DMG.{self.reset}")
 
         elif choice == "2":
             self.colonel_hp -= 10
             self._slow_print(
                 f"\n{self.green}[PHILOSOPHY]: A bit dramatic, but effective. He hates your independence.{self.reset}")
-            self._slow_print(f"{self.green}Colonel takes -10 HP DMG.{self.reset}")
+            self._slow_print(f"{self.green}Colonel takes - 10 HP DMG.{self.reset}")
 
     def _attack_debt_of_honor(self, stats):
         """Attack 6: The Personal Debt (Car Incident)."""
@@ -411,7 +428,7 @@ class ColonelEvent:
             elif choice == "2":
                 self.jb_hp -= 20
                 self._slow_print(f"\n{self.red}[GUILT]: The emotional debt weighs you down.{self.reset}")
-                self._slow_print(f"{self.red}You take -20 HP DMG.{self.reset}")
+                self._slow_print(f"{self.red}You take - 20 HP DMG.{self.reset}")
 
     def _attack_blacklist(self, stats):
         """Attack 7: The Blacklist Threat."""
@@ -420,7 +437,7 @@ class ColonelEvent:
 
         if stats.final_boss_buff == "JOB_OFFER":
             self._slow_print(f"\n{self.green}[AUTO-COUNTER]: You smile. 'MM already hired me, Colonel.'{self.reset}",
-                             delay=0.03)
+                             delay=0.02)
             self._slow_print("'Your threats don't work on the private sector.'")
             self.colonel_hp -= 30
             self._slow_print(f"{self.green}CRITICAL HIT: Colonel takes -30 HP DMG.{self.reset}")
@@ -437,12 +454,12 @@ class ColonelEvent:
                 self.colonel_hp -= 15
                 self._slow_print(
                     f"\n{self.green}[PIVOT]: You reject his entire premise. He has no power over IT.{self.reset}")
-                self._slow_print(f"{self.green}Colonel takes -15 HP DMG.{self.reset}")
+                self._slow_print(f"{self.green}Colonel takes - 15 HP DMG.{self.reset}")
             else:
                 self.jb_hp -= 10
                 self._slow_print(
                     f"\n{self.red}[DOUBT]: You say it, but you don't fully believe it yourself yet.{self.reset}")
-                self._slow_print(f"{self.red}You take -10 HP DMG.{self.reset}")
+                self._slow_print(f"{self.red}You take - 10 HP DMG.{self.reset}")
 
         elif choice == "2":
             self.colonel_hp -= 10
@@ -542,8 +559,8 @@ class ColonelEvent:
             choice = input("\n> ")
 
             if choice == "1":
-                self._slow_print("\nYou try to argue, but he just pours another coffee...", delay=0.03)
-                self._slow_print("The loop tightens around your neck.", delay=0.03)
+                self._slow_print("\nYou try to argue, but he just pours another coffee...", delay=0.02)
+                self._slow_print("The loop tightens around your neck.", delay=0.02)
                 self._slow_print(f"{self.red}You are trapped in the argument forever.{self.reset}")
                 self._slow_print("(You realize arguing is pointless. Try again.)\n", delay=0.02)
                 time.sleep(1)

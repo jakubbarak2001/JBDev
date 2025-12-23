@@ -1,9 +1,9 @@
 import unittest
-from unittest.mock import patch, MagicMock
-from game.game_logic.stats import Stats
+from unittest.mock import patch
+
 from game.game_logic.martin_meeting_event import MartinMeetingEvent
-from game.game_logic.decision_options import Decision
-from game.game_logic.press_enter_to_continue import continue_prompt
+from game.game_logic.stats import Stats
+
 
 class TestMartinMeetingEvent(unittest.TestCase):
 
@@ -84,7 +84,7 @@ class TestMartinMeetingEvent(unittest.TestCase):
         self.stats.coding_skill = 210
         self.event._coding_reality_check(self.stats)
 
-        # +2 MM Points, -20 Hatred (Confidence)
+        # +2 MM Points, - 20 Hatred (Confidence)
         self.assertEqual(self.event.martin_meeting_affection_points, 2)
         # Note: In setUp hatred is 50. 50 - 20 = 30.
         self.assertEqual(self.stats.pcr_hatred, 30)

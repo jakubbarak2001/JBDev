@@ -1,6 +1,7 @@
 import pygame
 import os
 import sys
+from rich import print
 from game.game_logic.car_incident_event import CarIncident
 from game.game_logic.random_events import RandomEvents
 from game.game_logic.stats import Stats
