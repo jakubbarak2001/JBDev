@@ -2,6 +2,7 @@ from game.game_logic.stats import Stats
 from game.game_logic.decision_options import Decision
 from random import randint
 from random import choice
+from game.game_logic.press_enter_to_continue import continue_prompt
 
 class RandomEvents:
     """Class containing random events that turn up during the gameplay, every 3 days."""
@@ -41,8 +42,8 @@ class RandomEvents:
     @staticmethod
     def overtime_offer(stats: Stats) -> None:
         """Event with overtime offer."""
-        input("\nRANDOM EVENT!"
-              "\n\n(CONTINUE...)")
+        input("\nRANDOM EVENT!")
+        continue_prompt()
         print("\nYour boss calls you very early in the morning, he says he needs you to "
               "\narrive at the police station urgently.\nBoth of your colleagues who were supposed to work today "
               "suddenly became sick.\nYou would get extra money for this overtime.\nOn the other hand, you "
@@ -57,25 +58,25 @@ class RandomEvents:
         if select_choice == "1":
             random_event_chance_roll = randint(3500, 12500)
             stats.increment_stats_value_money(random_event_chance_roll)
-            input("\nYou've agreed to the overtime, at least the shift was calm."
+            print("\nYou've agreed to the overtime, at least the shift was calm."
                   "\nThe money is nice, but don't forget that your mission is to leave this job once and for all."
-                  f"\n[OUTCOME]: +{random_event_chance_roll} MONEY."
-                  "\n\n(CONTINUE...)")
+                  f"\n[OUTCOME]: +{random_event_chance_roll} MONEY.")
+            continue_prompt()
 
         elif select_choice == "2":
             random_event_chance_roll = randint(15, 40)
             stats.increment_stats_coding_skill(random_event_chance_roll)
-            input("\nAlthough your boss wasn't happy with your decision, you've decided to stay at home"
+            print("\nAlthough your boss wasn't happy with your decision, you've decided to stay at home"
                   "\nand to use your time for studying Python. \nIn the end you've earned a great deal of knowledge."
-                  f"\n[OUTCOME]: +{random_event_chance_roll} CODING SKILLS."
-                  "\n\n(CONTINUE...)")
+                  f"\n[OUTCOME]: +{random_event_chance_roll} CODING SKILLS.")
+            continue_prompt()
 
 
     @staticmethod
     def birthday_gift(stats: Stats) -> None:
         """Event with your colleagues celebrating their B-day."""
-        input("\nRANDOM EVENT!"
-              "\n\n(CONTINUE...)")
+        print("\nRANDOM EVENT!")
+        continue_prompt()
         print("\nYou're at the station, it's dark again, "
               "\nno one really cared to even pull the blinds even though its almost 10 AM now. "
               "\nThe depressive atmosphere is omnipresent, your mind is wandering again, your eyes staring completely "
@@ -96,7 +97,7 @@ class RandomEvents:
         if select_choice == "1":
             stats.increment_stats_pcr_hatred(5)
             stats.increment_stats_value_money(-1000)
-            input("\n'Sure, buy them something nice.' "
+            print("\n'Sure, buy them something nice.' "
                   "\nYou don't even look in her eyes as you torment yourself with those words you've just said."
                   "\nShe is satisfied, but you are still obliged to to listen to her rantings\nand about "
                   "her children for another 15 minutes, after that, she finally leaves."
@@ -104,10 +105,11 @@ class RandomEvents:
                   f"\n[OUTCOME]: - 1000 CZK, +5 PCR HATRED."
                   "\n\n(CONTINUE...)"
                   )
+            continue_prompt()
 
         elif select_choice == "2":
             stats.increment_stats_pcr_hatred(15)
-            input("\n'No...I don't want to contribute'"
+            print("\n'No...I don't want to contribute'"
                   "\nShe pauses, her mouth opens, she stares at you. You always thought that she is around her 40s, "
                   "\nBut as she started to glare at you without saying anything for few seconds, you think she "
                   "\nlooks more close to her 70s.\n "
@@ -123,14 +125,14 @@ class RandomEvents:
                   "\nAfter that she finally lets you be, as she retreats to her work."
                   "\n'Fuck them all...' you think for yourself."
                   "\n[OUTCOME]: +10 PCR HATRED."
-                  "\n\n(CONTINUE...)"
                   )
+            continue_prompt()
 
     @staticmethod
     def civilian_small_talk(stats: Stats) -> None:
         """Event where an old civilian tries to make small talk and asks about your job."""
-        input("\nRANDOM EVENT!"
-              "\n\n(CONTINUE...)")
+        print("\nRANDOM EVENT!")
+        continue_prompt()
         print("\nYou are standing next to your marked car, somewhere in the middle of nowhere."
               "\nCold wind, grey sky, nothing happening for the last 40 minutes."
               "\nYour colleague is scrolling his phone like a true professional, defending the homeland by liking memes."
@@ -152,7 +154,6 @@ class RandomEvents:
               "\n2. [SAFE OPTION] KEEP IT INSIDE AND SAY GENERAL INFORMATION."
               "\n\nWHAT IS YOUR DECISION?: ")
 
-        # REFACTOR: One line decision
         select_choice = Decision.ask(('1', '2'))
 
         if select_choice == "1":
@@ -160,7 +161,7 @@ class RandomEvents:
 
             if vent_chance_roll <= 80:
                 stats.increment_stats_pcr_hatred(-25)
-                input("\nYou look him straight in the eyes and something inside you finally snaps."
+                print("\nYou look him straight in the eyes and something inside you finally snaps."
                       "\nYou start slowly, but your words gain momentum:"
                       "\nYou tell him about the shifts that never end, about the paperwork that eats your soul,"
                       "\nabout the salary that wouldn't even feed a golden retriever with anxiety."
@@ -169,13 +170,13 @@ class RandomEvents:
                       "\nWhen you finish, he smiles sadly and says: 'I thought so... you can see it in your eyes.'"
                       "\nHe wishes you good luck and slowly walks away."
                       "\nYou feel strangely lighter. Nothing changed... but at least you said it out loud."
-                      f"\n\n[OUTCOME]: PCR HATRED -25."
-                      "\n\n(CONTINUE...)")
+                      f"\n\n[OUTCOME]: PCR HATRED -25.")
+                continue_prompt()
 
             else:
                 stats.increment_stats_pcr_hatred(25)
                 stats.increment_stats_value_money(-2500)
-                input("\nYou look around, see no one, and decide to finally let it all out."
+                print("\nYou look around, see no one, and decide to finally let it all out."
                       "\nYou tell him everything. How they pay you practically nothing for doing other people's dirty work."
                       "\nHow you are the punching bag of the state, how every mistake is yours, but every success disappears "
                       "in the reports."
@@ -187,12 +188,12 @@ class RandomEvents:
                       "\nYou listen to every sentence you said, but this time as evidence."
                       "\nBy the end of the week, you receive a written reprimand and a nice little financial penalty."
                       "\nNobody cares why you said it. Only that you said it."
-                      f"\n\n[OUTCOME]: PCR HATRED +25, MONEY -2500 CZK."
-                      "\n\n(CONTINUE...)")
+                      f"\n\n[OUTCOME]: PCR HATRED +25, MONEY -2500 CZK.")
+                continue_prompt()
 
         elif select_choice == "2":
             stats.increment_stats_pcr_hatred(10)
-            input("\nYou feel the words crawling up your throat, but you swallow them back down."
+            print("\nYou feel the words crawling up your throat, but you swallow them back down."
                   "\nYou put on your standard-issue smile and say something about 'stable job, helping people, "
                   "good team, interesting work'."
                   "\nYou hear yourself and want to throw up, but the old man seems satisfied."
@@ -200,14 +201,14 @@ class RandomEvents:
                   "\nYou just answer: 'Yes, someone.'"
                   "\nHe walks away and the silence returns. Only now it feels heavier."
                   "\nYou didn't get punished, nobody recorded anything... but the pressure inside you grew again."
-                  f"\n\n[OUTCOME]: PCR HATRED +10."
-                  "\n\n(CONTINUE...)")
+                  f"\n\n[OUTCOME]: PCR HATRED +10.")
+            continue_prompt()
 
     @staticmethod #ADD FLY BUZZING SOUND
     def corpse_in_care_home(stats: Stats) -> None:
         """Event involving a decomposing corpse found in a care home."""
-        input("\nRANDOM EVENT!"
-              "\n\n(CONTINUE...)")
+        print("\nRANDOM EVENT!")
+        continue_prompt()
         print("\nYou enter the old-age care home. The moment the automatic doors open, "
               "a wall of warm, thick air hits you in the face. It smells like mould, "
               "old carpet, urine, and something underneath it… something sweet and rotten."
@@ -221,6 +222,7 @@ class RandomEvents:
               "\nYou haven't even opened the door yet, and you already feel your PCR hatred rising."
               "\n\n[OUTCOME]: +10 PCR HATRED (just for being here).")
         stats.increment_stats_pcr_hatred(10)
+        continue_prompt()
 
         print("\nYour colleague opens the door to Room 214. "
               "The smell almost knocks you backward. The air inside looks thick — "
@@ -237,27 +239,26 @@ class RandomEvents:
               "\n2. ACCEPT AND DRAG HIM. [95% clean | 5% spill]"
               "\n\nWHAT IS YOUR DECISION?: ")
 
-        # REFACTOR: One line decision
         select_choice = Decision.ask(('1', '2'))
 
         if select_choice == "1":
             refusal_roll = randint(1, 100)
 
             if refusal_roll <= 35:
-                input("\nYou shake your head. 'No. I'm not dragging him. I'm not doing this.'"
+                print("\nYou shake your head. 'No. I'm not dragging him. I'm not doing this.'"
                       "\nYour colleague stares at you for a long moment. His face doesn't move — "
                       "not a muscle, not a twitch — but something in his eyes softens."
                       "\nHe finally sighs, long and exhausted, like a man who has seen too much."
                       "\n'Fine… I'll get someone else. Just… wait outside.'"
                       "\nYou step back into the hallway, leaning against the peeling wall, "
                       "breathing through your mouth until your lungs stop screaming."
-                      f"\n\n[OUTCOME]: you avoid dragging it..."
-                      "\n\n(CONTINUE...)")
+                      f"\n\n[OUTCOME]: you avoid dragging it...")
+                continue_prompt()
                 return
 
             else:
                 stats.increment_stats_pcr_hatred(5)
-                input("\nYou take a step back and shake your head again. "
+                print("\nYou take a step back and shake your head again. "
                       "'No, seriously. I can’t do this. I can't handle this one.'"
                       "\nYour colleague turns slowly — too slowly — and looks at you with an expression "
                       "you’ve seen on him a hundred times: disappointment mixed with superiority."
@@ -271,46 +272,46 @@ class RandomEvents:
                       "\nYou put on the gloves. They feel thin, useless — like wet paper on your hands."
                       "\nYour colleague mutters as he turns away: 'Unbelievable… I carried worse ones when I was your age.'"
                       "\nEvery word he says is gasoline poured onto the fire inside your chest."
-                      f"\n\n[OUTCOME]: +5 PCR HATRED (your refusal was ignored and mocked)."
-                      "\n\n(CONTINUE...)")
+                      f"\n\n[OUTCOME]: +5 PCR HATRED (your refusal was ignored and mocked).")
+                continue_prompt()
 
         drag_roll = randint(1, 100)
 
         if drag_roll <= 5:
             stats.increment_stats_pcr_hatred(30)
-            input("\nYou lift him and the worst happens. A wet tearing sound."
+            print("\nYou lift him and the worst happens. A wet tearing sound."
                   "\nHis abdomen ruptures. Warm, thick fluids splash over your shoes and pants."
                   "\nThe smell becomes a physical force pressing on your lungs."
                   "\nYou freeze completely. Shock overrides everything. "
                   "Your brain shuts down in self-defense."
                   "\nYour colleague coughs a laugh: 'Yep… seen that before.'"
                   "\nYou stare at the mess on your shoes, unable to move."
-                  f"\n\nFUCK!!! FUCK!!! FUCK!!! FUCK!!! +30 PCR HATRED."
-                  "\n\n(CONTINUE...)")
+                  f"\n\nFUCK!!! FUCK!!! FUCK!!! FUCK!!! +30 PCR HATRED.")
+            continue_prompt()
             return
 
         elif drag_roll <= 80:
             stats.increment_stats_pcr_hatred(15)
-            input("\nYou and the team lift him. He’s heavy — unbelievably heavy — "
+            print("\nYou and the team lift him. He’s heavy — unbelievably heavy — "
                   "but he doesn’t rupture."
                   "\nThe smell, the warmth, the texture of the room… it will stay in your mind forever."
                   "\nBut at least nothing spilled."
-                  f"\n\n[OUTCOME]: +15 PCR HATRED."
-                  "\n\n(CONTINUE...)")
+                  f"\n\n[OUTCOME]: +15 PCR HATRED.")
+            continue_prompt()
             return
 
         else:
             stats.increment_stats_pcr_hatred(15)
-            input("\nYou lift him carefully. Everything stays intact. "
+            print("\nYou lift him carefully. Everything stays intact. "
                   "Still a nightmare — but survivable."
-                  f"\n\n[OUTCOME]: +15 PCR HATRED."
-                  "\n\n(CONTINUE...)")
+                  f"\n\n[OUTCOME]: +15 PCR HATRED.")
+            continue_prompt()
 
     @staticmethod
     def admin_mistake_after_shift(stats: Stats) -> None:
         """Event where you have to stay after night shift to fix an administrative mistake."""
-        input("\nRANDOM EVENT!"
-              "\n\n(CONTINUE...)")
+        print("\nRANDOM EVENT!")
+        continue_prompt()
         print("\nIt’s 07:00 in the morning. Your night shift is finally over… at least on paper."
               "\nYou feel like a ghost in uniform. Eyes burning, head heavy, body running only on caffeine and spite."
               "\nYou’re already imagining the moment you sit in your car, put on some music and just let your brain die "
@@ -339,7 +340,7 @@ class RandomEvents:
         if select_choice == "1":
             stats.increment_stats_value_money(-2500)
             stats.increment_stats_pcr_hatred(-10)
-            input("\nYou look at the papers. Then at your boss. Then back at the papers."
+            print("\nYou look at the papers. Then at your boss. Then back at the papers."
                   "\nSomething inside you just… snaps, but in a quiet way. Not dramatic. Just final."
                   "\n'No. I’m done for today,' you say. 'If there’s a penalty, I’ll pay it.'"
                   "\nYour boss stares at you, surprised. He expected begging, excuses, submissive guilt."
@@ -350,12 +351,12 @@ class RandomEvents:
                   "he was never invited to."
                   "\nOutside, the air is cold, but it feels… real. You know you’ll lose some money. "
                   "But you also know you just saved at least a piece of your mind."
-                  f"\n\n[OUTCOME]: MONEY -2500 CZK, PCR HATRED -10."
-                  "\n\n(CONTINUE...)")
+                  f"\n\n[OUTCOME]: MONEY -2500 CZK, PCR HATRED -10.")
+            continue_prompt()
 
         elif select_choice == "2":
             stats.increment_stats_pcr_hatred(20)
-            input("\nYou swallow your pride, sit down and take the report."
+            print("\nYou swallow your pride, sit down and take the report."
                   "\nYour hands feel heavy. Your brain feels like wet concrete. But you start rewriting."
                   "\nYou correct forms, rewrite statements, adjust times, reprint attachments. "
                   "Your boss corrects you twice more, just to make sure you understand who’s in control here."
@@ -367,14 +368,14 @@ class RandomEvents:
                   "\n'Now it’s correct. You can go.' No thank you. No appreciation. Just a checkbox ticked."
                   "\nYou walk out of the office feeling like a battery that someone squeezed dry."
                   "\nThe penalty won't come. But you know you paid with something else."
-                  f"\n\n[OUTCOME]: PCR HATRED +20."
-                  "\n\n(CONTINUE...)")
+                  f"\n\n[OUTCOME]: PCR HATRED +20.")
+            continue_prompt()
 
     @staticmethod
     def israeli_developer(stats: Stats) -> None:
         """Event where you meet an Israeli senior developer who teaches CS at Tel Aviv University."""
-        input("\nRANDOM EVENT!"
-              "\n\n(CONTINUE...)")
+        print("\nRANDOM EVENT!")
+        continue_prompt()
         print("\nYou are standing at a small intersection somewhere in the middle of your district."
               "\nA light car crash happened — nothing serious, just enough to annoy you and create paperwork."
               "\nYou're managing the traffic with your glowing baton like a depressed Jedi when suddenly a man "
@@ -410,8 +411,8 @@ class RandomEvents:
         select_choice = Decision.ask(valid_options)
 
         if select_choice == "1":
-            stats.increment_stats_coding_skill(30)  # High reward
-            input("\nYou adjust your belt, look around to make sure your colleague isn't listening, and reply:"
+            stats.increment_stats_coding_skill(30)
+            print("\nYou adjust your belt, look around to make sure your colleague isn't listening, and reply:"
                   "\n'I work with Python. Backend mostly. Trying to get into AI integration.'"
                   "\n\nThe Professor's eyes light up. 'Python? Good for prototyping. But tell me, how do you handle "
                   "memory management when you scale? Do you understand what the Global Interpreter Lock actually does?'"
@@ -420,12 +421,12 @@ class RandomEvents:
                   "\n\n'Not bad,' he says. 'Actually, quite good. You have the mind for it. Why are you wearing this costume?'"
                   "\nHe writes an email address on a piece of paper. 'Send me your GitHub. We always look for talent.'"
                   "\n\nYou walk away feeling validated for the first time in years."
-                  f"\n\n[OUTCOME]: CODING SKILLS +30."
-                  "\n\n(CONTINUE...)")
+                  f"\n\n[OUTCOME]: CODING SKILLS +30.")
+            continue_prompt()
 
         elif select_choice == "2":
             stats.increment_stats_coding_skill(10)  # Small reward
-            input("\nYou feel the words forming in your throat—'I study Python', 'I want to build apps'—but "
+            print("\nYou feel the words forming in your throat—'I study Python', 'I want to build apps'—but "
                   "the fear chokes them down."
                   "\n'Me? No,' you say, shaking your head. 'I just follow orders.'"
                   "\n\nThe Professor looks disappointed for a split second, then shrugs."
@@ -434,22 +435,22 @@ class RandomEvents:
                   "\n'If you ever get tired of this job — and trust me, you will — learn to build things. "
                   "Police officers preserve the status quo. Developers build the future.'"
                   "\n\nYou listen. You learn something. But it hurts that you didn't speak up."
-                  f"\n\n[OUTCOME]: CODING SKILLS +10."
-                  "\n\n(CONTINUE...)")
+                  f"\n\n[OUTCOME]: CODING SKILLS +10.")
+            continue_prompt()
 
     @staticmethod
     def nightmare_wolf(stats: Stats) -> None:
         """
         Nightmare event based on a dream.
         """
-        input("\nRANDOM EVENT!"
-              "\n\n(CONTINUE...)")
+        print("\nRANDOM EVENT!")
+        continue_prompt()
 
         print("\n04:00 AM. You are on patrol. The world is grey and cold.")
         print("Dispatch sends you to an accident nearby. Routine procedure.")
         print("Your colleague drives. He doesn't say a word.")
 
-        input("\n(PRESS ENTER)")
+        continue_prompt()
 
         print("\nArrival. There are too many flashing lights for a simple crash.")
         print("You see the body bags lined up on the wet asphalt. Small ones.")
@@ -458,7 +459,7 @@ class RandomEvents:
         print("You look at the paramedic. He lights a cigarette and looks right through you.")
         print("You get back in the car. We are leaving.")
 
-        input("\n(PRESS ENTER)")
+        continue_prompt()
 
         print("\nBack at the station. You walk into the main room.")
         print("She is sitting there.")
@@ -470,7 +471,7 @@ class RandomEvents:
         print("Then they start laughing.")
         print("'JB, you look like hell. Go wash your face.'")
 
-        input("\n(PRESS ENTER)")
+        continue_prompt()
 
         print("\nYou point at the window. 'LOOK.'")
         print("Standing outside, pressing its nose against the glass, is a Husky.")
@@ -481,7 +482,7 @@ class RandomEvents:
         print("You struggle, but they force you into a chair. Duct tape over your mouth.")
         print("They aren't angry. They look... bored. Disappointed.")
 
-        input("\n(PRESS ENTER)")
+        continue_prompt()
 
         print("\nYou try to scream through the tape.")
         print("CRASH.")
@@ -493,23 +494,23 @@ class RandomEvents:
         print("\nThe Wolf turns to you. It walks over the bodies. It puts its face right next to yours.")
         print("You can smell its breath. Hot. Metallic.")
 
-        input("\n(PRESS ENTER)")
+        continue_prompt()
 
         print("\nYou wake up.")
         print("You are tangled in your sheets, soaking wet. Your heart is hammering against your ribs.")
         print("The room is silent. But you can still feel the phantom pressure of the tape on your mouth.")
 
         stats.increment_stats_pcr_hatred(10)
-        input("\n[OUTCOME]: PCR HATRED +10 (Night terror)."
-              "\n\n(CONTINUE...)")
+        print("\n[OUTCOME]: PCR HATRED +10 (Night terror).")
+        continue_prompt()
 
     @staticmethod
     def citizen_of_czechoslovakia(stats: Stats) -> None:
         """
         Sovereign citizen of Czechoslovakia / Influencer event.
         """
-        input("\nRANDOM EVENT!"
-              "\n\n(CONTINUE...)")
+        print("\nRANDOM EVENT!")
+        continue_prompt()
         print("\nYou pull over a beat-up Felicia for a broken taillight. Routine stop.")
         print("As you approach the window, a phone is shoved into your face.")
         print("\n'AM I BEING DETAINED? AM I BEING DETAINED?' screams a teenager with a cracking voice.")
@@ -538,15 +539,15 @@ class RandomEvents:
             print("Your boss fines you for the 'unnecessary property damage' to the Felicia.")
             print("\n[OUTCOME]: -1000 CZK (Fine), +5 PCR HATRED (At least you silenced him).")
 
-        input("\n(CONTINUE...)")
+        continue_prompt()
 
     @staticmethod
     def printer_incident(stats: Stats) -> None:
         """
         Printer event.
         """
-        input("\nRANDOM EVENT!"
-              "\n\n(CONTINUE...)")
+        print("\nRANDOM EVENT!")
+        continue_prompt()
         print("\nThe station's only printer—a relic from 2004—has jammed again.")
         print("There is a queue of 3 angry colleagues waiting to print their reports.")
         print("The 'IT Guy' is on vacation in Croatia for the next 2 weeks.")
@@ -583,15 +584,15 @@ class RandomEvents:
             print("It takes 45 minutes longer.")
             print("\n[OUTCOME]: +5 PCR HATRED.")
 
-        input("\n(CONTINUE...)")
+        continue_prompt()
 
     @staticmethod
     def forgotten_usb(stats: Stats) -> None:
         """
         USB Stick event
         """
-        input("\nRANDOM EVENT!"
-              "\n\n(CONTINUE...)")
+        print("\nRANDOM EVENT!")
+        continue_prompt()
         print("\nYou are patting down a suspect's jacket in the evidence locker.")
         print("You feel a lump. It's a black USB drive with a taped label: 'DO NOT TOUCH'.")
         print("Curiosity kills the cat... but satisfaction brought it back.")
@@ -621,7 +622,7 @@ class RandomEvents:
         elif select_choice == "2":
             print("\nYou leave it in the evidence room. Probably for the best.")
 
-        input("\n(CONTINUE...)")
+        continue_prompt()
 
     @staticmethod
     def turkish_fraud(stats: Stats) -> None:
@@ -633,8 +634,8 @@ class RandomEvents:
             success_chance = 100
         roll = randint(1, 100)
 
-        input("\nRANDOM EVENT!"
-              "\n\n(CONTINUE...)")
+        print("\nRANDOM EVENT!")
+        continue_prompt()
         print("\nAn old man comes to the station, shaking and crying.")
         print("'They stole my money! My uncle died in Turkey! He was a billionaire!'")
         print("\nYou listen to the story. It's the classic 'Prince Heritage' scam.")
@@ -679,15 +680,15 @@ class RandomEvents:
             print("He cries. You watch. It's just another Tuesday.")
             print("\n[OUTCOME]: +10 PCR HATRED.")
 
-        input("\n(CONTINUE...)")
+        continue_prompt()
 
     @staticmethod
     def dispatch_blue_screen(stats: Stats) -> None:
         """
         The Dispatch System Crash.
         """
-        input("\nRANDOM EVENT!"
-              "\n\n(CONTINUE...)")
+        print("\nRANDOM EVENT!")
+        continue_prompt()
         print("\nIt is Friday night. The radio is screaming. Total chaos.")
         print("Suddenly, the main dispatch monitor flickers and dies.")
         print("\nBSOD. 'CRITICAL_PROCESS_DIED'.")
@@ -724,7 +725,7 @@ class RandomEvents:
             print("For 20 minutes, there is peace.")
             print("\n[OUTCOME]: -5 PCR HATRED (Schadenfreude).")
 
-        input("\n(CONTINUE...)")
+        continue_prompt()
 
     @staticmethod
     def tech_bro_speeding(stats: Stats) -> None:
@@ -738,8 +739,8 @@ class RandomEvents:
 
         roll = randint(1, 100)
 
-        input("\nRANDOM EVENT!"
-              "\n\n(CONTINUE...)")
+        print("\nRANDOM EVENT!")
+        continue_prompt()
         print("\nYou clock a Porsche Taycan doing 150 km/h in a 90 zone.")
         print("You pull him over. The driver is shaking, pale, wearing a hoodie.")
         print("He has a faded 'I use Arch btw' sticker on the rear bumper.")
@@ -786,7 +787,7 @@ class RandomEvents:
             print("He zooms off.")
             print("\n[OUTCOME]: +5 PCR HATRED.")
 
-        input("\n(CONTINUE...)")
+        continue_prompt()
 
     @staticmethod
     def paperwork_overload(stats: Stats) -> None:
@@ -794,8 +795,8 @@ class RandomEvents:
         Event: The Paperwork Mountain.
         Mechanic: Unlockable Daily Buff (AI Automation).
         """
-        input("\nRANDOM EVENT!"
-              "\n\n(CONTINUE...)")
+        print("\nRANDOM EVENT!")
+        continue_prompt()
         print("\nYou walk into the office. Your desk is gone.")
         print("It has been replaced by a literal tower of files. Theft reports, accidents, lost dogs.")
         print("The admin lady smirks. 'Boss wants this done by tomorrow morning.'")
@@ -833,4 +834,4 @@ class RandomEvents:
             print("By 4 AM, you forgot your own name.")
             print("\n[OUTCOME]: +20 PCR HATRED.")
 
-        input("\n(CONTINUE...)")
+        continue_prompt()

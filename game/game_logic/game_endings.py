@@ -64,7 +64,7 @@ class GameEndings:
         GameEndings._slow_print("\nYou stand up. You aren't in control anymore.")
         GameEndings._slow_print("You scream. You flip the table. You throw your chair through the window.")
 
-        input("\n(PRESS ENTER)")
+        continue_prompt()
 
         GameEndings._slow_print("\nThree colleagues have to tackle you.")
         GameEndings._slow_print("They sedate you. You wake up in a white room with soft walls.")
