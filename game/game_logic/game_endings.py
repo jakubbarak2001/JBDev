@@ -1,12 +1,18 @@
+import os
 import sys
 import time
-import os
+
 import pygame
+from rich import print
+
+from game.game_logic.press_enter_to_continue import continue_prompt
+
 
 def resource_path(relative_path):
     """ Get absolute path to resource (Works for Dev & EXE) """
     base_path = getattr(sys, '_MEIPASS', os.path.abspath("."))
     return os.path.join(base_path, relative_path)
+
 
 class GameEndings:
     """
@@ -37,7 +43,7 @@ class GameEndings:
             print(f"[Audio Error]: {e}")
 
     @staticmethod
-    def _slow_print(text, delay=0.03):
+    def _slow_print(text, delay=0.02):
         """Optional helper to make text feel more dramatic."""
         for char in text:
             sys.stdout.write(char)
@@ -51,12 +57,9 @@ class GameEndings:
         # 1. PLAY MUSIC
         GameEndings._play_ending_music("breakdown_theme.mp3")
 
-        red = "\033[91m"
-        reset = "\033[0m"
-
-        print(f"\n{red}==========================================")
+        print("\n==========================================")
         GameEndings._slow_print(f"GAME OVER: CRITICAL PSYCHOSIS (Hatred: {stats.pcr_hatred})")
-        print(f"=========================================={reset}")
+        print("==========================================")
 
         GameEndings._slow_print("\nIt happens during a routine briefing.")
         GameEndings._slow_print("The Colonel is talking about 'Uniform Standards'.")
@@ -71,7 +74,7 @@ class GameEndings:
         GameEndings._slow_print("The doctor says you need 'rest'. A lot of rest.")
         GameEndings._slow_print("You lost your badge. You lost your gun. But finally... there is silence.")
 
-        GameEndings._slow_print(f"\n{red}[BAD ENDING: INSTITUTIONALISED]{reset}")
+        GameEndings._slow_print("\n[BAD ENDING: INSTITUTIONALISED]")
         input("Try again?")
         sys.exit()
 
@@ -81,12 +84,9 @@ class GameEndings:
         # 1. PLAY MUSIC
         GameEndings._play_ending_music("coding_in_snow_theme.mp3")
 
-        red = "\033[91m"
-        reset = "\033[0m"
-
-        print(f"\n{red}==========================================")
+        print("\n==========================================")
         GameEndings._slow_print(f"GAME OVER: BANKRUPTCY (Money: {stats.available_money})")
-        print(f"=========================================={reset}")
+        print("==========================================")
 
         GameEndings._slow_print("\nYour card is declined at the grocery store. For a rohlík.")
         GameEndings._slow_print("Your landlord calls. Eviction notice.")
@@ -95,7 +95,7 @@ class GameEndings:
         GameEndings._slow_print("You end up sleeping in your car. Then you lose the car.")
         GameEndings._slow_print("You cannot code on paper crates in the snow.")
 
-        GameEndings._slow_print(f"\n{red}[BAD ENDING: THE STREETS]{reset}")
+        GameEndings._slow_print("[BAD ENDING: THE STREETS]")
         restart = input("Try again?")
         sys.exit()
 
@@ -188,7 +188,7 @@ class GoodEnding:
         self._slow_print("\nYou look back.", delay=0.06)
         self._slow_print("The Police Station isn't a building anymore.", delay=0.05)
         self._slow_print("It's just a small, grey, cardboard box sitting in the middle of the field.", delay=0.05)
-        self._slow_print("You can still hear a tiny, squeaky voice inside yelling about regulations.", delay=0.03)
+        self._slow_print("You can still hear a tiny, squeaky voice inside yelling about regulations.", delay=0.02)
 
         time.sleep(2)
         self._slow_print("\nYou smile.", delay=0.1)

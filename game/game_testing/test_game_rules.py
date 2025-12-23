@@ -1,10 +1,12 @@
-import pytest
 import re
 from unittest.mock import patch, MagicMock
-from game.game_logic.game_rules import Game
-from game.game_logic.stats import Stats
+
+import pytest
+
 from game.game_logic.day_cycle import DayCycle
+from game.game_logic.game_rules import Game
 from game.game_logic.random_events import RandomEvents
+from game.game_logic.stats import Stats
 
 
 @pytest.fixture
@@ -33,6 +35,7 @@ def test_set_difficulty_easy(mock_input, game_setup):
     # FIX: Strip ANSI color codes before comparing
     clean_difficulty = re.sub(r'\x1b\[[0-9;]*m', '', game.selected_difficulty)
     assert clean_difficulty == "easy"
+
 
 @patch('builtins.input')
 def test_set_difficulty_insane(mock_input, game_setup):
@@ -107,7 +110,7 @@ def test_activity_bouncer_strip_club_jackpot(mock_randint, mock_decision, _, gam
     game.activity_bouncer()
 
     assert stats.available_money == 45000
-    assert stats.pcr_hatred == -15
+    assert stats.pcr_hatred == - 15
 
 
 @patch('builtins.input')  # 3rd Arg (Top) -> Ignored as '_'
@@ -154,7 +157,7 @@ def test_activity_gym_best_outcome(mock_randint, mock_decision, _, game_setup):
 @patch('game.game_logic.game_rules.Decision.ask')
 @patch('game.game_logic.game_rules.randint')
 def test_activity_gym_worst_outcome(mock_randint, mock_decision, _, game_setup):
-    """Test the worst gym outcome: -10 Hatred."""
+    """Test the worst gym outcome: - 10 Hatred."""
     game, stats, _ = game_setup
 
     mock_decision.return_value = "1"
@@ -163,7 +166,7 @@ def test_activity_gym_worst_outcome(mock_randint, mock_decision, _, game_setup):
     game.activity_gym()
 
     assert stats.available_money == 9600
-    assert stats.pcr_hatred == -10
+    assert stats.pcr_hatred == - 10
 
 
 # ==========================================
@@ -217,7 +220,7 @@ def test_activity_night_club_best_shift(mock_randint, mock_decision, _, game_set
     game.activity_bouncer()
 
     assert stats.available_money == 17500  # 10k + 7.5k
-    assert stats.pcr_hatred == -10
+    assert stats.pcr_hatred == - 10
 
 
 # ==========================================

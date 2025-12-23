@@ -1,5 +1,7 @@
-import pytest
 from unittest.mock import patch
+
+import pytest
+
 from game.game_logic.car_incident_event import CarIncident
 from game.game_logic.stats import Stats
 
@@ -18,7 +20,7 @@ def stats():
 def test_incident_confession(mock_decision, _, stats):
     """
     Scenario: Player chooses Option 2 (Confess).
-    Outcome: -2000 Money, +10 Hatred.
+    Outcome: - 2000 Money, +10 Hatred.
     """
     mock_decision.return_value = "2"  # Select "Safe" option
 
@@ -86,7 +88,7 @@ def test_incident_paul_goodman_win(mock_randint, mock_decision, _, stats):
     1. Cover Up Fails (Roll > 50).
     2. Player chooses Option 2 (Call Paul).
     3. Paul Wins Case (Roll <= 30).
-    Outcome: +15,000 Money, -30 Hatred.
+    Outcome: + 15,000 Money, -30 Hatred.
     """
     # Decision 1: Cover Up ("1")
     # Decision 2: Call Paul ("2")

@@ -1,14 +1,20 @@
 """Module for starting message and especially for selecting the difficulty level, gaming mechanics, checks and limits."""
 from random import randint
 
-from game.game_logic.stats import Stats
+from rich import print
+from rich.console import Console
+
+from game.game_logic.colonel_event import ColonelEvent
 from game.game_logic.day_cycle import DayCycle
 from game.game_logic.decision_options import Decision
-from game.game_logic.random_events import RandomEvents
 from game.game_logic.game_endings import GameEndings
 from game.game_logic.martin_meeting_event import MartinMeetingEvent
-from game.game_logic.colonel_event import ColonelEvent
 from game.game_logic.press_enter_to_continue import continue_prompt
+from game.game_logic.random_events import RandomEvents
+from game.game_logic.stats import Stats
+
+console = Console()
+
 
 class Game:
     """Sets the basic gaming mechanics, rules, win/loose conditions, difficulty levels."""
@@ -18,9 +24,9 @@ class Game:
     reset = "\033[0m"
 
     DIFFICULTY_SETTINGS = {
-        "1": {"name": f"{green}EASY{reset}", "money": 55000, "coding": 10, "hatred": 15},
-        "2": {"name": f"{yellow}HARD{reset}", "money": 35000, "coding": 5, "hatred": 25},
-        "3": {"name": f"{red}INSANE{reset}", "money": 20000, "coding": 0, "hatred": 35},
+        "1": {"name": "[green]EASY[/green]", "money": 55000, "coding": 10, "hatred": 15},
+        "2": {"name": "[yellow]HARD[/yellow]", "money": 35000, "coding": 5, "hatred": 25},
+        "3": {"name": f"[red]INSANE[/red]", "money": 20000, "coding": 0, "hatred": 35},
         # 4 NIGHTMARE difficulty placeholder
     }
 
@@ -37,11 +43,8 @@ class Game:
     def check_game_status(self):
         """
         Runs automatically to check if the player has lost.
-        Also prints warnings if stats are critical.
+        Also prints warnings if stats are critically low.
         """
-        red = "\033[91m"
-        yellow = "\033[93m"
-        reset = "\033[0m"
 
         if self.stats.pcr_hatred >= 100:
             GameEndings.mental_breakdown_ending(self.stats)
@@ -50,10 +53,11 @@ class Game:
             GameEndings.homeless_ending(self.stats)
 
         if self.stats.pcr_hatred >= 65:
-            print(f"\n{red}[WARNING] HATRED AT {self.stats.pcr_hatred}%! YOU WILL BREAK DOWN SOON IF YOU DON'T SLOW DOWN. {reset}")
+            print(
+                f"\n[red][WARNING] HATRED AT {self.stats.pcr_hatred}%! YOU WILL BREAK DOWN SOON IF YOU DON'T SLOW DOWN. [/red]")
 
         if self.stats.available_money < 7500:
-            print(f"\n{yellow}[WARNING] LOW FUNDS ({self.stats.available_money} CZK). POVERTY IMMINENT.{reset}")
+            print(f"\n[yellow][WARNING] LOW FUNDS ({self.stats.available_money} CZK). POVERTY IMMINENT.[/yellow]")
 
     def set_difficulty_level(self):
         """Lets the user choose difficulty level from the dictionary."""
@@ -61,7 +65,8 @@ class Game:
             print("\nSELECT THE DIFFICULTY:")
 
             for key, setting in self.DIFFICULTY_SETTINGS.items():
-                print(f"{key}. {setting['name']}: {setting['money']},- CZK, Coding Skills {setting['coding']}, PCR Hatred {setting['hatred']}")
+                print(
+                    f"{key}. {setting['name']}: {setting['money']},- CZK, Coding Skills {setting['coding']}, PCR Hatred {setting['hatred']}")
 
             print("\n(Enter a number from the list above): ")
 
@@ -70,7 +75,7 @@ class Game:
             if choice in self.DIFFICULTY_SETTINGS:
                 settings = self.DIFFICULTY_SETTINGS[choice]
 
-                confirm_select = input(f"\nYou selected '{settings['name']}', is that correct? (y/n): ")
+                confirm_select = console.input(f"\nYou selected '{settings['name']}', is that correct? (y/n): ")
                 if confirm_select.lower() != "y":
                     continue
 
@@ -194,26 +199,27 @@ class Game:
         if self.stats.pcr_hatred <= 25:
             self.stats.available_money += 40000
             print("SALARY DAY")
-            print("You have received extra money for you (pretending) being an example of a model police officer, good job!")
-            print(f"You've received 40.000 CZK,-")
+            print(
+                "You have received extra money for you (pretending) being an example of a model police officer, good job!")
+            print(f"You've received 40000 CZK,-")
             continue_prompt()
         elif self.stats.pcr_hatred <= 50:
             self.stats.available_money += 30000
             print("SALARY DAY")
             print("Your bank just send you a notification - it's the salary day.")
             print("Since your recent work attitude diminished quite recently, so did your salary this month.")
-            print(f"You've received 30.000 CZK,-")
+            print(f"You've received 30000 CZK,-")
             continue_prompt()
         else:
             self.stats.available_money += 20000
             print("SALARY DAY")
             print("Your bank just send you a notification - it's the salary day.")
             print("It has became obvious to everyone around you that you hate this job so much.")
-            print("Disciplinary actions weren't enough, so the higher-ups decided to do what was 'required', to 'motivate' ")
+            print(
+                "Disciplinary actions weren't enough, so the higher-ups decided to do what was 'required', to 'motivate' ")
             print("you towards more representative attitude to your job (which means monetary punishment).")
-            print(f"You've received 20.000 CZK,-")
+            print(f"You've received 20000 CZK,-")
             continue_prompt()
-
 
     def select_activity(self):
         """Lets you select a daily activity once per day, through the game's menu."""
@@ -265,14 +271,14 @@ class Game:
                           "\nYou feel strong and unstoppable, this was a great training."
                           f"\n[OUTCOME]: -{cost} CZK, -25 PCR HATRED")
                 elif activity_roll == 2:
-                    self.stats.increment_stats_pcr_hatred(-15)
+                    self.stats.increment_stats_pcr_hatred(- 15)
                     print("\nYou feel great after this workout, it's awesome that"
                           "\nyou can come to better thoughts in the gym and relax."
-                          f"\n[OUTCOME]: -{cost} CZK, -15 PCR HATRED")
+                          f"\n[OUTCOME]: -{cost} CZK, - 15 PCR HATRED")
                 elif activity_roll == 3:
-                    self.stats.increment_stats_pcr_hatred(-10)
+                    self.stats.increment_stats_pcr_hatred(- 10)
                     print("\nYou had better trainings in the past, but you still enjoyed this one."
-                          f"\n[OUTCOME]: -{cost} CZK, -10 PCR HATRED")
+                          f"\n[OUTCOME]: -{cost} CZK, - 10 PCR HATRED")
 
                 self.stats.get_stats_command()
                 input("\nCONTINUE...")
@@ -291,7 +297,7 @@ class Game:
         """Daily activity accessible from menu, allows you to visit a therapist and lower your PCR hatred for money."""
         print("\nYou've selected to go to a therapy, something that might actually help you lower your stress."
               "\nPaying for a therapist is somewhat expensive, but the results are worth it."
-              "\n1. [PAY 1500CZK: -25 PCR HATRED] GET HELP. "
+              "\n1. [PAY 1500 CZK: - 25 PCR HATRED] GET HELP. "
               "\n2. RETURN TO MENU"
               "\nSELECT YOUR OPTION (1-2):")
 
@@ -307,7 +313,7 @@ class Game:
                 print(
                     "\nShe reminds you that your situation is only temporary and that what job you do doesn't define who you are.")
                 print("\nYou feel a great sense of relief after this session.")
-                print(f"\n[OUTCOME]: -{cost} CZK, -25 PCR HATRED")
+                print(f"\n[OUTCOME]: - {cost} CZK, - 25 PCR HATRED")
 
                 self.stats.get_stats_command()
                 self.activity_selected = True
@@ -341,13 +347,13 @@ class Game:
                 print("\nNight shift was really calm, nothing happened and you got your usual rate."
                       "\nYou got angrier at PCR today, because the only reason why you work here,"
                       "\nis the salary you get from them."
-                      "\n[OUTCOME]: +3.000 CZK, +10 PCR HATRED")
+                      "\n[OUTCOME]: + 3000 CZK, - 10 PCR HATRED")
             elif activity_roll <= 90:
                 self.stats.increment_stats_value_money(7500)
-                self.stats.increment_stats_pcr_hatred(-10)
+                self.stats.increment_stats_pcr_hatred(- 10)
                 print("\nThe night shift was great! You gained extra tip from your boss today."
                       "\nThis made you feel so good, that you even forgot about completely about PCR."
-                      "\n[OUTCOME]: +7.500 CZK, -10 PCR HATRED")
+                      "\n[OUTCOME]: + 7500 CZK, - 10 PCR HATRED")
             elif activity_roll <= 100:
                 self.stats.increment_stats_pcr_hatred(20)
                 self.stats.increment_stats_value_money(4000)
@@ -355,7 +361,7 @@ class Game:
                       "\nThe police was called and your colleagues recognised you and made fun of you."
                       "\nYou were the talk of the following days, there will be no disciplinary action "
                       "\ntaken against you, yet this made you completely mad."
-                      "\n[OUTCOME]: +4.000 CZK, +20 PCR HATRED!")
+                      "\n[OUTCOME]: + 4000 CZK, + 20 PCR HATRED!")
 
             self.stats.get_stats_command()
             input("\nCONTINUE...")
@@ -365,7 +371,7 @@ class Game:
             activity_roll = randint(1, 100)
             if activity_roll <= 5:
                 self.stats.increment_stats_value_money(35000)
-                self.stats.increment_stats_pcr_hatred(-15)
+                self.stats.increment_stats_pcr_hatred(- 15)
                 print(
                     "\nA famous regular shows up drunk and paranoid. Two guys try to drag him outside, but you"
                     "\nintervene with textbook precision — one hand block, one arm-bar, clean de-escalation."
@@ -373,7 +379,7 @@ class Game:
                     "\nAt the end of the night your boss calls you to the office,"
                     "\npraises your calm judgment, and slides an envelope across the table."
                     "\n'Not many can do what you did tonight.'"
-                    "\n[OUTCOME]: +25.000 CZK, -15 PCR HATRED"
+                    "\n[OUTCOME]: + 25000 CZK, - 15 PCR HATRED"
                 )
             elif activity_roll <= 25:
                 self.stats.increment_stats_value_money(12500)
@@ -383,7 +389,7 @@ class Game:
                     "\nYou even use downtime at the door to mentally rehearse OOP concepts "
                     "\nand class hierarchies — weirdly effective."
                     "\nBoss gives you something extra for showing up, nods at you, no drama.."
-                    "\n[OUTCOME]: +12.500 CZK, +2 CODING SKILLS"
+                    "\n[OUTCOME]: +12500 CZK, + 2 CODING SKILLS"
                 )
 
             elif activity_roll <= 75:
@@ -395,7 +401,7 @@ class Game:
                     "\nYou keep on wondering, how long it's going to take you to actually start coding."
                     "\nand doing something more meaningful then standing an entire night at a door."
                     "\nAt-least - the money they pay here is really something else."
-                    "\n[OUTCOME]: +4.500 CZK, +5 PCR HATRED"
+                    "\n[OUTCOME]: +4500 CZK, +5 PCR HATRED"
                 )
 
 
@@ -409,7 +415,7 @@ class Game:
                     "\nWhen the responding patrol arrives, the looks they give you are suffocating. "
                     "\nTwo colleagues whisper. One smirks."
                     "\nYour boss isn’t thrilled about the chaos either and gives you only a partial payout."
-                    "\n[OUTCOME]: +1.000CZK, +25 PCR HATRED"
+                    "\n[OUTCOME]: - 1000CZK, + 25 PCR HATRED"
                 )
 
             elif activity_roll <= 100:
@@ -424,7 +430,7 @@ class Game:
                     "\nyou’re a full-time officer moonlighting illegally."
                     "\nYour boss is furious. You get fined by your colleagues."
                     "\nYou stagger home with a headache powerful enough to knock your IQ back several points."
-                    "\n[OUTCOME]: -12.500 CZK, +35 PCR HATRED, -5 CODING SKILLS"
+                    "\n[OUTCOME]: -12500 CZK, +35 PCR HATRED, -5 CODING SKILLS"
                 )
 
             self.stats.get_stats_command()
@@ -466,8 +472,8 @@ class Game:
               "\nStudying on your own is free, but less effective."
               "\nPaying a tutor is costly but highly effective."
               f"\n1. [{tier_display}] CODE FOR MONEY $$$"
-              "\n2. [2.500CZK - 65/25/10%] BUY A STUDY SESSION ON FIVERR"
-              "\n3. [35.000CZK] JOIN AN ON-LINE BOOTCAMP (GAIN BUFF FOR THE REST OF THE GAME)"
+              "\n2. [2500CZK - 65/25/10%] BUY A STUDY SESSION ON FIVERR"
+              "\n3. [35000CZK] JOIN AN ON-LINE BOOTCAMP (GAIN BUFF FOR THE REST OF THE GAME)"
               "\n4. RETURN TO MENU"
               "\n0. VIEW CURRENT TIER DETAILS"
               "\nSELECT YOUR OPTION (0-4):")
@@ -557,7 +563,7 @@ class Game:
                         "\nHe’s not a genius, but he is practical. He shows you how to structure your files,"
                         "\nexplains why your functions are a mess, and fixes a few key bad habits."
                         "\nYou leave the session with clearer thinking and a to-do list."
-                        f"\n[OUTCOME]: -{cost} CZK, +10 CODING SKILLS"
+                        f"\n[OUTCOME]: -{cost} CZK, - 10 CODING SKILLS"
                     )
                 elif activity_roll <= 90:
                     self.stats.increment_stats_coding_skill(15)
@@ -566,7 +572,7 @@ class Game:
                         "\nThey share their screen, walk you through refactoring, and explain OOP in a way "
                         "\nthat finally clicks with your brain."
                         "\nYou end the session tired but energized, with a feeling that you’ve leveled up."
-                        f"\n[OUTCOME]: -{cost} CZK, +15 CODING SKILLS"
+                        f"\n[OUTCOME]: -{cost} CZK, + 15 CODING SKILLS"
                     )
                 elif activity_roll <= 100:
                     self.stats.increment_stats_coding_skill(25)
@@ -575,7 +581,7 @@ class Game:
                         "\nHe doesn’t waste a second: code review, patterns, mental models, how to think like an engineer."
                         "\nYou fill pages of notes, your brain is fried, but something inside you has shifted."
                         "\nThis wasn’t just tutoring – this was a paradigm shift."
-                        f"\n[OUTCOME]: -{cost} CZK, +25 CODING SKILLS"
+                        f"\n[OUTCOME]: -{cost} CZK, + 25 CODING SKILLS"
                     )
 
                 self.stats.get_stats_command()
