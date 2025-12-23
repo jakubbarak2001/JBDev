@@ -6,7 +6,7 @@ import pygame
 from game.game_logic.stats import Stats
 from game.game_logic.decision_options import Decision
 from game.game_logic.game_endings import GoodEnding
-
+from game.game_logic.press_enter_to_continue import continue_prompt
 
 def resource_path(relative_path):
     """ Get absolute path to resource (Works for Dev & EXE) """
@@ -107,7 +107,7 @@ class ColonelEvent:
         else:
             self.jb_hp -= 10
             self._slow_print(f"\n{self.red}[ANXIETY HIT]: The waiting is torture. (-10 HP){self.reset}", delay=0.02)
-        input("\n(PRESS ENTER)")
+        continue_prompt()
 
     def _round_two(self, stats):
         self._print_hud("Round 2")
@@ -118,7 +118,7 @@ class ColonelEvent:
             self._slow_print(f"\n{self.red}[DEBUFF]: You feel like a fraud. (-10 HP){self.reset}", delay=0.02)
         else:
             self._slow_print(f"\n{self.green}[STOIC]: You hold his gaze.{self.reset}", delay=0.02)
-        input("\n(PRESS ENTER)")
+        continue_prompt()
 
     def _round_three_logic(self, stats):
         # --- MUSIC SWITCH: ARRIVAL ---
@@ -127,7 +127,7 @@ class ColonelEvent:
         self._slow_print("He invites you upstairs. He makes coffee. The silence is heavy.", delay=0.04)
         self._slow_print("'Black? Two sugars?' he asks.", delay=0.03)
         self._slow_print("Then, he attacks.", delay=0.05, bold=True)
-        input("\n(PRESS ENTER)")
+        continue_prompt()
 
         attacks = [
             self._attack_money_check,

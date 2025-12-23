@@ -6,6 +6,8 @@ Refactored for High Cohesion, Dark Humor, and Better Balancing.
 from random import randint
 from game.game_logic.stats import Stats
 from game.game_logic.decision_options import Decision
+from game.game_logic.press_enter_to_continue import continue_prompt
+from rich import print
 
 class CarIncident:
     """
@@ -15,11 +17,8 @@ class CarIncident:
     @staticmethod
     def car_incident_event(stats: Stats) -> None:
         """The main entry point for this event."""
-        red = "\033[91m"
-        reset = "\033[0m"
 
-        print(f"\n{red}ARC I. - THE INCIDENT{reset}")
-        print("DAY I. - 06:45 AM")
+        print("[red]ARC I - THE INCIDENT[/red]")
 
         CarIncident._play_intro_scene()
 
@@ -37,29 +36,29 @@ class CarIncident:
             CarIncident._path_confession(stats)
 
         # Final Daily Effect Message
-        print(f"\n\n{red}FROM THIS MOMENT, THE GRIND BEGINS: YOU WILL GAIN +5 PCR HATRED DAILY.\n"
-              f"YOUR MAIN OBJECTIVE: IN NEXT 30 DAYS, YOU NEED TO BECOME A FULLSTACK DEVELOPER.{reset}")
-        input("\n(PRESS ENTER TO FINISH EVENT)")
+        print("\n\n[dark red]FROM THIS MOMENT, THE GRIND BEGINS[/dark red]: YOU WILL GAIN +5 PCR HATRED DAILY.")
+        print("[green]YOUR MAIN OBJECTIVE[/green]: IN NEXT 30 DAYS, YOU NEED TO BECOME A FULLSTACK DEVELOPER.")
+        continue_prompt()
 
 
     @staticmethod
     def _play_intro_scene():
         """Handles the text intro with updated text."""
-        input(
+        print(
             "\nIt is 06:45 AM. The sun is technically rising, but in this part of Bohemia, "
             "it just looks like the sky is slowly bruising purple.\n"
             "You just parked your private car. You are already late for the overtime shift at the other station.\n"
             "Your brain is running on 3 hours of sleep and a protein bar that tasted like chalk."
-            "\n\n(PRESS ENTER)"
         )
+        continue_prompt()
         print(
-            "\nYou rush to the service vehicle—a battered Octavia that smells permanently of wet dog and criminals.\n"
+            "You rush to the service vehicle—a battered Octavia that smells permanently of wet dog and criminals.\n"
             "You throw it into reverse, trusting your muscle memory more than your eyes.\n"
             "You are a professional driver, right? You did the course."
         )
-        input("\nCRUNCH.\n\n(PRESS ENTER)")
+        continue_prompt()
         print(
-            "\nIt wasn't a loud noise. It was a sickeningly polite *crunch*.\n"
+            "It wasn't a loud noise. It was a sickeningly polite *crunch*.\n"
             "Like stepping on a very large, very expensive beetle.\n"
             "You freeze. You look in the mirror. You see nothing."
             "\n\nYou get out. You look."
@@ -75,7 +74,7 @@ class CarIncident:
         print("\nYou sigh. You are an adult. You take responsibility.")
         print("You walk inside, find the shift commander, and tell him.")
 
-        input("\n(PRESS ENTER)")
+        continue_prompt()
 
         print(
             "\nHe looks at you over his glasses. Then at the clock. Then back at you."
@@ -122,13 +121,13 @@ class CarIncident:
         """
         The disaster scenario leading to the Paul Goodman / Colonel choice.
         """
-        input(
+        print(
             "\n'HEY! WHAT ARE YOU DOING?!'"
             "\n\nYou freeze. You turn around."
             "\nIt's not a colleague. It's the traffic camera you completely forgot about."
             "\nAnd standing right under it is the Shift Commander, holding his morning coffee, watching you."
-            "\n\n(PRESS ENTER)"
         )
+        continue_prompt()
         print(
             "\nFast forward 2 hours."
             "\nYou are in The Office. The air conditioning is humming."
@@ -161,19 +160,19 @@ class CarIncident:
         """
         The High Stakes Gambler Path.
         """
-        input(
+        print(
             "\nYou look the Boss in the eye and push the paper back."
             "\n'No. I'm calling my lawyer.'"
             "\nThe Boss laughs. 'Lawyer? JB, you can't afford a lawyer.'"
             "\n'You clearly haven't heard of Paul Goodman,' you reply."
-            "\n\n(PRESS ENTER)"
         )
+        continue_prompt()
 
         print("\nYou call Paul. He answers on the first ring.")
         print("'Did you say Police Department? Discrimination? Emotional distress? Say no more.'")
         print("'I'll take the case Pro Bono. We go to war.'")
 
-        input("\n...ONE WEEK LATER...\n(PRESS ENTER)")
+        continue_prompt()
 
         # 30% Chance to Win big, 70% chance to lose hard.
         win_roll = randint(1, 100)

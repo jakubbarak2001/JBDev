@@ -8,6 +8,7 @@ from game.game_logic.random_events import RandomEvents
 from game.game_logic.game_endings import GameEndings
 from game.game_logic.martin_meeting_event import MartinMeetingEvent
 from game.game_logic.colonel_event import ColonelEvent
+from game.game_logic.press_enter_to_continue import continue_prompt
 
 class Game:
     """Sets the basic gaming mechanics, rules, win/loose conditions, difficulty levels."""
@@ -80,7 +81,7 @@ class Game:
                 self.stats.pcr_hatred = settings['hatred']
 
                 self.stats.get_stats_command()
-                input("\n(PRESS ANY KEY TO CONTINUE.)")
+                continue_prompt()
                 break
             else:
                 print("\nWrong input, try again.")
@@ -195,14 +196,14 @@ class Game:
             print("SALARY DAY")
             print("You have received extra money for you (pretending) being an example of a model police officer, good job!")
             print(f"You've received 40.000 CZK,-")
-            input("(PRESS ENTER)")
+            input("continue_prompt()")
         elif self.stats.pcr_hatred <= 50:
             self.stats.available_money += 30000
             print("SALARY DAY")
             print("Your bank just send you a notification - it's the salary day.")
             print("Since your recent work attitude diminished quite recently, so did your salary this month.")
             print(f"You've received 30.000 CZK,-")
-            input("(PRESS ENTER)")
+            input("continue_prompt()")
         else:
             self.stats.available_money += 20000
             print("SALARY DAY")
@@ -211,7 +212,7 @@ class Game:
             print("Disciplinary actions weren't enough, so the higher-ups decided to do what was 'required', to 'motivate' ")
             print("you towards more representative attitude to your job (which means monetary punishment).")
             print(f"You've received 20.000 CZK,-")
-            input("(PRESS ENTER)")
+            input("continue_prompt()")
 
 
     def select_activity(self):
@@ -280,7 +281,7 @@ class Game:
             else:
                 print(
                     f"\n[INSUFFICIENT FUNDS] You check your wallet... you don't even have {cost} CZK for the gym entry.")
-                input("\n(PRESS ENTER)")
+                continue_prompt()
                 self.activity_gym()
 
         elif choice == "2":
@@ -314,7 +315,7 @@ class Game:
             else:
                 # NEW: Insufficient funds logic
                 print(f"\n[INSUFFICIENT FUNDS] Therapy is a luxury you can't afford right now. You need {cost} CZK.")
-                input("\n(PRESS ENTER)")
+                continue_prompt()
                 self.activity_therapy()
 
         elif choice == "2":
@@ -475,7 +476,7 @@ class Game:
 
         if choice == "0":
             print(tier_display)
-            input("\n(PRESS ENTER)")
+            continue_prompt()
             return self.activity_python()
 
         if choice == "1":
@@ -489,7 +490,7 @@ class Game:
                 print("\n[TIER 0] Still learning.")
                 print("You can't code for money yet. Keep practicing and building tiny projects.")
                 print("Unlock paid work at 50 Coding Skill.")
-                input("\n(PRESS ENTER)")
+                continue_prompt()
                 return self.activity_python()
 
             elif current_tier == "TIER 1":
@@ -503,7 +504,7 @@ class Game:
                 self.stats.increment_stats_value_money(total_money)
                 self.activity_selected = True
                 self.stats.get_stats_command()
-                input("\n(PRESS ENTER)")
+                continue_prompt()
 
             elif current_tier == "TIER 2":
                 print("\n[TIER 2] Solid Developer")
@@ -516,7 +517,7 @@ class Game:
                 self.stats.increment_stats_value_money(total_money)
                 self.activity_selected = True
                 self.stats.get_stats_command()
-                input("\n(PRESS ENTER)")
+                continue_prompt()
 
             elif current_tier == "TIER 3":
                 print("\n[TIER 3] Senior Engineer Mode")
@@ -529,7 +530,7 @@ class Game:
                 self.stats.increment_stats_value_money(total_money)
                 self.activity_selected = True
                 self.stats.get_stats_command()
-                input("\n(PRESS ENTER)")
+                continue_prompt()
 
             elif current_tier == "TIER 4":
                 print("\n[TIER 4] God-Tier Developer")
@@ -542,7 +543,7 @@ class Game:
                 self.stats.increment_stats_value_money(total_money)
                 self.activity_selected = True
                 self.stats.get_stats_command()
-                input("\n(PRESS ENTER)")
+                continue_prompt()
 
         elif choice == "2":
             cost = 2500
@@ -578,14 +579,14 @@ class Game:
                     )
 
                 self.stats.get_stats_command()
-                input("\n(PRESS ENTER)")
+                continue_prompt()
                 self.activity_selected = True
 
             else:
                 print(
                     f"\n[INSUFFICIENT FUNDS] You check your bank account. You only have {self.stats.available_money} CZK.")
                 print(f"You need {cost} CZK for the tutor.")
-                input("\n(PRESS ENTER)")
+                continue_prompt()
                 self.activity_python()
 
         elif choice == "3":
@@ -601,18 +602,18 @@ class Game:
 
                 self.python_bootcamp = True
                 self.stats.get_stats_command()
-                input("\n(PRESS ENTER)")
+                continue_prompt()
                 self.activity_selected = True
 
             elif self.python_bootcamp:
                 print("\nYou have already joined the bootcamp!")
-                input("\n(PRESS ENTER)")
+                continue_prompt()
                 self.activity_python()
 
             else:
                 print(f"\n[INSUFFICIENT FUNDS] Transaction Declined. You need {cost} CZK.")
                 print("That is a lot of money. Maybe stick to free docs for now?")
-                input("\n(PRESS ENTER)")
+                continue_prompt()
                 self.activity_python()
 
         elif choice == "4":

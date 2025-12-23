@@ -111,7 +111,7 @@ class MartinMeetingEvent:
             self._slow_print("\n[OUTCOME]: NO CHANGE.", delay=0.01)
 
         print(f"\nCURRENT AFFECTION POINTS [{self.martin_meeting_affection_points}/12]")
-        input("\n(PRESS ENTER)")
+        continue_prompt()
 
     def _meeting_phase(self, stats: Stats):
         """Phase 2: The Meeting and conversation topic."""
@@ -150,7 +150,7 @@ class MartinMeetingEvent:
             self._slow_print("\n[OUTCOME]: + 2 AFFECTION POINTS.", delay=0.01)
 
         print(f"\nCURRENT AFFECTION POINTS [{self.martin_meeting_affection_points}/12]")
-        input("\n(PRESS ENTER)")
+        continue_prompt()
 
     def _drop_the_bomb_phase(self, stats: Stats):
         """Phase 3: The realization and interruption."""
@@ -165,7 +165,7 @@ class MartinMeetingEvent:
         time.sleep(1)
         self._slow_print("\nHe puts his hand up. He stops you mid-sentence.", delay=0.03)
         self._slow_print("He looks you dead in the eye. The restaurant noise fades away.", delay=0.02)
-        input("\n(PRESS ENTER)")
+        continue_prompt()
 
         self._slow_print(f"\n{bold}'Stop lying to yourself, JB.'{reset}", delay=0.08)
         time.sleep(1.5)
@@ -197,7 +197,7 @@ class MartinMeetingEvent:
 
         self._slow_print(f"\nYour current hatred is: {stats.pcr_hatred}.", delay=0.01)
         print(f"\nCURRENT AFFECTION POINTS [{self.martin_meeting_affection_points}/12]")
-        input("\n(PRESS ENTER)")
+        continue_prompt()
 
 
     def _coding_reality_check(self, stats: Stats):
@@ -248,7 +248,7 @@ class MartinMeetingEvent:
             self._slow_print("\n[OUTCOME]: - 2 AFFECTION POINTS, +20 PCR HATRED (Shame).", delay=0.01)
 
         print(f"\nCURRENT AFFECTION POINTS [{self.martin_meeting_affection_points}/12]")
-        input("\n(PRESS ENTER)")
+        continue_prompt()
 
     def _financial_reality_check(self, stats: Stats):
         """Phase 5: Money Check. Can you afford the exit fee?"""
@@ -295,7 +295,7 @@ class MartinMeetingEvent:
             self._slow_print("\n[OUTCOME]: - 2 AFFECTION POINTS (Total Disaster).", delay=0.01)
 
         print(f"\nCURRENT AFFECTION POINTS [{self.martin_meeting_affection_points}/12]")
-        input("\n(PRESS ENTER)")
+        continue_prompt()
 
     def _hatred_motivation_check(self, stats: Stats):
         """Phase 6: The Motivation. How much do you hate the system?"""
@@ -350,7 +350,7 @@ class MartinMeetingEvent:
             self._slow_print("\n[OUTCOME]: - 2 AFFECTION POINT, -50 PCR HATRED (Your mental gymnastics are just insane).", delay=0.01)
 
         print(f"\nCURRENT AFFECTION POINTS [{self.martin_meeting_affection_points}/12]")
-        input("\n(PRESS ENTER)")
+        continue_prompt()
 
     def _timing_decision_phase(self, stats: Stats):
         """Phase 7: The Decision. When do you face the Final Boss?"""

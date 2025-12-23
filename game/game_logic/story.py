@@ -24,6 +24,6 @@ class Story:
         print("[cyan]⬩ Architect[/cyan] that creates his own rules.")
         print("\nIn this game, that is entirely up to you.")
         continue_prompt()
-        print("[bold]Your main stats are: \n\n1. Money, \n2. Coding skills, \n3. Hatred of Police[/bold]")
+        print("[bold]Your main stats are: \n\n⬩ Money \n⬩ Coding skills \n⬩ Police Hatred[/bold]")
         print("\n[red][bold]0 Money / 100 Hatred == GAME OVER[/red][/bold]")
         continue_prompt()
