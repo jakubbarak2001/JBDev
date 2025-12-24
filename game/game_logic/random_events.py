@@ -734,7 +734,7 @@ class RandomEvents:
     @staticmethod
     def tech_bro_speeding(stats: Stats) -> None:
         """
-        Event: The Arch User & The Regex.
+        Event: Help your fellow dev.
         """
         success_chance = (stats.coding_skill * 100) // 70
 
@@ -745,16 +745,18 @@ class RandomEvents:
 
         print("\nRANDOM EVENT!")
         continue_prompt()
-        print("\nYou clock a Porsche Taycan doing 150 km/h in a 90 zone.")
-        print("You pull him over. The driver is shaking, pale, wearing a hoodie.")
-        print("He has a faded 'I use Arch btw' sticker on the rear bumper.")
-        print("\n'Officer, I wasn't speeding, I'm compiling!' he yells.")
-        print("'My regex parser is failing on production logs and the CTO is going to kill me.'")
+        print("\nYou notice a Porsche Taycan doing 150 km/h in a 90 zone.")
+        print(
+            "You pull him over - It's a dude in his early 20s, wearing Patagonia vest and Matcha Latte in his cup holder.")
+        print("On a seat next to him is a MacBook Pro with opened interactive development environment.")
+        print("This guy is clearly a [bold]Developer[/bold]")
+        print(
+            "'Can you hurry up? I have to push this into production, else my CTO will kill me.'")
         print("He shoves a laptop in your face. It's a terminal. Red text everywhere.")
 
         print(f"\n[ROLL CHANCE: {success_chance}%] Current coding skill: {stats.coding_skill}")
 
-        print("1. [CODING] 'Move over. I know Regex.'")
+        print("1. [CODING] 'I can help you with that.'")
         print("2. [DUTY] 'License and registration. Now.'")
 
         select_choice = Decision.ask(('1', '2'))
@@ -762,32 +764,37 @@ class RandomEvents:
         if select_choice == "1":
             if success_chance >= roll:
                 stats.increment_stats_coding_skill(15)
-                print("\nYou lean in through the window and look at the chaos.")
-                print("'You're missing a positive lookahead for the special characters,' you say.")
-                print("\nYou reach over, push his hands away, and type from memory:")
-                print(">> ^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$")
-                print("\nYou hit Enter. The wall of red text turns into a stream of green 'PASS'.")
-                print("\nThe driver stares at the screen. Then at you. Then back at the screen.")
-                print("'You... you fixed it? In one line? From your head?'")
-                print("He is absolutely fucking mind-blown. He looks at you like you are a god.")
-                print("'I'm sorry about the speed, Officer. I... I need to rethink my life.'")
-                print("He drives away slowly, too in awe to speed.")
-                print("\n[SUCCESS]: + 15 CODING SKILL (Regex God).")
+                print("\n'It's a SyntaxError on line 84 but I can't see it!' he yells, tearing his hair out.")
+                print("You lean in, squinting at the glowing code. It's a mess of logic.")
+                print("'There,' you point with a gloved finger. 'The `if` statement.'")
+                print("'What? The logic is sound!'")
+                print("'The logic is fine. You missed the colon at the end. Typical speeding mistake.'")
+                print("\nYou tap the ':' key once. The red error text turns green. The build passes.")
+                print("\nThe driver freezes. He looks at the screen, then at your uniform, then at the screen again.")
+                print("'...Dude...who are you?'")
+                print("'I'm just a guy who likes his syntax clean. Drive safe.'")
+                print("He drives away slowly, absolutely terrified of your attention to detail.")
+                print("\n[SUCCESS]: + 15 CODING SKILL (Syntax Sniper).")
             else:
                 stats.increment_stats_pcr_hatred(5)
                 stats.increment_stats_coding_skill(-5)
-                print("\nYou try to look cool. 'You just need a backslash here...'")
-                print("You type a command. The terminal freezes. The kernel panics.")
-                print("\nThe driver screams. 'YOU BRICKED MY BUILD! DO YOU KNOW HOW LONG THIS TAKES?'")
-                print("He laughs in your face. 'Stick to writing tickets, cop. Leave the code to the pros.'")
-                print("He peels off, leaving you in a cloud of dust and humiliation.")
-                print("\n[FAILURE]: + 5 PCR HATRED, -5 CODING SKILL.")
+                print("\n'Let me handle this,' you say with confidence, channeling 'The Matrix'.")
+                print("You start typing furiously, mashing keys to look professional.")
+                print("'I'm just bypassing the firewall algorithms...' you mumble.")
+                print("'Dude, what are you doing? Stop! That's my delete key!'")
+                print("\nYou hit 'Enter' with a dramatic flourish.")
+                print("The screen goes blank. A single message appears: [REPOSITORY DELETED].")
+                print("\n'DID YOU JUST DELETE MY ENTIRE STARTUP??'")
+                print("'Technically,' you shrug, 'The bug is gone.'")
+                print("'BECAUSE THE CODE IS GONE! You maniac!'")
+                print("He drifts off, screaming into his matcha latte.")
+                print("\n[FAILURE]: + 5 PCR HATRED, -5 CODING SKILL. (You are not the guy yet)")
 
         elif select_choice == "2":
             stats.increment_stats_pcr_hatred(5)
             print("\nYou ignore his laptop and write him a ticket for 2000 CZK.")
             print("'Typical,' he mutters, scanning the payment QR code.")
-            print("'I bet your ticket system runs on Windows Server 2008. Disgusting.'")
+            print("His hourly rate is probably your monthly salary")
             print("He zooms off.")
             print("\n[OUTCOME]: + 5 PCR HATRED.")
 
