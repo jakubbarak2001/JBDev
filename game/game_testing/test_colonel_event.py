@@ -1,5 +1,6 @@
 import unittest
 from unittest.mock import patch, MagicMock
+
 from game.game_logic.colonel_event import ColonelEvent
 from game.game_logic.stats import Stats
 
@@ -55,7 +56,7 @@ class TestColonelEvent(unittest.TestCase):
         self.assertEqual(self.event.colonel_hp, start_hp - 15)
 
     # 5. Money check with high savings: choose pay 80k deals 20 and deducts money
-    @patch('game.game_logic.decision_options.Decision.ask', return_value='1')
+    @patch('game.game_logic.interaction.Interaction.ask', return_value='1')
     def test_attack_money_check_pay_80k(self, mock_ask):
         self.stats.final_boss_buff = ''
         self.stats.available_money = 300000
@@ -66,7 +67,7 @@ class TestColonelEvent(unittest.TestCase):
 
     # 6. Motivation check success path scales damage by chance
     @patch('game.game_logic.colonel_event.random.randint', return_value=10)
-    @patch('game.game_logic.decision_options.Decision.ask', return_value='2')
+    @patch('game.game_logic.interaction.Interaction.ask', return_value='2')
     def test_attack_why_quit_success_damage_scaled(self, _, __):
         self.stats.coding_skill = 100
         start_col_hp = self.event.colonel_hp
@@ -75,14 +76,14 @@ class TestColonelEvent(unittest.TestCase):
 
     # 7. Motivation check failure deals 20 to JB
     @patch('game.game_logic.colonel_event.random.randint', return_value=100)
-    @patch('game.game_logic.decision_options.Decision.ask', return_value='3')
+    @patch('game.game_logic.interaction.Interaction.ask', return_value='3')
     def test_attack_why_quit_failure_hurts_jb(self, _, __):
         self.stats.available_money = 0  # chance_money 0 -> fail
         self.event._attack_why_quit(self.stats)
         self.assertEqual(self.event.jb_hp, 80)
 
     # 8. Civilian void: coding success when skill >= 100
-    @patch('game.game_logic.decision_options.Decision.ask', return_value='1')
+    @patch('game.game_logic.interaction.Interaction.ask', return_value='1')
     def test_attack_civilian_void_coding_success(self, _):
         self.stats.coding_skill = 120
         start_col_hp = self.event.colonel_hp

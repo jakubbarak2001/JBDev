@@ -6,8 +6,8 @@ import time
 import pygame
 from rich import print
 
-from game.game_logic.decision_options import Decision
 from game.game_logic.game_endings import GoodEnding
+from game.game_logic.interaction import Interaction
 from game.game_logic.press_enter_to_continue import continue_prompt
 from game.game_logic.stats import Stats
 
@@ -199,14 +199,14 @@ class ColonelEvent:
         if not options:
             self._slow_print("\n[PANIC]: You don't have enough to feel safe (Need >200k).", delay=0.02)
             self._slow_print("1. [STAMMER] 'I... I will pay you later.'", delay=0.02)
-            choice = Decision.ask(("1",))
+            choice = Interaction.ask(("1",))
             self.jb_hp -= 10
             self._slow_print(f"\n{self.red}[FAILURE]: He sees your fear. You take - 10 HP DMG.{self.reset}")
         else:
             for opt in options:
                 print(opt)
 
-            choice = Decision.ask(("1", "2"))
+            choice = Interaction.ask(("1", "2"))
 
             if choice == "1":
                 stats.available_money -= 80000
@@ -240,7 +240,7 @@ class ColonelEvent:
             print(f"4. [MM OFFER] 'MM has a job waiting for me.' (Guaranteed 20 DMG)")
             valid_choices.append("4")
 
-        choice = Decision.ask(tuple(valid_choices))
+        choice = Interaction.ask(tuple(valid_choices))
 
         if choice == "4":
             self.colonel_hp -= 20
@@ -292,7 +292,7 @@ class ColonelEvent:
         print("2. [HATRED] 'I'd rather be a nobody than a tyrant like you.'")
         print("3. [DOUBT] 'Maybe... maybe I will miss the authority.'")
 
-        choice = Decision.ask(("1", "2", "3"))
+        choice = Interaction.ask(("1", "2", "3"))
 
         if choice == "1":
             if stats.coding_skill >= 100:
@@ -344,7 +344,7 @@ class ColonelEvent:
         print("1. [COLD] 'They are colleagues, not family. It's just a job.'")
         print("2. [EMPATHY] 'I... I feel bad for them. But I have to save myself.'")
 
-        choice = Decision.ask(("1", "2"))
+        choice = Interaction.ask(("1", "2"))
 
         if choice == "1":
             if stats.pcr_hatred >= 50:
@@ -372,7 +372,7 @@ class ColonelEvent:
         print("1. [MONEY] 'I have enough savings to be my own pension.'")
         print("2. [FREEDOM] 'I'd rather starve free than eat well in a cage.'")
 
-        choice = Decision.ask(("1", "2"))
+        choice = Interaction.ask(("1", "2"))
 
         if choice == "1":
             if stats.available_money >= 150000:
@@ -403,7 +403,7 @@ class ColonelEvent:
             print("1. [BLACKMAIL] 'Like you buried your resignation 10 years ago?'")
             print("2. [DEFENSIVE] 'I repaid that debt with 3 years of service.'")
 
-            choice = Decision.ask(("1", "2"))
+            choice = Interaction.ask(("1", "2"))
 
             if choice == "1":
                 self.colonel_hp -= 40
@@ -418,7 +418,7 @@ class ColonelEvent:
             print("1. [DEFENSIVE] 'I repaid that debt with 3 years of flawless service.'")
             print("2. [SUBMIT] 'I know... and I am grateful. But I have to go.'")
 
-            choice = Decision.ask(("1", "2"))
+            choice = Interaction.ask(("1", "2"))
 
             if choice == "1":
                 self.colonel_hp -= 5
@@ -447,7 +447,7 @@ class ColonelEvent:
         print("1. [CONFIDENCE] 'I'm not looking for security work. I'm a Developer.'")
         print("2. [SCARE] 'Are you threatening a civilian? Careful, Colonel.'")
 
-        choice = Decision.ask(("1", "2"))
+        choice = Interaction.ask(("1", "2"))
 
         if choice == "1":
             if stats.coding_skill >= 50:

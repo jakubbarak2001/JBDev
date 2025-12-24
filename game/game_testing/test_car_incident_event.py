@@ -16,7 +16,7 @@ def stats():
 # PATH 1: The "Good Soldier" (Confession)
 # ==========================================
 @patch('builtins.input')
-@patch('game.game_logic.car_incident_event.Decision.ask')
+@patch('game.game_logic.car_incident_event.Interaction.ask')
 def test_incident_confession(mock_decision, _, stats):
     """
     Scenario: Player chooses Option 2 (Confess).
@@ -34,7 +34,7 @@ def test_incident_confession(mock_decision, _, stats):
 # PATH 2: The "MacGyver" (Cover Up) - SUCCESS
 # ==========================================
 @patch('builtins.input')
-@patch('game.game_logic.car_incident_event.Decision.ask')
+@patch('game.game_logic.car_incident_event.Interaction.ask')
 @patch('game.game_logic.car_incident_event.randint')
 def test_incident_coverup_success(mock_randint, mock_decision, _, stats):
     """
@@ -54,7 +54,7 @@ def test_incident_coverup_success(mock_randint, mock_decision, _, stats):
 # PATH 3: Cover Up Fails -> Caught -> SUBMIT
 # ==========================================
 @patch('builtins.input')
-@patch('game.game_logic.car_incident_event.Decision.ask')
+@patch('game.game_logic.car_incident_event.Interaction.ask')
 @patch('game.game_logic.car_incident_event.randint')
 def test_incident_caught_submit(mock_randint, mock_decision, _, stats):
     """
@@ -80,7 +80,7 @@ def test_incident_caught_submit(mock_randint, mock_decision, _, stats):
 # PATH 4: Cover Up Fails -> Caught -> PAUL GOODMAN (WIN)
 # ==========================================
 @patch('builtins.input')
-@patch('game.game_logic.car_incident_event.Decision.ask')
+@patch('game.game_logic.car_incident_event.Interaction.ask')
 @patch('game.game_logic.car_incident_event.randint')
 def test_incident_paul_goodman_win(mock_randint, mock_decision, _, stats):
     """
@@ -108,7 +108,7 @@ def test_incident_paul_goodman_win(mock_randint, mock_decision, _, stats):
 # PATH 5: Cover Up Fails -> Caught -> PAUL GOODMAN (LOSS)
 # ==========================================
 @patch('builtins.input')
-@patch('game.game_logic.car_incident_event.Decision.ask')
+@patch('game.game_logic.car_incident_event.Interaction.ask')
 @patch('game.game_logic.car_incident_event.randint')
 def test_incident_paul_goodman_loss(mock_randint, mock_decision, _, stats):
     """

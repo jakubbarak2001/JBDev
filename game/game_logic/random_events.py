@@ -3,7 +3,7 @@ from random import randint
 
 from rich import print
 
-from game.game_logic.decision_options import Decision
+from game.game_logic.interaction import Interaction
 from game.game_logic.press_enter_to_continue import continue_prompt
 from game.game_logic.stats import Stats
 
@@ -58,7 +58,7 @@ class RandomEvents:
               "\n2. [GAIN RANDOM AMOUNT OF CODING SKILLS] STAY AT HOME AND CODE."
               "\n\nWHAT IS YOUR DECISION?: ")
 
-        select_choice = Decision.ask(('1', '2'))
+        select_choice = Interaction.ask(('1', '2'))
 
         if select_choice == "1":
             random_event_chance_roll = randint(3500, 12500)
@@ -96,7 +96,7 @@ class RandomEvents:
               "\n2. [PCR HATRED + 10] DON't PAY ANYTHING."
               "\n\nWHAT IS YOUR DECISION?: ")
 
-        select_choice = Decision.ask(('1', '2'))
+        select_choice = Interaction.ask(('1', '2'))
 
         if select_choice == "1":
             stats.increment_stats_pcr_hatred(5)
@@ -158,7 +158,7 @@ class RandomEvents:
               "\n2. [SAFE OPTION] KEEP IT INSIDE AND SAY GENERAL INFORMATION."
               "\n\nWHAT IS YOUR DECISION?: ")
 
-        select_choice = Decision.ask(('1', '2'))
+        select_choice = Interaction.ask(('1', '2'))
 
         if select_choice == "1":
             vent_chance_roll = randint(1, 100)
@@ -243,7 +243,7 @@ class RandomEvents:
               "\n2. ACCEPT AND DRAG HIM. [95% clean | 5% spill]"
               "\n\nWHAT IS YOUR DECISION?: ")
 
-        select_choice = Decision.ask(('1', '2'))
+        select_choice = Interaction.ask(('1', '2'))
 
         if select_choice == "1":
             refusal_roll = randint(1, 100)
@@ -339,7 +339,7 @@ class RandomEvents:
               "\n2. [PCR HATRED + 20] STAY, FIX THE MISTAKE AND DESTROY WHAT’S LEFT OF YOUR SOUL."
               "\n\nWHAT IS YOUR DECISION?: ")
 
-        select_choice = Decision.ask(('1', '2'))
+        select_choice = Interaction.ask(('1', '2'))
 
         if select_choice == "1":
             stats.increment_stats_value_money(-2500)
@@ -412,7 +412,7 @@ class RandomEvents:
             valid_options = ('2',)
 
         print("\nWHAT IS YOUR DECISION?: ")
-        select_choice = Decision.ask(valid_options)
+        select_choice = Interaction.ask(valid_options)
 
         if select_choice == "1":
             stats.increment_stats_coding_skill(30)
@@ -525,7 +525,7 @@ class RandomEvents:
         print("\n1. [IGNORE] Walk away. It's not worth the paperwork or the YouTube comments.")
         print("2. [ARREST] Smash the window, drag him out. Law is Law.")
 
-        select_choice = Decision.ask(('1', '2'))
+        select_choice = Interaction.ask(('1', '2'))
 
         if select_choice == "1":
             stats.increment_stats_pcr_hatred(15)
@@ -563,7 +563,7 @@ class RandomEvents:
         print(f"\n1. [CODING CHECK: {success_chance}%] Try to fix the driver logic and spooler.")
         print("2. [IGNORE] Walk away. Not your problem.")
 
-        select_choice = Decision.ask(('1', '2'))
+        select_choice = Interaction.ask(('1', '2'))
 
         if select_choice == "1":
             roll = randint(1, 100)
@@ -604,7 +604,7 @@ class RandomEvents:
         print("\n1. [RISK] Plug it into your own personal laptop.")
         print("2. [SAFE] Don't touch it.")
 
-        select_choice = Decision.ask(('1', '2'))
+        select_choice = Interaction.ask(('1', '2'))
 
         if select_choice == "1":
             print("\nYou boot up your laptop and insert the drive...")
@@ -653,7 +653,7 @@ class RandomEvents:
         print("1. [CODING] Track the scammer and turn the tables.")
         print("2. [GENERIC] 'I'm sorry sir, the money is gone.'")
 
-        select_choice = Decision.ask(('1', '2'))
+        select_choice = Interaction.ask(('1', '2'))
 
         if select_choice == "1":
             if success_chance >= roll:
@@ -704,7 +704,7 @@ class RandomEvents:
         print("1. [CODING] Push him aside and fix it via PowerShell.")
         print("2. [CHAOS] Watch it burn. Enjoy the silence.")
 
-        select_choice = Decision.ask(('1', '2'))
+        select_choice = Interaction.ask(('1', '2'))
 
         if select_choice == "1":
             if stats.coding_skill >= 30:
@@ -759,7 +759,7 @@ class RandomEvents:
         print("1. [CODING] 'I can help you with that.'")
         print("2. [DUTY] 'License and registration. Now.'")
 
-        select_choice = Decision.ask(('1', '2'))
+        select_choice = Interaction.ask(('1', '2'))
 
         if select_choice == "1":
             if success_chance >= roll:
@@ -818,7 +818,7 @@ class RandomEvents:
         print("1. [CODING] 'Fuck it.' Write a Python script to automate the forms.")
         print("2. [MANUAL] Grind through it. Suffering is part of the job.")
 
-        select_choice = Decision.ask(('1', '2'))
+        select_choice = Interaction.ask(('1', '2'))
 
         if select_choice == "1":
             if stats.coding_skill >= 40:
