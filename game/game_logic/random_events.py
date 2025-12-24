@@ -1,11 +1,49 @@
 from random import choice
 from random import randint
 
+import pyfiglet
 from rich import print
+from rich.align import Align
+from rich.console import Console
+from rich.panel import Panel
+from rich.text import Text
+
+console = Console()
 
 from game.game_logic.interaction import Interaction
 from game.game_logic.press_enter_to_continue import continue_prompt
 from game.game_logic.stats import Stats
+
+
+def show_random_event_banner():
+    """
+    Displays a massive, styled ASCII art banner for random events.
+    Uses 'slant' font for a dynamic, action-movie feel.
+    """
+    # 1. Generate Big ASCII Text
+    # 'slant' is a great font for action/police themes.
+    # Other good ones: 'block', 'caligraphy', 'ansi_shadow'
+    ascii_art = pyfiglet.figlet_format("RANDOM  EVENT", font="slant")
+
+    # 2. Create a Rich Text object to style it
+    banner_text = Text(ascii_art, style="bold")
+
+    # 3. Apply a 'Police Siren' Gradient (Red -> Blue -> Red)
+    # This colors the text lines to look like flashing lights
+    banner_text.stylize("color(196)", 0, len(ascii_art) // 3)  # Red
+    banner_text.stylize("color(33)", len(ascii_art) // 3, 2 * len(ascii_art) // 3)  # Blue
+    banner_text.stylize("color(196)", 2 * len(ascii_art) // 3, len(ascii_art))  # Red
+
+    # 4. Print it inside a heavy border
+    print()
+    console.print(Panel(
+        Align.center(banner_text),
+        border_style="red",
+        subtitle="[bold white on red] ⚠  ATTENTION REQUIRED  ⚠ [/]",
+        subtitle_align="center",
+        padding=(0, 2)
+    ))
+    print()
 
 
 class RandomEvents:
@@ -47,9 +85,9 @@ class RandomEvents:
     @staticmethod
     def overtime_offer(stats: Stats) -> None:
         """Event with overtime offer."""
-        input("\nRANDOM EVENT!")
+        show_random_event_banner()
         continue_prompt()
-        print("\nYour boss calls you very early in the morning, he says he needs you to "
+        print("Your boss calls you very early in the morning, he says he needs you to "
               "\narrive at the police station urgently.\nBoth of your colleagues who were supposed to work today "
               "suddenly became sick.\nYou would get extra money for this overtime.\nOn the other hand, you "
               "don't have to accept this and perhaps the time would be better used, if you were to code at home."
@@ -66,7 +104,6 @@ class RandomEvents:
             print("\nYou've agreed to the overtime, at least the shift was calm."
                   "\nThe money is nice, but don't forget that your mission is to leave this job once and for all."
                   f"\n[OUTCOME]: +{random_event_chance_roll} MONEY.")
-            continue_prompt()
 
         elif select_choice == "2":
             random_event_chance_roll = randint(15, 40)
@@ -74,14 +111,14 @@ class RandomEvents:
             print("\nAlthough your boss wasn't happy with your decision, you've decided to stay at home"
                   "\nand to use your time for studying Python. \nIn the end you've earned a great deal of knowledge."
                   f"\n[OUTCOME]: +{random_event_chance_roll} CODING SKILLS.")
-            continue_prompt()
+        continue_prompt()
 
     @staticmethod
     def birthday_gift(stats: Stats) -> None:
         """Event with your colleagues celebrating their B-day."""
-        print("\nRANDOM EVENT!")
+        show_random_event_banner()
         continue_prompt()
-        print("\nYou're at the station, it's dark again, "
+        print("You're at the station, it's dark again, "
               "\nno one really cared to even pull the blinds even though its almost 10 AM now. "
               "\nThe depressive atmosphere is omnipresent, your mind is wandering again, your eyes staring completely "
               "\nstill at the ceiling. Until your middle-aged secretary arrives, she puts her fake smile on, "
@@ -107,9 +144,7 @@ class RandomEvents:
                   "her children for another 15 minutes, after that, she finally leaves."
                   "\n\n'What have I done to deserve this...' you think for yourself."
                   f"\n[OUTCOME]: - 1000 CZK, +5 PCR HATRED."
-                  "\n\n(CONTINUE...)"
                   )
-            continue_prompt()
 
         elif select_choice == "2":
             stats.increment_stats_pcr_hatred(15)
@@ -130,14 +165,14 @@ class RandomEvents:
                   "\n'Fuck them all...' you think for yourself."
                   "\n[OUTCOME]: - 10 PCR HATRED."
                   )
-            continue_prompt()
+        continue_prompt()
 
     @staticmethod
     def civilian_small_talk(stats: Stats) -> None:
         """Event where an old civilian tries to make small talk and asks about your job."""
-        print("\nRANDOM EVENT!")
+        show_random_event_banner()
         continue_prompt()
-        print("\nYou are standing next to your marked car, somewhere in the middle of nowhere."
+        print("You are standing next to your marked car, somewhere in the middle of nowhere."
               "\nCold wind, grey sky, nothing happening for the last 40 minutes."
               "\nYour colleague is scrolling his phone like a true professional, defending the homeland by liking memes."
               "\nYou are guarding some pointless place, because someone at the district HQ decided it looks good on paper."
@@ -174,7 +209,7 @@ class RandomEvents:
                       "\nWhen you finish, he smiles sadly and says: 'I thought so... you can see it in your eyes.'"
                       "\nHe wishes you good luck and slowly walks away."
                       "\nYou feel strangely lighter. Nothing changed... but at least you said it out loud."
-                      f"\n\n[OUTCOME]: PCR HATRED -25.")
+                      f"\n\n[OUTCOME]: - 25 PCR HATRED.")
                 continue_prompt()
 
             else:
@@ -192,7 +227,7 @@ class RandomEvents:
                       "\nYou listen to every sentence you said, but this time as evidence."
                       "\nBy the end of the week, you receive a written reprimand and a nice little financial penalty."
                       "\nNobody cares why you said it. Only that you said it."
-                      f"\n\n[OUTCOME]: PCR HATRED + 25, MONEY -2500 CZK.")
+                      f"\n\n[OUTCOME]: + 25 PCR HATRED, -2500 CZK.")
                 continue_prompt()
 
         elif select_choice == "2":
@@ -205,15 +240,15 @@ class RandomEvents:
                   "\nYou just answer: 'Yes, someone.'"
                   "\nHe walks away and the silence returns. Only now it feels heavier."
                   "\nYou didn't get punished, nobody recorded anything... but the pressure inside you grew again."
-                  f"\n\n[OUTCOME]: PCR HATRED - 10.")
+                  f"\n\n[OUTCOME]: - 10 PCR HATRED.")
             continue_prompt()
 
     @staticmethod  # ADD FLY BUZZING SOUND
     def corpse_in_care_home(stats: Stats) -> None:
         """Event involving a decomposing corpse found in a care home."""
-        print("\nRANDOM EVENT!")
+        show_random_event_banner()
         continue_prompt()
-        print("\nYou enter the old-age care home. The moment the automatic doors open, "
+        print("You enter the old-age care home. The moment the automatic doors open, "
               "a wall of warm, thick air hits you in the face. It smells like mould, "
               "old carpet, urine, and something underneath it… something sweet and rotten."
               "\n\nA nurse approaches you immediately. Pale, shaking. "
@@ -314,9 +349,9 @@ class RandomEvents:
     @staticmethod
     def admin_mistake_after_shift(stats: Stats) -> None:
         """Event where you have to stay after night shift to fix an administrative mistake."""
-        print("\nRANDOM EVENT!")
+        show_random_event_banner()
         continue_prompt()
-        print("\nIt’s 07:00 in the morning. Your night shift is finally over… at least on paper."
+        print("It’s 07:00 in the morning. Your night shift is finally over… at least on paper."
               "\nYou feel like a ghost in uniform. Eyes burning, head heavy, body running only on caffeine and spite."
               "\nYou’re already imagining the moment you sit in your car, put on some music and just let your brain die "
               "for an hour on the way home."
@@ -355,7 +390,7 @@ class RandomEvents:
                   "he was never invited to."
                   "\nOutside, the air is cold, but it feels… real. You know you’ll lose some money. "
                   "But you also know you just saved at least a piece of your mind."
-                  f"\n\n[OUTCOME]: MONEY -2500 CZK, PCR HATRED - 10.")
+                  f"\n\n[OUTCOME]: - 2500 CZK, - 10 PCR HATRED.")
             continue_prompt()
 
         elif select_choice == "2":
@@ -372,15 +407,15 @@ class RandomEvents:
                   "\n'Now it’s correct. You can go.' No thank you. No appreciation. Just a checkbox ticked."
                   "\nYou walk out of the office feeling like a battery that someone squeezed dry."
                   "\nThe penalty won't come. But you know you paid with something else."
-                  f"\n\n[OUTCOME]: PCR HATRED + 20.")
+                  f"\n\n[OUTCOME]: + 20 PCR HATRED.")
             continue_prompt()
 
     @staticmethod
     def israeli_developer(stats: Stats) -> None:
         """Event where you meet an Israeli senior developer who teaches CS at Tel Aviv University."""
-        print("\nRANDOM EVENT!")
+        show_random_event_banner()
         continue_prompt()
-        print("\nYou are standing at a small intersection somewhere in the middle of your district."
+        print("You are standing at a small intersection somewhere in the middle of your district."
               "\nA light car crash happened — nothing serious, just enough to annoy you and create paperwork."
               "\nYou're managing the traffic with your glowing baton like a depressed Jedi when suddenly a man "
               "approaches you from the damaged vehicle."
@@ -425,7 +460,7 @@ class RandomEvents:
                   "\n\n'Not bad,' he says. 'Actually, quite good. You have the mind for it. Why are you wearing this costume?'"
                   "\nHe writes an email address on a piece of paper. 'Send me your GitHub. We always look for talent.'"
                   "\n\nYou walk away feeling validated for the first time in years."
-                  f"\n\n[OUTCOME]: CODING SKILLS +30.")
+                  f"\n\n[OUTCOME]: + 30 CODING SKILLS.")
             continue_prompt()
 
         elif select_choice == "2":
@@ -439,7 +474,7 @@ class RandomEvents:
                   "\n'If you ever get tired of this job — and trust me, you will — learn to build things. "
                   "Police officers preserve the status quo. Developers build the future.'"
                   "\n\nYou listen. You learn something. But it hurts that you didn't speak up."
-                  f"\n\n[OUTCOME]: CODING SKILLS - 10.")
+                  f"\n\n[OUTCOME]: + 10 CODING SKILLS.")
             continue_prompt()
 
     @staticmethod
@@ -447,16 +482,16 @@ class RandomEvents:
         """
         Nightmare event based on a dream.
         """
-        print("\nRANDOM EVENT!")
+        show_random_event_banner()
         continue_prompt()
 
-        print("\n04:00 AM. You are on patrol. The world is grey and cold.")
+        print("04:00 AM. You are on patrol. The world is grey and cold.")
         print("Dispatch sends you to an accident nearby. Routine procedure.")
         print("Your colleague drives. He doesn't say a word.")
 
         continue_prompt()
 
-        print("\nArrival. There are too many flashing lights for a simple crash.")
+        print("Arrival. There are too many flashing lights for a simple crash.")
         print("You see the body bags lined up on the wet asphalt. Small ones.")
         print("\nYou look away, but you swear one of the bags moves.")
         print("Just a twitch. A hand pressing against the black plastic.")
@@ -465,7 +500,7 @@ class RandomEvents:
 
         continue_prompt()
 
-        print("\nBack at the station. You walk into the main room.")
+        print("Back at the station. You walk into the main room.")
         print("She is sitting there.")
         print("\nThe woman from the briefing. The murderer. Black hair, calm hands.")
         print("She is sitting on the bench, un-cuffed, watching you.")
@@ -477,7 +512,7 @@ class RandomEvents:
 
         continue_prompt()
 
-        print("\nYou point at the window. 'LOOK.'")
+        print("You point at the window. 'LOOK.'")
         print("Standing outside, pressing its nose against the glass, is a Husky.")
         print("But it's wrong. It's too big. It's staring directly at you.")
 
@@ -488,7 +523,7 @@ class RandomEvents:
 
         continue_prompt()
 
-        print("\nYou try to scream through the tape.")
+        print("You try to scream through the tape.")
         print("CRASH.")
         print("The window shatters. The Husky is inside.")
         print("\nIt doesn't bark. It just tears the first officer's throat out.")
@@ -500,7 +535,7 @@ class RandomEvents:
 
         continue_prompt()
 
-        print("\nYou wake up.")
+        print("You wake up.")
         print("You are tangled in your sheets, soaking wet. Your heart is hammering against your ribs.")
         print("The room is silent. But you can still feel the phantom pressure of the tape on your mouth.")
 
@@ -513,9 +548,9 @@ class RandomEvents:
         """
         Sovereign citizen of Czechoslovakia / Influencer event.
         """
-        print("\nRANDOM EVENT!")
+        show_random_event_banner()
         continue_prompt()
-        print("\nYou pull over a beat-up Felicia for a broken taillight. Routine stop.")
+        print("You pull over a beat-up Felicia for a broken taillight. Routine stop.")
         print("As you approach the window, a phone is shoved into your face.")
         print("\n'AM I BEING DETAINED? AM I BEING DETAINED?' screams a teenager with a cracking voice.")
         print(
@@ -550,9 +585,9 @@ class RandomEvents:
         """
         Printer event.
         """
-        print("\nRANDOM EVENT!")
+        show_random_event_banner()
         continue_prompt()
-        print("\nThe station's only printer—a relic from 2004—has jammed again.")
+        print("The station's only printer—a relic from 2004—has jammed again.")
         print("There is a queue of 3 angry colleagues waiting to print their reports.")
         print("The 'IT Guy' is on vacation in Croatia for the next 2 weeks.")
         print("\nYou look at the error code: 'PC LOAD LETTER'.")
@@ -595,9 +630,9 @@ class RandomEvents:
         """
         USB Stick event
         """
-        print("\nRANDOM EVENT!")
+        show_random_event_banner()
         continue_prompt()
-        print("\nYou are patting down a suspect's jacket in the evidence locker.")
+        print("You are patting down a suspect's jacket in the evidence locker.")
         print("You feel a lump. It's a black USB drive with a taped label: 'DO NOT TOUCH'.")
         print("Curiosity kills the cat... but satisfaction brought it back.")
 
@@ -638,9 +673,9 @@ class RandomEvents:
             success_chance = 100
         roll = randint(1, 100)
 
-        print("\nRANDOM EVENT!")
+        show_random_event_banner()
         continue_prompt()
-        print("\nAn old man comes to the station, shaking and crying.")
+        print("An old man comes to the station, shaking and crying.")
         print("'They stole my money! My uncle died in Turkey! He was a billionaire!'")
         print("\nYou listen to the story. It's the classic 'Prince Heritage' scam.")
         print("The victim sent 100.000 CZK to an account in Istanbul to 'release the funds'.")
@@ -691,9 +726,9 @@ class RandomEvents:
         """
         The Dispatch System Crash.
         """
-        print("\nRANDOM EVENT!")
+        show_random_event_banner()
         continue_prompt()
-        print("\nIt is Friday night. The radio is screaming. Total chaos.")
+        print("It is Friday night. The radio is screaming. Total chaos.")
         print("Suddenly, the main dispatch monitor flickers and dies.")
         print("\nBSOD. 'CRITICAL_PROCESS_DIED'.")
         print("\nThe Commander starts hitting the monitor with his baton.")
@@ -743,9 +778,9 @@ class RandomEvents:
 
         roll = randint(1, 100)
 
-        print("\nRANDOM EVENT!")
+        show_random_event_banner()
         continue_prompt()
-        print("\nYou notice a Porsche Taycan doing 150 km/h in a 90 zone.")
+        print("You notice a Porsche Taycan doing 150 km/h in a 90 zone.")
         print(
             "You pull him over - It's a dude in his early 20s, wearing Patagonia vest and Matcha Latte in his cup holder.")
         print("On a seat next to him is a MacBook Pro with opened interactive development environment.")
@@ -806,9 +841,9 @@ class RandomEvents:
         Event: The Paperwork Mountain.
         Mechanic: Unlockable Daily Buff (AI Automation).
         """
-        print("\nRANDOM EVENT!")
+        show_random_event_banner()
         continue_prompt()
-        print("\nYou walk into the office. Your desk is gone.")
+        print("You walk into the office. Your desk is gone.")
         print("It has been replaced by a literal tower of files. Theft reports, accidents, lost dogs.")
         print("The admin lady smirks. 'Boss wants this done by tomorrow morning.'")
         print("\nIt looks like 12 hours of manual data entry. A nightmare.")
