@@ -7,7 +7,7 @@ from random import randint
 
 from rich import print
 
-from game.game_logic.decision_options import Decision
+from game.game_logic.interaction import Interaction
 from game.game_logic.press_enter_to_continue import continue_prompt
 from game.game_logic.stats import Stats
 
@@ -32,7 +32,7 @@ class CarIncident:
             "\n1. [RISK: 50%] THE 'MACGYVER' MANEUVER. Try to buff out the scratch with spit and your sleeve. If it works, you saw nothing.")
         print("2. [SAFE] THE 'GOOD SOLDIER'. Go inside, report it, fill out the forms, and accept the humiliation.")
 
-        choice = Decision.ask(("1", "2"))
+        choice = Interaction.ask(("1", "2"))
 
         if choice == "1":
             CarIncident._path_cover_up(stats)
@@ -146,7 +146,7 @@ class CarIncident:
         print("\n1. [SAFE] SUBMIT. Pay the money. Eat the dirt. Keep your job.")
         print("2. [RISK: 30% WIN] CALL PAUL GOODMAN. Sue the department. Burn the bridge.")
 
-        choice = Decision.ask(("1", "2"))
+        choice = Interaction.ask(("1", "2"))
 
         if choice == "1":
             stats.increment_stats_pcr_hatred(25)

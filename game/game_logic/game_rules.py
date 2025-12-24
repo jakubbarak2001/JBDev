@@ -6,8 +6,8 @@ from rich.console import Console
 
 from game.game_logic.colonel_event import ColonelEvent
 from game.game_logic.day_cycle import DayCycle
-from game.game_logic.decision_options import Decision
 from game.game_logic.game_endings import GameEndings
+from game.game_logic.interaction import Interaction
 from game.game_logic.martin_meeting_event import MartinMeetingEvent
 from game.game_logic.press_enter_to_continue import continue_prompt
 from game.game_logic.random_events import RandomEvents
@@ -173,7 +173,7 @@ class Game:
                 "\nSELECT YOUR OPTION (1-4): "
             )
 
-            choice = Decision.ask(("1", "2", "3", "4"))
+            choice = Interaction.ask(("1", "2", "3", "4"))
 
             if choice == "1":
                 print(f"\nDAY: #{self.day_cycle.current_day}/30.")
@@ -234,7 +234,7 @@ class Game:
                 "\nSELECT YOUR OPTION (1-5):"
             )
 
-            choice = Decision.ask(("1", "2", "3", "4", "5"))
+            choice = Interaction.ask(("1", "2", "3", "4", "5"))
 
             if choice == "1":
                 self.activity_gym()
@@ -258,7 +258,7 @@ class Game:
               "\n2. RETURN TO MENU"
               "\nSELECT YOUR OPTION (1-2):")
 
-        choice = Decision.ask(("1", "2"))
+        choice = Interaction.ask(("1", "2"))
 
         if choice == "1":
             cost = 400
@@ -301,7 +301,7 @@ class Game:
               "\n2. RETURN TO MENU"
               "\nSELECT YOUR OPTION (1-2):")
 
-        choice = Decision.ask(("1", "2"))
+        choice = Interaction.ask(("1", "2"))
 
         if choice == "1":
             cost = 1500
@@ -337,7 +337,7 @@ class Game:
               "\n3. RETURN TO MENU"
               "\nSELECT YOUR OPTION (1-3):")
 
-        choice = Decision.ask(("1", "2", "3"))
+        choice = Interaction.ask(("1", "2", "3"))
 
         if choice == "1":
             activity_roll = randint(1, 100)
@@ -569,7 +569,7 @@ class Game:
         print("1. YES (Sign the contract)")
         print("2. NO (I changed my mind)")
 
-        confirm = Decision.ask(("1", "2"))
+        confirm = Interaction.ask(("1", "2"))
 
         if confirm == "2":
             print("\nYou step back. It's too much money right now.")
@@ -632,7 +632,7 @@ class Game:
         print(menu_text)
 
         # 4. Handle Input
-        choice = Decision.ask(tuple(valid_choices))
+        choice = Interaction.ask(tuple(valid_choices))
 
         if choice == "0":
             print(f"\n{tier_display}")

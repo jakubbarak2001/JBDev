@@ -21,7 +21,7 @@ def stats():
 # ==========================================
 
 @patch('builtins.input')
-@patch('game.game_logic.random_events.Decision.ask')
+@patch('game.game_logic.random_events.Interaction.ask')
 @patch('game.game_logic.random_events.randint')
 def test_event_overtime_take_money(mock_randint, mock_decision, _, events, stats):
     """Accept the overtime and receive money."""
@@ -33,7 +33,7 @@ def test_event_overtime_take_money(mock_randint, mock_decision, _, events, stats
 
 
 @patch('builtins.input')
-@patch('game.game_logic.random_events.Decision.ask')
+@patch('game.game_logic.random_events.Interaction.ask')
 @patch('game.game_logic.random_events.randint')
 def test_event_overtime_study_python(mock_randint, mock_decision, _, events, stats):
     """Decline the offer and code at home instead."""
@@ -48,7 +48,7 @@ def test_event_overtime_study_python(mock_randint, mock_decision, _, events, sta
 # ==========================================
 
 @patch('builtins.input')
-@patch('game.game_logic.random_events.Decision.ask')
+@patch('game.game_logic.random_events.Interaction.ask')
 def test_event_birthday_pay(mock_decision, _, events, stats):
     """Pay for the B-day present, loose money."""
     mock_decision.return_value = '1'
@@ -58,7 +58,7 @@ def test_event_birthday_pay(mock_decision, _, events, stats):
 
 
 @patch('builtins.input')
-@patch('game.game_logic.random_events.Decision.ask')
+@patch('game.game_logic.random_events.Interaction.ask')
 def test_event_birthday_refuse(mock_decision, _, events, stats):
     """Don't pay for the present, gain hatred."""
     mock_decision.return_value = '2'
@@ -71,7 +71,7 @@ def test_event_birthday_refuse(mock_decision, _, events, stats):
 # ==========================================
 
 @patch('builtins.input')
-@patch('game.game_logic.random_events.Decision.ask')
+@patch('game.game_logic.random_events.Interaction.ask')
 @patch('game.game_logic.random_events.randint')
 def test_event_small_talk_vent_success(mock_randint, mock_decision, _, events, stats):
     """Scenario: Vent out (1) and succeed (Roll <= 80)."""
@@ -84,7 +84,7 @@ def test_event_small_talk_vent_success(mock_randint, mock_decision, _, events, s
 
 
 @patch('builtins.input')
-@patch('game.game_logic.random_events.Decision.ask')
+@patch('game.game_logic.random_events.Interaction.ask')
 @patch('game.game_logic.random_events.randint')
 def test_event_small_talk_vent_fail(mock_randint, mock_decision, _, events, stats):
     """Scenario: Vent out (1) and fail (Roll > 80)."""
@@ -97,7 +97,7 @@ def test_event_small_talk_vent_fail(mock_randint, mock_decision, _, events, stat
 
 
 @patch('builtins.input')
-@patch('game.game_logic.random_events.Decision.ask')
+@patch('game.game_logic.random_events.Interaction.ask')
 def test_event_small_talk_keep_inside(mock_decision, _, events, stats):
     """Keep your hate inside and say nothing."""
     mock_decision.return_value = '2'
@@ -110,7 +110,7 @@ def test_event_small_talk_keep_inside(mock_decision, _, events, stats):
 # ==========================================
 
 @patch('builtins.input')
-@patch('game.game_logic.random_events.Decision.ask')
+@patch('game.game_logic.random_events.Interaction.ask')
 @patch('game.game_logic.random_events.randint')
 def test_event_corpse_refuse_success(mock_randint, mock_decision, _, events, stats):
     """Refuse to grab the corpse and succeed."""
@@ -121,7 +121,7 @@ def test_event_corpse_refuse_success(mock_randint, mock_decision, _, events, sta
 
 
 @patch('builtins.input')
-@patch('game.game_logic.random_events.Decision.ask')
+@patch('game.game_logic.random_events.Interaction.ask')
 @patch('game.game_logic.random_events.randint')
 def test_event_corpse_drag_disaster(mock_randint, mock_decision, _, events, stats):
     """You grab the corpse and the corpse spills."""
@@ -132,7 +132,7 @@ def test_event_corpse_drag_disaster(mock_randint, mock_decision, _, events, stat
 
 
 @patch('builtins.input')
-@patch('game.game_logic.random_events.Decision.ask')
+@patch('game.game_logic.random_events.Interaction.ask')
 @patch('game.game_logic.random_events.randint')
 def test_event_corpse_refuse_fail_then_ok(mock_randint, mock_decision, _, events, stats):
     """Refuse to grab the corpse, but it doesn't spill."""
@@ -148,7 +148,7 @@ def test_event_corpse_refuse_fail_then_ok(mock_randint, mock_decision, _, events
 # ==========================================
 
 @patch('builtins.input')
-@patch('game.game_logic.random_events.Decision.ask')
+@patch('game.game_logic.random_events.Interaction.ask')
 def test_event_admin_mistake_leave(mock_decision, _, events, stats):
     """You leave and loose money and loose hatred."""
     mock_decision.return_value = '1'
@@ -159,7 +159,7 @@ def test_event_admin_mistake_leave(mock_decision, _, events, stats):
 
 
 @patch('builtins.input')
-@patch('game.game_logic.random_events.Decision.ask')
+@patch('game.game_logic.random_events.Interaction.ask')
 def test_event_admin_mistake_stay(mock_decision, _, events, stats):
     """You stay and fix your mistake."""
     mock_decision.return_value = '2'
@@ -172,7 +172,7 @@ def test_event_admin_mistake_stay(mock_decision, _, events, stats):
 # ==========================================
 
 @patch('builtins.input')
-@patch('game.game_logic.random_events.Decision.ask')
+@patch('game.game_logic.random_events.Interaction.ask')
 def test_event_dev_low_skill(mock_decision, _, events, stats):
     """You meet the israeli dev, but you have low skill."""
     stats.coding_skill = 10
@@ -182,7 +182,7 @@ def test_event_dev_low_skill(mock_decision, _, events, stats):
 
 
 @patch('builtins.input')
-@patch('game.game_logic.random_events.Decision.ask')
+@patch('game.game_logic.random_events.Interaction.ask')
 def test_event_dev_high_skill_success(mock_decision, _, events, stats):
     """You meet the dev, and you pass the skill check."""
     stats.coding_skill = 60
@@ -207,7 +207,7 @@ def test_event_nightmare_wolf(_, events, stats):
 # ==========================================
 
 @patch('builtins.input')
-@patch('game.game_logic.random_events.Decision.ask')
+@patch('game.game_logic.random_events.Interaction.ask')
 def test_event_citizen_ignore(mock_decision, _, events, stats):
     """Tests if ignoring him gives you pcr hatred"""
     mock_decision.return_value = '1'
@@ -216,7 +216,7 @@ def test_event_citizen_ignore(mock_decision, _, events, stats):
 
 
 @patch('builtins.input')
-@patch('game.game_logic.random_events.Decision.ask')
+@patch('game.game_logic.random_events.Interaction.ask')
 def test_event_citizen_arrest(mock_decision, _, events, stats):
     """Tests if arresting him fines you and gives you hatred."""
     mock_decision.return_value = '2'
@@ -230,7 +230,7 @@ def test_event_citizen_arrest(mock_decision, _, events, stats):
 # ==========================================
 
 @patch('builtins.input')
-@patch('game.game_logic.random_events.Decision.ask')
+@patch('game.game_logic.random_events.Interaction.ask')
 @patch('game.game_logic.random_events.randint')
 def test_event_printer_fix_success(mock_randint, mock_decision, _, events, stats):
     """Tests fix printer (Choice 1) -> Success (Roll <= Skill*2)."""
@@ -243,7 +243,7 @@ def test_event_printer_fix_success(mock_randint, mock_decision, _, events, stats
 
 
 @patch('builtins.input')
-@patch('game.game_logic.random_events.Decision.ask')
+@patch('game.game_logic.random_events.Interaction.ask')
 @patch('game.game_logic.random_events.randint')
 def test_event_printer_fix_fail(mock_randint, mock_decision, _, events, stats):
     """Scenario: Fix printer (Choice 1) -> Failure."""
@@ -257,7 +257,7 @@ def test_event_printer_fix_fail(mock_randint, mock_decision, _, events, stats):
 
 
 @patch('builtins.input')
-@patch('game.game_logic.random_events.Decision.ask')
+@patch('game.game_logic.random_events.Interaction.ask')
 def test_event_printer_ignore(mock_decision, _, events, stats):
     """Scenario: Ignore it (Choice 2)."""
     mock_decision.return_value = '2'
@@ -270,7 +270,7 @@ def test_event_printer_ignore(mock_decision, _, events, stats):
 # ==========================================
 
 @patch('builtins.input')
-@patch('game.game_logic.random_events.Decision.ask')
+@patch('game.game_logic.random_events.Interaction.ask')
 @patch('game.game_logic.random_events.randint')
 def test_event_usb_risk_fail(mock_randint, mock_decision, _, events, stats):
     """Scenario: Plug in (Choice 1) -> Virus (Roll <= 50)."""
@@ -283,7 +283,7 @@ def test_event_usb_risk_fail(mock_randint, mock_decision, _, events, stats):
 
 
 @patch('builtins.input')
-@patch('game.game_logic.random_events.Decision.ask')
+@patch('game.game_logic.random_events.Interaction.ask')
 @patch('game.game_logic.random_events.randint')
 def test_event_usb_risk_success(mock_randint, mock_decision, _, events, stats):
     """Scenario: Plug in (Choice 1) -> Crypto (Roll > 50)."""
@@ -299,7 +299,7 @@ def test_event_usb_risk_success(mock_randint, mock_decision, _, events, stats):
 # ==========================================
 
 @patch('builtins.input')
-@patch('game.game_logic.random_events.Decision.ask')
+@patch('game.game_logic.random_events.Interaction.ask')
 @patch('game.game_logic.random_events.randint')
 def test_event_turkish_success(mock_randint, mock_decision, _, events, stats):
     """Scenario: Track scammer (Choice 1), win the roll."""
@@ -313,7 +313,7 @@ def test_event_turkish_success(mock_randint, mock_decision, _, events, stats):
 
 
 @patch('builtins.input')
-@patch('game.game_logic.random_events.Decision.ask')
+@patch('game.game_logic.random_events.Interaction.ask')
 @patch('game.game_logic.random_events.randint')
 def test_event_turkish_fail(mock_randint, mock_decision, _, events, stats):
     """Scenario: Track scammer (Choice 1), loose the roll"""
@@ -333,7 +333,7 @@ def test_event_turkish_fail(mock_randint, mock_decision, _, events, stats):
 # ==========================================
 
 @patch('builtins.input')
-@patch('game.game_logic.random_events.Decision.ask')
+@patch('game.game_logic.random_events.Interaction.ask')
 def test_event_dispatch_fix_success(mock_decision, _, events, stats):
     """Scenario: Fix BSOD (Choice 1) with High Skill (>= 30)."""
     mock_decision.return_value = '1'
@@ -345,7 +345,7 @@ def test_event_dispatch_fix_success(mock_decision, _, events, stats):
 
 
 @patch('builtins.input')
-@patch('game.game_logic.random_events.Decision.ask')
+@patch('game.game_logic.random_events.Interaction.ask')
 def test_event_dispatch_fix_fail(mock_decision, _, events, stats):
     """Scenario: Fix BSOD (Choice 1) with Low Skill (< 30)."""
     mock_decision.return_value = '1'
@@ -361,7 +361,7 @@ def test_event_dispatch_fix_fail(mock_decision, _, events, stats):
 
 @patch('game.game_logic.random_events.randint')
 @patch('builtins.input')
-@patch('game.game_logic.random_events.Decision.ask')
+@patch('game.game_logic.random_events.Interaction.ask')
 def test_event_tech_bro_coding_success(mock_decision, _, mock_randint, events, stats):
     """
     Scenario: User chooses Coding (1).
@@ -379,7 +379,7 @@ def test_event_tech_bro_coding_success(mock_decision, _, mock_randint, events, s
 
 @patch('game.game_logic.random_events.randint')
 @patch('builtins.input')
-@patch('game.game_logic.random_events.Decision.ask')
+@patch('game.game_logic.random_events.Interaction.ask')
 def test_event_tech_bro_coding_fail(mock_decision, _, mock_randint, events, stats):
     """
     Scenario: User chooses Coding (1).
@@ -397,7 +397,7 @@ def test_event_tech_bro_coding_fail(mock_decision, _, mock_randint, events, stat
 
 
 @patch('builtins.input')
-@patch('game.game_logic.random_events.Decision.ask')
+@patch('game.game_logic.random_events.Interaction.ask')
 def test_event_tech_bro_duty(mock_decision, _, events, stats):
     """
     Scenario: User chooses Duty/Ticket (2).
@@ -415,7 +415,7 @@ def test_event_tech_bro_duty(mock_decision, _, events, stats):
 # ==========================================
 
 @patch('builtins.input')
-@patch('game.game_logic.random_events.Decision.ask')
+@patch('game.game_logic.random_events.Interaction.ask')
 def test_event_paperwork_automate_success(mock_decision, _, events, stats):
     """Scenario: Automate (Choice 1) with High Skill (>= 40)."""
     mock_decision.return_value = '1'
@@ -427,7 +427,7 @@ def test_event_paperwork_automate_success(mock_decision, _, events, stats):
 
 
 @patch('builtins.input')
-@patch('game.game_logic.random_events.Decision.ask')
+@patch('game.game_logic.random_events.Interaction.ask')
 def test_event_paperwork_automate_fail(mock_decision, _, events, stats):
     """Scenario: Automate (Choice 1) with Low Skill (< 40)."""
     mock_decision.return_value = '1'

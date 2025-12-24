@@ -56,7 +56,7 @@ def test_set_difficulty_insane(mock_input, game_setup):
 # ==========================================
 
 @patch('builtins.input')  # 2nd Argument (Top decorator) -> we use '_' to ignore it
-@patch('game.game_logic.game_rules.Decision.ask')
+@patch('game.game_logic.game_rules.Interaction.ask')
 def test_activity_python_bootcamp_purchase(mock_decision, _, game_setup):
     """Test if buying the bootcamp deducts money and sets the flag."""
     game, stats, _ = game_setup
@@ -69,7 +69,7 @@ def test_activity_python_bootcamp_purchase(mock_decision, _, game_setup):
     assert game.python_bootcamp is True
 
 
-@patch('game.game_logic.game_rules.Decision.ask')
+@patch('game.game_logic.game_rules.Interaction.ask')
 def test_bootcamp_buff_application(mock_decision, game_setup):
     """
     Test if the 'End Day' logic applies the buff.
@@ -98,7 +98,7 @@ def test_bootcamp_buff_application(mock_decision, game_setup):
 # ==========================================
 
 @patch('builtins.input')  # 3rd Arg (Top) -> Ignored as '_'
-@patch('game.game_logic.game_rules.Decision.ask')  # 2nd Arg (Middle)
+@patch('game.game_logic.game_rules.Interaction.ask')  # 2nd Arg (Middle)
 @patch('game.game_logic.game_rules.randint')  # 1st Arg (Bottom)
 def test_activity_bouncer_strip_club_jackpot(mock_randint, mock_decision, _, game_setup):
     """Test the 5% chance to get 35k CZK at the Strip Bar."""
@@ -114,7 +114,7 @@ def test_activity_bouncer_strip_club_jackpot(mock_randint, mock_decision, _, gam
 
 
 @patch('builtins.input')  # 3rd Arg (Top) -> Ignored as '_'
-@patch('game.game_logic.game_rules.Decision.ask')  # 2nd Arg (Middle)
+@patch('game.game_logic.game_rules.Interaction.ask')  # 2nd Arg (Middle)
 @patch('game.game_logic.game_rules.randint')  # 1st Arg (Bottom)
 def test_activity_bouncer_strip_club_fail(mock_randint, mock_decision, _, game_setup):
     """Test the critical failure (Getting hit with a bottle)."""
@@ -135,7 +135,7 @@ def test_activity_bouncer_strip_club_fail(mock_randint, mock_decision, _, game_s
 # ==========================================
 
 @patch('builtins.input')  # 3. Ignored as '_'
-@patch('game.game_logic.game_rules.Decision.ask')  # 2. Ignored as '_' (we set return_value)
+@patch('game.game_logic.game_rules.Interaction.ask')  # 2. Ignored as '_' (we set return_value)
 @patch('game.game_logic.game_rules.randint')  # 1. Used to control RNG
 def test_activity_gym_best_outcome(mock_randint, mock_decision, _, game_setup):
     """Test the best gym outcome: -25 Hatred."""
@@ -154,7 +154,7 @@ def test_activity_gym_best_outcome(mock_randint, mock_decision, _, game_setup):
 
 
 @patch('builtins.input')
-@patch('game.game_logic.game_rules.Decision.ask')
+@patch('game.game_logic.game_rules.Interaction.ask')
 @patch('game.game_logic.game_rules.randint')
 def test_activity_gym_worst_outcome(mock_randint, mock_decision, _, game_setup):
     """Test the worst gym outcome: - 10 Hatred."""
@@ -174,7 +174,7 @@ def test_activity_gym_worst_outcome(mock_randint, mock_decision, _, game_setup):
 # ==========================================
 
 @patch('builtins.input')
-@patch('game.game_logic.game_rules.Decision.ask')
+@patch('game.game_logic.game_rules.Interaction.ask')
 def test_activity_therapy_session(mock_decision, _, game_setup):
     """Test therapy session."""
     game, stats, _ = game_setup
@@ -192,7 +192,7 @@ def test_activity_therapy_session(mock_decision, _, game_setup):
 # ==========================================
 
 @patch('builtins.input')
-@patch('game.game_logic.game_rules.Decision.ask')
+@patch('game.game_logic.game_rules.Interaction.ask')
 @patch('game.game_logic.game_rules.randint')
 def test_activity_night_club_safe_shift(mock_randint, mock_decision, _, game_setup):
     """Test the standard safe shift at the Night Club (Option 1)."""
@@ -208,7 +208,7 @@ def test_activity_night_club_safe_shift(mock_randint, mock_decision, _, game_set
 
 
 @patch('builtins.input')
-@patch('game.game_logic.game_rules.Decision.ask')
+@patch('game.game_logic.game_rules.Interaction.ask')
 @patch('game.game_logic.game_rules.randint')
 def test_activity_night_club_best_shift(mock_randint, mock_decision, _, game_setup):
     """Test the best shift (Tip + Relief)."""

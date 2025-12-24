@@ -5,7 +5,7 @@ import time
 import pygame
 from rich import print
 
-from game.game_logic.decision_options import Decision
+from game.game_logic.interaction import Interaction
 from game.game_logic.press_enter_to_continue import continue_prompt
 from game.game_logic.stats import Stats
 
@@ -92,7 +92,7 @@ class MartinMeetingEvent:
         self._slow_print("2. [PAY 2500 CZK] GET A NEW CUT AND BUY NEW COOL SHIRT", delay=0.02)
         self._slow_print("3. [FREE] GO AS IS. Sweatpants and a hoodie. You don't have energy to pretend.", delay=0.02)
 
-        choice = Decision.ask(("1", "2", "3"))
+        choice = Interaction.ask(("1", "2", "3"))
 
         if choice == "1":
             if stats.try_spend_money(12500):
@@ -151,7 +151,7 @@ class MartinMeetingEvent:
                          delay=0.01)
         self._slow_print("3. [LISTEN + 2 AFFECTION POINTS] Let him talk. Ask him how he did it.", delay=0.01)
 
-        choice = Decision.ask(("1", "2", "3"))
+        choice = Interaction.ask(("1", "2", "3"))
 
         if choice == "1":
             stats.increment_stats_pcr_hatred(-50)
@@ -347,7 +347,7 @@ class MartinMeetingEvent:
         self._slow_print("5. [COPING] 'Actually, the police is vital for society! The Colonel is just misunderstood!'",
                          delay=0.01)
 
-        choice = Decision.ask(("1", "2", "3", "4", "5"))
+        choice = Interaction.ask(("1", "2", "3", "4", "5"))
 
         if choice == "1":
             stats.increment_stats_pcr_hatred(25)
@@ -438,7 +438,7 @@ class MartinMeetingEvent:
             "2. [REASONABLE] 'I need more time. I'll wait until the last moment.' (Trigger Event Day 30, NEUTRAL)",
             delay=0.005)
 
-        choice = Decision.ask(("1", "2"))
+        choice = Interaction.ask(("1", "2"))
 
         if choice == "1":
             self.martin_meeting_affection_points += 2
@@ -540,7 +540,7 @@ class MartinMeetingEvent:
         self._slow_print("   Martin hypes you up to take the initiative and strike first.", delay=0.01)
         self._slow_print("   (Effect: Colonel starts - 20 HP. Immune to Round 1 Fear.)", delay=0.01)
 
-        choice = Decision.ask(("1", "2", "3", "4", "5"))
+        choice = Interaction.ask(("1", "2", "3", "4", "5"))
 
         if choice == "1":
             self._slow_print("\nMartin hands you a crumpled digital file printout.", delay=0.02)
