@@ -97,15 +97,15 @@ class Game:
 
         if self.python_bootcamp:
             self.stats.increment_stats_coding_skill(5)
-            print("\n[PYTHON BOOTCAMP] Your investment is starting to pay off! (+5 Coding Skills).")
+            print("\n[PYTHON BOOTCAMP] Your investment is starting to pay off! ( + 5 Coding Skills).")
 
         if self.stats.ai_paperwork_buff:
-            print("\n[AI AUTOMATION] Your script handled the paperwork efficiently. (-5 Hatred)")
+            print("\n[AI AUTOMATION] Your script handled the paperwork efficiently. ( - 5 Hatred)")
             self.stats.increment_stats_pcr_hatred(-5)
 
         if self.stats.daily_btc_income > 0:
             print(
-                f"\n[PASSIVE INCOME] The Turkish fraudster sent his daily tribute: +{self.stats.daily_btc_income} CZK.")
+                f"\n[PASSIVE INCOME] The Turkish fraudster sent his daily tribute: + {self.stats.daily_btc_income} CZK.")
             self.stats.increment_stats_value_money(self.stats.daily_btc_income)
 
     def _trigger_night_cycle(self):
@@ -269,16 +269,16 @@ class Game:
                     self.stats.increment_stats_pcr_hatred(-25)
                     print("\nDude the pump you had was EPIC, you even hit a new PR!"
                           "\nYou feel strong and unstoppable, this was a great training."
-                          f"\n[OUTCOME]: -{cost} CZK, -25 PCR HATRED")
+                          f"\n[OUTCOME]: - {cost} CZK, -25 PCR HATRED")
                 elif activity_roll == 2:
                     self.stats.increment_stats_pcr_hatred(- 15)
                     print("\nYou feel great after this workout, it's awesome that"
                           "\nyou can come to better thoughts in the gym and relax."
-                          f"\n[OUTCOME]: -{cost} CZK, - 15 PCR HATRED")
+                          f"\n[OUTCOME]: - {cost} CZK, - 15 PCR HATRED")
                 elif activity_roll == 3:
                     self.stats.increment_stats_pcr_hatred(- 10)
                     print("\nYou had better trainings in the past, but you still enjoyed this one."
-                          f"\n[OUTCOME]: -{cost} CZK, - 10 PCR HATRED")
+                          f"\n[OUTCOME]: - {cost} CZK, - 10 PCR HATRED")
 
                 self.stats.get_stats_command()
                 input("\nCONTINUE...")
@@ -441,39 +441,157 @@ class Game:
         elif choice == "3":
             self.main_menu()
 
-    def activity_python(self):
-        """Daily activity accessible from menu, allows you to code and gain coding experience."""
-        CODING_LEVEL = {
-            "TIER 0": {"CODING SKILL": "0-49", "STANDARD RATE": 0, "HOUR RATE": 0},
-            "TIER 1": {"CODING SKILL": "50-99", "STANDARD RATE": 2500, "HOUR RATE": 25},
-            "TIER 2": {"CODING SKILL": "100-149", "STANDARD RATE": 5000, "HOUR RATE": 50},
-            "TIER 3": {"CODING SKILL": "150-199", "STANDARD RATE": 7500, "HOUR RATE": 75},
-            "TIER 4": {"CODING SKILL": "200+", "STANDARD RATE": 10000, "HOUR RATE": 100},
+    def get_coding_tier_info(self):
+        """
+        Determines the current coding tier based on skill level.
+        Returns a tuple: (tier_name, tier_data_dict)
+        """
+        skill = getattr(self.stats, 'coding_skill', 0)
+
+        CODING_LEVELS = {
+            "TIER 1": {"CODING SKILL": "0-49", "STANDARD RATE": 0, "HOUR RATE": 0, "LABEL": "Still Learning"},
+            "TIER 2": {"CODING SKILL": "50-99", "STANDARD RATE": 2500, "HOUR RATE": 25, "LABEL": "Junior Scripter"},
+            "TIER 3": {"CODING SKILL": "100-149", "STANDARD RATE": 5000, "HOUR RATE": 50, "LABEL": "Solid Developer"},
+            "TIER 4": {"CODING SKILL": "150-199", "STANDARD RATE": 7500, "HOUR RATE": 75, "LABEL": "Senior Engineer"},
+            "TIER 5": {"CODING SKILL": "200+", "STANDARD RATE": 10000, "HOUR RATE": 100, "LABEL": "God-Tier Dev"},
         }
 
-        skill = getattr(self.stats, 'coding_skill', 0)
         if skill < 50:
-            current_tier = "TIER 0"
+            return "TIER 1", CODING_LEVELS["TIER 1"]
         elif skill < 100:
-            current_tier = "TIER 1"
+            return "TIER 2", CODING_LEVELS["TIER 2"]
         elif skill < 150:
-            current_tier = "TIER 2"
+            return "TIER 3", CODING_LEVELS["TIER 3"]
         elif skill < 200:
-            current_tier = "TIER 3"
+            return "TIER 4", CODING_LEVELS["TIER 4"]
         else:
-            current_tier = "TIER 4"
+            return "TIER 5", CODING_LEVELS["TIER 5"]
 
-        tier_info = CODING_LEVEL[current_tier]
-        tier_display = f"{current_tier} | CODING SKILL: {tier_info['CODING SKILL']} | STANDARD RATE: {tier_info['STANDARD RATE']} | HOUR RATE: {tier_info['HOUR RATE']}"
+    def _perform_coding_work(self):
+        """Logic for Option 1: Working for money."""
+        current_tier, tier_info = self.get_coding_tier_info()
+        skill_now = self.stats.coding_skill
+
+        # Calculate Earnings
+        standard = tier_info['STANDARD RATE']
+        hour_rate = tier_info['HOUR RATE']
+        total_money = standard + (skill_now * hour_rate)
+
+        if current_tier == "TIER 1":
+            print("\n[TIER 1] Still learning.")
+            print("You can't code for money yet. Keep practicing and building tiny projects.")
+            print("Unlock paid work at 50 Coding Skill.")
+            continue_prompt()
+            return self.activity_python()
+
+        narratives = {
+            "TIER 2": [
+                "Basic CLI utilities, CSV/Excel cleaners, simple web-scraper",
+                "Small bug fixes, wiring helper functions, basic refactors"
+            ],
+            "TIER 3": [
+                "CRUD REST API (Flask/FastAPI), small microservice, integrations",
+                "Non-trivial automation/data pipeline, refactor modules into packages"
+            ],
+            "TIER 4": [
+                "Production-ready backend with auth, caching, logging, tests",
+                "Performance tuning, DB indexing, CI pipelines, containerization"
+            ],
+            "TIER 5": [
+                "Highly scalable distributed services with observability and SLOs",
+                "Complex domain modeling, deep refactors, bulletproof test suites"
+            ]
+        }
+
+        print(f"\n[{current_tier}] {tier_info['LABEL']}")
+        print(f"Your current coding skill is {skill_now}.")
+        print("Example work:")
+        for example in narratives.get(current_tier, []):
+            print(f"- {example}")
+
+        print(f"Calculation: STANDARD RATE ({standard}) + CODING SKILL ({skill_now}) * HOUR RATE ({hour_rate})")
+        print(f"You received: {total_money} CZK")
+
+        self.stats.increment_stats_value_money(total_money)
+        self.activity_selected = True
+        self.stats.get_stats_command()
+        continue_prompt()
+
+    def _perform_fiverr_lesson(self):
+        """Logic for Option 2: Paying for a mentor."""
+        cost = 2500
+
+        if not self.stats.try_spend_money(cost):
+            print(f"\n[INSUFFICIENT FUNDS] You need {cost} CZK. Current: {self.stats.available_money} CZK.")
+            continue_prompt()
+            return self.activity_python()
+
+        activity_roll = randint(1, 100)
+
+        if activity_roll <= 65:
+            self.stats.increment_stats_coding_skill(10)
+            print("\nYou jump on a call with a mid-level developer from Fiverr.")
+            print("He’s practical. He shows you how to structure your files and fixes bad habits.")
+            print(f"\n[OUTCOME]: - {cost} CZK, + 10 CODING SKILLS")
+
+        elif activity_roll <= 90:
+            self.stats.increment_stats_coding_skill(15)
+            print("\nYou luck out. Your tutor is sharp as hell.")
+            print("They explain OOP in a way that finally clicks with your brain.")
+            print(f"\n[OUTCOME]: - {cost} CZK, + 15 CODING SKILLS")
+
+        else:
+            self.stats.increment_stats_coding_skill(25)
+            print("\nYou accidentally booked a beast. Senior dev, ten years in the field.")
+            print("Code review, patterns, mental models. This was a paradigm shift.")
+            print(f"\n[OUTCOME]: - {cost} CZK, + 25 CODING SKILLS")
+
+        self.stats.get_stats_command()
+        continue_prompt()
+        self.activity_selected = True
+
+    def _perform_bootcamp_enrollment(self):
+        """Logic for Option 3: Joining Bootcamp."""
+        cost = 35000
+
+        if self.python_bootcamp:
+            print("\nYou have already joined the bootcamp!")
+            continue_prompt()
+            return self.activity_python()
+
+        if not self.stats.try_spend_money(cost):
+            print(f"\n[INSUFFICIENT FUNDS] You need {cost} CZK. Transaction Declined.")
+            print("That is a lot of money. Maybe stick to free docs for now?")
+            continue_prompt()
+            return self.activity_python()
+
+        # Success
+        print("\nYou sign a contract and pay for an on-line Python bootcamp.")
+        print("Deadlines, assignments, code reviews. The full package.")
+        print("This is no longer a hobby. This is a commitment.")
+        print(f"\n[OUTCOME]: - {cost} CZK, [BOOTCAMP BUFF ACTIVATED]")
+
+        self.python_bootcamp = True
+        self.stats.get_stats_command()
+        continue_prompt()
+        self.activity_selected = True
+
+    def activity_python(self):
+        """Main Menu for Python Activity."""
+        if self.activity_selected:
+            print("\nYou already did your daily activity today.")
+            return self.main_menu()
+
+        current_tier, tier_info = self.get_coding_tier_info()
+
+        tier_display = (f"{current_tier} | SKILL: {tier_info['CODING SKILL']} | "
+                        f"BASE: {tier_info['STANDARD RATE']} | HOURLY: {tier_info['HOUR RATE']}")
 
         print("\nThere are multiple ways for you how to study Python."
-              "\nPython is now your Dojo, coding is your life, you need to master coding, there is no other way!"
-              "\nYou can learn on your own, or pay a tutor."
-              "\nStudying on your own is free, but less effective."
-              "\nPaying a tutor is costly but highly effective."
+              "\nPython is now your Dojo, coding is your life!"
               f"\n1. [{tier_display}] CODE FOR MONEY $$$"
-              "\n2. [2500CZK - 65/25/10%] BUY A STUDY SESSION ON FIVERR"
-              "\n3. [35000CZK] JOIN AN ON-LINE BOOTCAMP (GAIN BUFF FOR THE REST OF THE GAME)"
+              "\n2. [ 2500 CZK] BUY A STUDY SESSION ON FIVERR"
+              "\n3. [ 35000 CZK] JOIN AN ON-LINE BOOTCAMP"
               "\n4. RETURN TO MENU"
               "\n0. VIEW CURRENT TIER DETAILS"
               "\nSELECT YOUR OPTION (0-4):")
@@ -481,150 +599,14 @@ class Game:
         choice = Decision.ask(("0", "1", "2", "3", "4"))
 
         if choice == "0":
-            print(tier_display)
+            print(f"\n{tier_display}")
             continue_prompt()
-            return self.activity_python()
-
-        if choice == "1":
-            # Compute payout using: Total = STANDARD RATE + CODING SKILL * HOUR RATE
-            standard = tier_info['STANDARD RATE']
-            hour_rate = tier_info['HOUR RATE']
-            skill_now = self.stats.coding_skill
-            total_money = standard + skill_now * hour_rate
-
-            if current_tier == "TIER 0":
-                print("\n[TIER 0] Still learning.")
-                print("You can't code for money yet. Keep practicing and building tiny projects.")
-                print("Unlock paid work at 50 Coding Skill.")
-                continue_prompt()
-                return self.activity_python()
-
-            elif current_tier == "TIER 1":
-                print("\n[TIER 1] Junior Scripter Online")
-                print(f"Your current coding skill is {skill_now}.")
-                print("Example work:")
-                print("- Basic CLI utilities, CSV/Excel cleaners, simple web-scraper")
-                print("- Small bug fixes, wiring helper functions, basic refactors")
-                print(f"Calculation: STANDARD RATE ({standard}) + CODING SKILL ({skill_now}) * HOUR RATE ({hour_rate})")
-                print(f"You received: {total_money} CZK")
-                self.stats.increment_stats_value_money(total_money)
-                self.activity_selected = True
-                self.stats.get_stats_command()
-                continue_prompt()
-
-            elif current_tier == "TIER 2":
-                print("\n[TIER 2] Solid Developer")
-                print(f"Your current coding skill is {skill_now}.")
-                print("Example work:")
-                print("- CRUD REST API (Flask/FastAPI), small microservice, integrations")
-                print("- Non-trivial automation/data pipeline, refactor modules into packages")
-                print(f"Calculation: STANDARD RATE ({standard}) + CODING SKILL ({skill_now}) * HOUR RATE ({hour_rate})")
-                print(f"You received: {total_money} CZK")
-                self.stats.increment_stats_value_money(total_money)
-                self.activity_selected = True
-                self.stats.get_stats_command()
-                continue_prompt()
-
-            elif current_tier == "TIER 3":
-                print("\n[TIER 3] Senior Engineer Mode")
-                print(f"Your current coding skill is {skill_now}.")
-                print("Example work:")
-                print("- Production-ready backend with auth, caching, logging, tests")
-                print("- Performance tuning, DB indexing, CI pipelines, containerization")
-                print(f"Calculation: STANDARD RATE ({standard}) + CODING SKILL ({skill_now}) * HOUR RATE ({hour_rate})")
-                print(f"You received: {total_money} CZK")
-                self.stats.increment_stats_value_money(total_money)
-                self.activity_selected = True
-                self.stats.get_stats_command()
-                continue_prompt()
-
-            elif current_tier == "TIER 4":
-                print("\n[TIER 4] God-Tier Developer")
-                print(f"Your current coding skill is {skill_now}.")
-                print("Example work:")
-                print("- Highly scalable distributed services with observability and SLOs")
-                print("- Complex domain modeling, deep refactors, bulletproof test suites")
-                print(f"Calculation: STANDARD RATE ({standard}) + CODING SKILL ({skill_now}) * HOUR RATE ({hour_rate})")
-                print(f"You received: {total_money} CZK")
-                self.stats.increment_stats_value_money(total_money)
-                self.activity_selected = True
-                self.stats.get_stats_command()
-                continue_prompt()
-
+            return self.activity_python()  # Recursive call to reload menu
+        elif choice == "1":
+            self._perform_coding_work()
         elif choice == "2":
-            cost = 2500
-            if self.stats.try_spend_money(cost):
-                activity_roll = randint(1, 100)
-
-                if activity_roll <= 65:
-                    self.stats.increment_stats_coding_skill(10)
-                    print(
-                        "\nYou jump on a call with a mid-level developer from Fiverr."
-                        "\nHe’s not a genius, but he is practical. He shows you how to structure your files,"
-                        "\nexplains why your functions are a mess, and fixes a few key bad habits."
-                        "\nYou leave the session with clearer thinking and a to-do list."
-                        f"\n[OUTCOME]: -{cost} CZK, - 10 CODING SKILLS"
-                    )
-                elif activity_roll <= 90:
-                    self.stats.increment_stats_coding_skill(15)
-                    print(
-                        "\nYou luck out. Your tutor is actually sharp as hell."
-                        "\nThey share their screen, walk you through refactoring, and explain OOP in a way "
-                        "\nthat finally clicks with your brain."
-                        "\nYou end the session tired but energized, with a feeling that you’ve leveled up."
-                        f"\n[OUTCOME]: -{cost} CZK, + 15 CODING SKILLS"
-                    )
-                elif activity_roll <= 100:
-                    self.stats.increment_stats_coding_skill(25)
-                    print(
-                        "\nYou accidentally booked a beast. Senior dev, ten years in the field."
-                        "\nHe doesn’t waste a second: code review, patterns, mental models, how to think like an engineer."
-                        "\nYou fill pages of notes, your brain is fried, but something inside you has shifted."
-                        "\nThis wasn’t just tutoring – this was a paradigm shift."
-                        f"\n[OUTCOME]: -{cost} CZK, + 25 CODING SKILLS"
-                    )
-
-                self.stats.get_stats_command()
-                continue_prompt()
-                self.activity_selected = True
-
-            else:
-                print(
-                    f"\n[INSUFFICIENT FUNDS] You check your bank account. You only have {self.stats.available_money} CZK.")
-                print(f"You need {cost} CZK for the tutor.")
-                continue_prompt()
-                self.activity_python()
-
+            self._perform_fiverr_lesson()
         elif choice == "3":
-            cost = 35000
-            if self.stats.try_spend_money(cost) and not self.python_bootcamp:
-                print(
-                    "\nYou sign a contract and pay for an on-line Python bootcamp."
-                    "\nDeadlines, assignments, code reviews, community, mentors – the full package."
-                    "\nFrom now on, your coding skill will keep on growing daily!."
-                    "\nThis is no longer a hobby. This is a commitment."
-                    f"\n[OUTCOME]: -{cost} CZK, [BOOTCAMP BUFF ACTIVATED +5 CODING SKILL EVERYDAY]"
-                )
-
-                self.python_bootcamp = True
-                self.stats.get_stats_command()
-                continue_prompt()
-                self.activity_selected = True
-
-            elif self.python_bootcamp:
-                print("\nYou have already joined the bootcamp!")
-                continue_prompt()
-                self.activity_python()
-
-            else:
-                print(f"\n[INSUFFICIENT FUNDS] Transaction Declined. You need {cost} CZK.")
-                print("That is a lot of money. Maybe stick to free docs for now?")
-                continue_prompt()
-                self.activity_python()
-
+            self._perform_bootcamp_enrollment()
         elif choice == "4":
-            self.main_menu()
-
-        else:
-            print("\nYou already did your daily activity today.")
             self.main_menu()
