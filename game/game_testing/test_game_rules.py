@@ -32,8 +32,8 @@ def test_set_difficulty_easy(mock_input, game_setup):
 
     game.set_difficulty_level()
 
-    # FIX: Strip ANSI color codes before comparing
-    clean_difficulty = re.sub(r'\x1b\[[0-9;]*m', '', game.selected_difficulty)
+    # FIX: Strip Rich markup tags (e.g., [green]...[/green]) before comparing
+    clean_difficulty = re.sub(r'\[/?[a-z]+\]', '', game.selected_difficulty)
     assert clean_difficulty == "easy"
 
 
@@ -46,8 +46,8 @@ def test_set_difficulty_insane(mock_input, game_setup):
 
     game.set_difficulty_level()
 
-    # FIX: Strip ANSI color codes before comparing
-    clean_difficulty = re.sub(r'\x1b\[[0-9;]*m', '', game.selected_difficulty)
+    # FIX: Strip Rich markup tags (e.g., [red]...[/red]) before comparing
+    clean_difficulty = re.sub(r'\[/?[a-z]+\]', '', game.selected_difficulty)
     assert clean_difficulty == "insane"
 
 
@@ -266,7 +266,8 @@ def test_set_difficulty_reprompt_then_confirm(mock_input, game_setup):
 
     game.set_difficulty_level()
 
-    clean_difficulty = re.sub(r'\x1b\[[0-9;]*m', '', game.selected_difficulty)
+    # FIX: Strip Rich markup tags (e.g., [yellow]...[/yellow]) before comparing
+    clean_difficulty = re.sub(r'\[/?[a-z]+\]', '', game.selected_difficulty)
     assert clean_difficulty == "hard"
     assert stats.available_money == 35000
     assert stats.coding_skill == 5
@@ -341,9 +342,9 @@ def test_apply_nightly_passives_ai_and_btc(game_setup):
 # 11. MM EVENT TRIGGER ON DAY 24
 # ==========================================
 
-@patch('game.game_logic.game_rules.MMEvent')
+@patch('game.game_logic.game_rules.MartinMeetingEvent')
 def test_mm_event_trigger_day_24(mock_mm_cls, game_setup):
-    """Should trigger MMEvent on day 24 and call trigger_event(stats)."""
+    """Should trigger MartinMeetingEvent on day 24 and call trigger_event(stats)."""
     game, stats, day_cycle = game_setup
 
     # Start at day 23 so first night moves to 24
