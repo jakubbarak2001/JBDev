@@ -2,6 +2,16 @@ import pygame
 import os
 import sys
 from rich import print
+
+# Add project root to Python path when running directly (not via run_game.py)
+# Get the directory containing this file (game/game_logic/)
+current_dir = os.path.dirname(os.path.abspath(__file__))
+# Get the project root (go up two levels: game/game_logic/ -> game/ -> project root)
+project_root = os.path.dirname(os.path.dirname(current_dir))
+# Add to sys.path if not already there (prevents import errors when running directly)
+if project_root not in sys.path:
+    sys.path.insert(0, project_root)
+
 from game.game_logic.car_incident_event import CarIncident
 from game.game_logic.random_events import RandomEvents
 from game.game_logic.stats import Stats

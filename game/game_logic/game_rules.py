@@ -1,4 +1,5 @@
 """Module for starting message and especially for selecting the difficulty level, gaming mechanics, checks and limits."""
+import sys
 from random import randint
 
 from rich import print
@@ -13,7 +14,7 @@ from game.game_logic.press_enter_to_continue import continue_prompt
 from game.game_logic.random_events import RandomEvents
 from game.game_logic.stats import Stats
 
-console = Console()
+console = Console(force_terminal=True, width=None)
 
 
 class Game:
@@ -26,7 +27,7 @@ class Game:
     DIFFICULTY_SETTINGS = {
         "1": {"name": "[green]EASY[/green]", "money": 55000, "coding": 10, "hatred": 15},
         "2": {"name": "[yellow]HARD[/yellow]", "money": 35000, "coding": 5, "hatred": 25},
-        "3": {"name": f"[red]INSANE[/red]", "money": 20000, "coding": 0, "hatred": 35},
+        "3": {"name": "[red]INSANE[/red]", "money": 20000, "coding": 0, "hatred": 35},
         # 4 NIGHTMARE difficulty placeholder
     }
 
@@ -62,13 +63,14 @@ class Game:
     def set_difficulty_level(self):
         """Lets the user choose difficulty level from the dictionary."""
         while True:
-            print("\nSELECT THE DIFFICULTY:")
+            console.print("\nSELECT THE DIFFICULTY:")
+            
+            # Print each difficulty option directly
+            for key in sorted(self.DIFFICULTY_SETTINGS.keys()):
+                setting = self.DIFFICULTY_SETTINGS[key]
+                console.print(f"{key}. {setting['name']}: {setting['money']},- CZK, Coding Skills {setting['coding']}, PCR Hatred {setting['hatred']}")
 
-            for key, setting in self.DIFFICULTY_SETTINGS.items():
-                print(
-                    f"{key}. {setting['name']}: {setting['money']},- CZK, Coding Skills {setting['coding']}, PCR Hatred {setting['hatred']}")
-
-            print("\n(Enter a number from the list above): ")
+            console.print("\n(Enter a number from the list above):")
 
             choice = input("> ").strip()
 
