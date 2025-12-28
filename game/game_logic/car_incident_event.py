@@ -96,7 +96,7 @@ class CarIncident:
         stats.increment_stats_pcr_hatred(10)
         stats.increment_stats_value_money(- 2000)
 
-        print("\n[OUTCOME]: -2.000 CZK (Deductible), - 10 PCR HATRED (Humiliation).")
+        Interaction.show_outcome("-2.000 CZK (Deductible), - 10 PCR HATRED (Humiliation).")
         print("At least it's over. No lawyers. No Colonel. Just pure, unadulterated bureaucracy.")
 
     @staticmethod
@@ -118,7 +118,7 @@ class CarIncident:
             print("You got away with it. You magnificent bastard.")
 
             stats.increment_stats_pcr_hatred(-5)
-            print("\n[OUTCOME]: 0 CZK LOST, -5 PCR HATRED (The thrill of crime).")
+            Interaction.show_outcome("0 CZK LOST, -5 PCR HATRED (The thrill of crime).")
 
         else:
             CarIncident._scenario_caught_red_handed(stats)
@@ -162,7 +162,7 @@ class CarIncident:
             stats.increment_stats_value_money(-8000)
             print("\nYou sign the paper. Your hand is shaking.")
             print("You walk out 8.000 CZK poorer and with a hatred for this place that burns like acid.")
-            print("\n[OUTCOME]: -8.000 CZK, + 25 PCR HATRED.")
+            Interaction.show_outcome("-8.000 CZK, + 25 PCR HATRED.")
 
         elif choice == "2":
             CarIncident._scenario_better_call_paul(stats)
@@ -200,7 +200,7 @@ class CarIncident:
 
             print(f"\n[CRITICAL SUCCESS]: You received a settlement of {payout} CZK!")
             print("Your boss refuses to make eye contact with you.")
-            print("[OUTCOME]: + 15.000 CZK, -30 PCR HATRED (Justice tastes sweet).")
+            Interaction.show_outcome("+ 15.000 CZK, -30 PCR HATRED (Justice tastes sweet).")
 
         else:
             print("\nThe Colonel called in a favor.")
@@ -214,4 +214,4 @@ class CarIncident:
 
             print(f"\n[CRITICAL FAILURE]: You have to pay court fees of {court_fees} CZK.")
             print("The entire station is laughing at you. The Colonel sends you a 'Get Well Soon' card.")
-            print("[OUTCOME]: -12.000 CZK, +50 PCR HATRED (Maximum Salt).")
+            Interaction.show_outcome("-12.000 CZK, +50 PCR HATRED (Maximum Salt).")

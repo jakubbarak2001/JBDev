@@ -105,10 +105,39 @@ class Interaction:
         print(Panel(
             decision_content,
             border_style="bold yellow",
-            title="[bold white on yellow] ▶ DECISION ◀ [/]",
+            title="[bold white on yellow] > DECISION < [/]",
             padding=(1, 2),
             expand=False
         ))
         
         # Get user choice using existing ask method
         return Interaction.ask(tuple(option_numbers))
+
+    @staticmethod
+    def show_outcome(outcome_text: str) -> None:
+        """
+        Display an outcome message in a Rich Panel with styled [OUTCOME] tag.
+        The [OUTCOME] tag is displayed in bright cyan/teal color, rest of text is normal.
+        
+        Args:
+            outcome_text: The outcome message text (can include [OUTCOME] tag or will be prepended)
+                         Example: "- 2500 CZK, - 10 PCR HATRED"
+        """
+        # Check if [OUTCOME] is already in the text, if not prepend it
+        if "[OUTCOME]" not in outcome_text:
+            formatted_text = f"[bright_cyan][OUTCOME][/bright_cyan]: {outcome_text}"
+        else:
+            # Replace [OUTCOME] with styled version
+            formatted_text = outcome_text.replace(
+                "[OUTCOME]",
+                "[bright_cyan][OUTCOME][/bright_cyan]"
+            )
+        
+        # Display in a Rich Panel with cyan/teal border to match the outcome color
+        print(Panel(
+            formatted_text,
+            border_style="bold cyan",
+            title="[bold white on cyan] > OUTCOME < [/]",
+            padding=(1, 2),
+            expand=False
+        ))
