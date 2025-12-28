@@ -133,15 +133,15 @@ class RandomEvents:
             random_event_chance_roll = randint(3500, 12500)
             stats.increment_stats_value_money(random_event_chance_roll)
             print("\nYou've agreed to the overtime, at least the shift was calm."
-                  "\nThe money is nice, but don't forget that your mission is to leave this job once and for all."
-                  f"\n[OUTCOME]: +{random_event_chance_roll} MONEY.")
+                  "\nThe money is nice, but don't forget that your mission is to leave this job once and for all.")
+            Interaction.show_outcome(f"+{random_event_chance_roll} MONEY.")
 
         elif select_choice == "2":
             random_event_chance_roll = randint(15, 40)
             stats.increment_stats_coding_skill(random_event_chance_roll)
             print("\nAlthough your boss wasn't happy with your decision, you've decided to stay at home"
-                  "\nand to use your time for studying Python. \nIn the end you've earned a great deal of knowledge."
-                  f"\n[OUTCOME]: +{random_event_chance_roll} CODING SKILLS.")
+                  "\nand to use your time for studying Python. \nIn the end you've earned a great deal of knowledge.")
+            Interaction.show_outcome(f"+{random_event_chance_roll} CODING SKILLS.")
         continue_prompt()
 
     @staticmethod
@@ -174,9 +174,8 @@ class RandomEvents:
                   "\nYou don't even look in her eyes as you torment yourself with those words you've just said."
                   "\nShe is satisfied, but you are still obliged to to listen to her rantings\nand about "
                   "her children for another 15 minutes, after that, she finally leaves."
-                  "\n\n'What have I done to deserve this...' you think for yourself."
-                  f"\n[OUTCOME]: - 1000 CZK, +5 PCR HATRED."
-                  )
+                  "\n\n'What have I done to deserve this...' you think for yourself.")
+            Interaction.show_outcome("- 1000 CZK, +5 PCR HATRED.")
 
         elif select_choice == "2":
             stats.increment_stats_pcr_hatred(15)
@@ -194,9 +193,8 @@ class RandomEvents:
                   "\nIn a last ditch attempt, she says that 'it's not really nice from you'."
                   "\n'I don't care'\n"
                   "\nAfter that she finally lets you be, as she retreats to her work."
-                  "\n'Fuck them all...' you think for yourself."
-                  "\n[OUTCOME]: - 10 PCR HATRED."
-                  )
+                  "\n'Fuck them all...' you think for yourself.")
+            Interaction.show_outcome("- 10 PCR HATRED.")
         continue_prompt()
 
     @staticmethod
@@ -241,8 +239,8 @@ class RandomEvents:
                       "\nThe old man just nods, listening. No phone, no recording, just a human being who actually hears you."
                       "\nWhen you finish, he smiles sadly and says: 'I thought so... you can see it in your eyes.'"
                       "\nHe wishes you good luck and slowly walks away."
-                      "\nYou feel strangely lighter. Nothing changed... but at least you said it out loud."
-                      f"\n\n[OUTCOME]: - 25 PCR HATRED.")
+                      "\nYou feel strangely lighter. Nothing changed... but at least you said it out loud.")
+                Interaction.show_outcome("- 25 PCR HATRED.")
                 continue_prompt()
 
             else:
@@ -259,8 +257,8 @@ class RandomEvents:
                       "\nThe old man sent the recording to the city hall, 'out of concern for the state of the police'."
                       "\nYou listen to every sentence you said, but this time as evidence."
                       "\nBy the end of the week, you receive a written reprimand and a nice little financial penalty."
-                      "\nNobody cares why you said it. Only that you said it."
-                      f"\n\n[OUTCOME]: + 25 PCR HATRED, -2500 CZK.")
+                      "\nNobody cares why you said it. Only that you said it.")
+                Interaction.show_outcome("+ 25 PCR HATRED, -2500 CZK.")
                 continue_prompt()
 
         elif select_choice == "2":
@@ -272,8 +270,8 @@ class RandomEvents:
                   "\nHe nods and says: 'Well, at least someone still does this work, right?'"
                   "\nYou just answer: 'Yes, someone.'"
                   "\nHe walks away and the silence returns. Only now it feels heavier."
-                  "\nYou didn't get punished, nobody recorded anything... but the pressure inside you grew again."
-                  f"\n\n[OUTCOME]: - 10 PCR HATRED.")
+                  "\nYou didn't get punished, nobody recorded anything... but the pressure inside you grew again.")
+            Interaction.show_outcome("- 10 PCR HATRED.")
             continue_prompt()
 
     @staticmethod  # ADD FLY BUZZING SOUND
@@ -290,9 +288,9 @@ class RandomEvents:
               "\n\nYou and your colleague walk up the narrow staircase, each step worse than the previous one. "
               "The smell intensifies rapidly. Something is wrong. Very wrong."
               "\n\nBy the time you reach the hallway of the second floor, "
-              "your eyes are watering. You already know what’s waiting for you inside that room."
-              "\nYou haven't even opened the door yet, and you already feel your PCR hatred rising."
-              "\n\n[OUTCOME]: - 10 PCR HATRED (just for being here).")
+              "your eyes are watering. You already know what's waiting for you inside that room."
+              "\nYou haven't even opened the door yet, and you already feel your PCR hatred rising.")
+        Interaction.show_outcome("- 10 PCR HATRED (just for being here).")
         stats.increment_stats_pcr_hatred(10)
         continue_prompt()
 
@@ -324,8 +322,8 @@ class RandomEvents:
                       "\nHe finally sighs, long and exhausted, like a man who has seen too much."
                       "\n'Fine… I'll get someone else. Just… wait outside.'"
                       "\nYou step back into the hallway, leaning against the peeling wall, "
-                      "breathing through your mouth until your lungs stop screaming."
-                      f"\n\n[OUTCOME]: you avoid dragging it...")
+                      "breathing through your mouth until your lungs stop screaming.")
+                Interaction.show_outcome("you avoid dragging it...")
                 continue_prompt()
                 return
 
@@ -344,8 +342,8 @@ class RandomEvents:
                       "\nYou want to scream at them. You want to walk away. But you don’t."
                       "\nYou put on the gloves. They feel thin, useless — like wet paper on your hands."
                       "\nYour colleague mutters as he turns away: 'Unbelievable… I carried worse ones when I was your age.'"
-                      "\nEvery word he says is gasoline poured onto the fire inside your chest."
-                      f"\n\n[OUTCOME]: +5 PCR HATRED (your refusal was ignored and mocked).")
+                      "\nEvery word he says is gasoline poured onto the fire inside your chest.")
+                Interaction.show_outcome("+5 PCR HATRED (your refusal was ignored and mocked).")
                 continue_prompt()
 
         drag_roll = randint(1, 100)
@@ -368,16 +366,16 @@ class RandomEvents:
             print("\nYou and the team lift him. He’s heavy — unbelievably heavy — "
                   "but he doesn’t rupture."
                   "\nThe smell, the warmth, the texture of the room… it will stay in your mind forever."
-                  "\nBut at least nothing spilled."
-                  f"\n\n[OUTCOME]: + 15 PCR HATRED.")
+                  "\nBut at least nothing spilled.")
+            Interaction.show_outcome("+ 15 PCR HATRED.")
             continue_prompt()
             return
 
         else:
             stats.increment_stats_pcr_hatred(15)
             print("\nYou lift him carefully. Everything stays intact. "
-                  "Still a nightmare — but survivable."
-                  f"\n\n[OUTCOME]: + 15 PCR HATRED.")
+                  "Still a nightmare — but survivable.")
+            Interaction.show_outcome("+ 15 PCR HATRED.")
             continue_prompt()
 
     @staticmethod
@@ -423,9 +421,9 @@ class RandomEvents:
                   "\nYou shrug. There’s nothing left to say."
                   "\nYou walk past the day shift, past their jokes and their fresh faces, like a ghost leaving a party "
                   "he was never invited to."
-                  "\nOutside, the air is cold, but it feels… real. You know you’ll lose some money. "
-                  "But you also know you just saved at least a piece of your mind."
-                  f"\n\n[OUTCOME]: - 2500 CZK, - 10 PCR HATRED.")
+                  "\nOutside, the air is cold, but it feels… real. You know you'll lose some money. "
+                  "But you also know you just saved at least a piece of your mind.")
+            Interaction.show_outcome("- 2500 CZK, - 10 PCR HATRED.")
             continue_prompt()
 
         elif select_choice == "2":
@@ -439,10 +437,10 @@ class RandomEvents:
                   "\nYou look at the clock. 08:30. 09:00. 09:30."
                   "\nEvery minute you stay here feels like someone is scraping sandpaper across your brain."
                   "\nFinally, you finish. Your boss glances at the report, nods once and says:"
-                  "\n'Now it’s correct. You can go.' No thank you. No appreciation. Just a checkbox ticked."
+                  "\n'Now it's correct. You can go.' No thank you. No appreciation. Just a checkbox ticked."
                   "\nYou walk out of the office feeling like a battery that someone squeezed dry."
-                  "\nThe penalty won't come. But you know you paid with something else."
-                  f"\n\n[OUTCOME]: + 20 PCR HATRED.")
+                  "\nThe penalty won't come. But you know you paid with something else.")
+            Interaction.show_outcome("+ 20 PCR HATRED.")
             continue_prompt()
 
     @staticmethod
@@ -495,8 +493,8 @@ class RandomEvents:
                   "and eventually nods in approval."
                   "\n\n'Not bad,' he says. 'Actually, quite good. You have the mind for it. Why are you wearing this costume?'"
                   "\nHe writes an email address on a piece of paper. 'Send me your GitHub. We always look for talent.'"
-                  "\n\nYou walk away feeling validated for the first time in years."
-                  f"\n\n[OUTCOME]: + 30 CODING SKILLS.")
+                  "\n\nYou walk away feeling validated for the first time in years.")
+            Interaction.show_outcome("+ 30 CODING SKILLS.")
             continue_prompt()
 
         elif select_choice == "2":
@@ -509,8 +507,8 @@ class RandomEvents:
                   "\n\nHe gives you a short, precise monologue about problem-solving and abstraction layers."
                   "\n'If you ever get tired of this job — and trust me, you will — learn to build things. "
                   "Police officers preserve the status quo. Developers build the future.'"
-                  "\n\nYou listen. You learn something. But it hurts that you didn't speak up."
-                  f"\n\n[OUTCOME]: + 10 CODING SKILLS.")
+                  "\n\nYou listen. You learn something. But it hurts that you didn't speak up.")
+            Interaction.show_outcome("+ 10 CODING SKILLS.")
             continue_prompt()
 
     @staticmethod
@@ -576,7 +574,7 @@ class RandomEvents:
         print("The room is silent. But you can still feel the phantom pressure of the tape on your mouth.")
 
         stats.increment_stats_pcr_hatred(10)
-        print("\n[OUTCOME]: + 10 PCR HATRED (Night terror).")
+        Interaction.show_outcome("+ 10 PCR HATRED (Night terror).")
         continue_prompt()
 
     @staticmethod
@@ -604,7 +602,7 @@ class RandomEvents:
             print("\nYou sigh, turn off your body cam for a second to rub your eyes, and get back in your car.")
             print("The kid screams 'VICTORY!' as you drive away.")
             print("You saved 3 hours of paperwork, but you lost a piece of your soul.")
-            print("\n[OUTCOME]: + 15 PCR HATRED (Humiliation).")
+            Interaction.show_outcome("+ 15 PCR HATRED (Humiliation).")
 
         elif select_choice == "2":
             stats.increment_stats_pcr_hatred(5)
@@ -613,7 +611,7 @@ class RandomEvents:
             print("You arrest him for obstruction.")
             print("\nLater, you find out his parents are lawyers. The paperwork takes 6 hours.")
             print("Your boss fines you for the 'unnecessary property damage' to the Felicia.")
-            print("\n[OUTCOME]: - 1000 CZK (Fine), +5 PCR HATRED (At least you silenced him).")
+            Interaction.show_outcome("- 1000 CZK (Fine), +5 PCR HATRED (At least you silenced him).")
 
         continue_prompt()
 
@@ -659,7 +657,7 @@ class RandomEvents:
             stats.increment_stats_pcr_hatred(5)
             print("\nYou decide not to risk it. You hand write your report.")
             print("It takes 45 minutes longer.")
-            print("\n[OUTCOME]: +5 PCR HATRED.")
+            Interaction.show_outcome("+5 PCR HATRED.")
 
         continue_prompt()
 
@@ -755,7 +753,7 @@ class RandomEvents:
             stats.increment_stats_pcr_hatred(10)
             print("\nYou explain to him that the billionaire uncle doesn't exist.")
             print("He cries. You watch. It's just another Tuesday.")
-            print("\n[OUTCOME]: + 10 PCR HATRED.")
+            Interaction.show_outcome("+ 10 PCR HATRED.")
 
         continue_prompt()
 
@@ -799,7 +797,7 @@ class RandomEvents:
             print("\nYou sip your coffee.")
             print("Without the dispatch software, no one can send you anywhere.")
             print("For 20 minutes, there is peace.")
-            print("\n[OUTCOME]: - 5 PCR HATRED (Schadenfreude).")
+            Interaction.show_outcome("- 5 PCR HATRED (Schadenfreude).")
 
         continue_prompt()
 
@@ -867,7 +865,7 @@ class RandomEvents:
             print("'Typical,' he mutters, scanning the payment QR code.")
             print("His hourly rate is probably your monthly salary")
             print("He zooms off.")
-            print("\n[OUTCOME]: + 5 PCR HATRED.")
+            Interaction.show_outcome("+ 5 PCR HATRED.")
 
         continue_prompt()
 
@@ -913,6 +911,6 @@ class RandomEvents:
             print("Name. Date. Incident. Signature.")
             print("Name. Date. Incident. Signature.")
             print("By 4 AM, you forgot your own name.")
-            print("\n[OUTCOME]: + 20 PCR HATRED.")
+            Interaction.show_outcome("+ 20 PCR HATRED.")
 
         continue_prompt()

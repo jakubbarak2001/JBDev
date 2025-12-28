@@ -270,17 +270,17 @@ class Game:
                 if activity_roll == 1:
                     self.stats.increment_stats_pcr_hatred(-25)
                     print("\nDude the pump you had was EPIC, you even hit a new PR!"
-                          "\nYou feel strong and unstoppable, this was a great training."
-                          f"\n[OUTCOME]: - {cost} CZK, -25 PCR HATRED")
+                          "\nYou feel strong and unstoppable, this was a great training.")
+                    Interaction.show_outcome(f"- {cost} CZK, -25 PCR HATRED")
                 elif activity_roll == 2:
                     self.stats.increment_stats_pcr_hatred(- 15)
                     print("\nYou feel great after this workout, it's awesome that"
-                          "\nyou can come to better thoughts in the gym and relax."
-                          f"\n[OUTCOME]: - {cost} CZK, - 15 PCR HATRED")
+                          "\nyou can come to better thoughts in the gym and relax.")
+                    Interaction.show_outcome(f"- {cost} CZK, - 15 PCR HATRED")
                 elif activity_roll == 3:
                     self.stats.increment_stats_pcr_hatred(- 10)
-                    print("\nYou had better trainings in the past, but you still enjoyed this one."
-                          f"\n[OUTCOME]: - {cost} CZK, - 10 PCR HATRED")
+                    print("\nYou had better trainings in the past, but you still enjoyed this one.")
+                    Interaction.show_outcome(f"- {cost} CZK, - 10 PCR HATRED")
 
                 self.stats.get_stats_command()
                 input("\nCONTINUE...")
@@ -315,7 +315,7 @@ class Game:
                 print(
                     "\nShe reminds you that your situation is only temporary and that what job you do doesn't define who you are.")
                 print("\nYou feel a great sense of relief after this session.")
-                print(f"\n[OUTCOME]: - {cost} CZK, - 25 PCR HATRED")
+                Interaction.show_outcome(f"- {cost} CZK, - 25 PCR HATRED")
 
                 self.stats.get_stats_command()
                 self.activity_selected = True
@@ -348,22 +348,22 @@ class Game:
                 self.stats.increment_stats_value_money(4000)
                 print("\nNight shift was really calm, nothing happened and you got your usual rate."
                       "\nYou got angrier at PCR today, because the only reason why you work here,"
-                      "\nis the salary you get from them."
-                      "\n[OUTCOME]: + 3000 CZK, - 10 PCR HATRED")
+                      "\nis the salary you get from them.")
+                Interaction.show_outcome("+ 3000 CZK, - 10 PCR HATRED")
             elif activity_roll <= 90:
                 self.stats.increment_stats_value_money(7500)
                 self.stats.increment_stats_pcr_hatred(- 10)
                 print("\nThe night shift was great! You gained extra tip from your boss today."
-                      "\nThis made you feel so good, that you even forgot about completely about PCR."
-                      "\n[OUTCOME]: + 7500 CZK, - 10 PCR HATRED")
+                      "\nThis made you feel so good, that you even forgot about completely about PCR.")
+                Interaction.show_outcome("+ 7500 CZK, - 10 PCR HATRED")
             elif activity_roll <= 100:
                 self.stats.increment_stats_pcr_hatred(20)
                 self.stats.increment_stats_value_money(4000)
                 print("\nThere was an incident... some guys fought over one chick at the club, "
                       "\nThe police was called and your colleagues recognised you and made fun of you."
                       "\nYou were the talk of the following days, there will be no disciplinary action "
-                      "\ntaken against you, yet this made you completely mad."
-                      "\n[OUTCOME]: + 4000 CZK, + 20 PCR HATRED!")
+                      "\ntaken against you, yet this made you completely mad.")
+                Interaction.show_outcome("+ 4000 CZK, + 20 PCR HATRED!")
 
             self.stats.get_stats_command()
             input("\nCONTINUE...")
@@ -381,8 +381,8 @@ class Game:
                     "\nAt the end of the night your boss calls you to the office,"
                     "\npraises your calm judgment, and slides an envelope across the table."
                     "\n'Not many can do what you did tonight.'"
-                    "\n[OUTCOME]: + 25000 CZK, - 15 PCR HATRED"
                 )
+                Interaction.show_outcome("+ 25000 CZK, - 15 PCR HATRED")
             elif activity_roll <= 25:
                 self.stats.increment_stats_value_money(12500)
                 self.stats.increment_stats_coding_skill(2)
@@ -391,8 +391,8 @@ class Game:
                     "\nYou even use downtime at the door to mentally rehearse OOP concepts "
                     "\nand class hierarchies — weirdly effective."
                     "\nBoss gives you something extra for showing up, nods at you, no drama.."
-                    "\n[OUTCOME]: +12500 CZK, + 2 CODING SKILLS"
                 )
+                Interaction.show_outcome("+12500 CZK, + 2 CODING SKILLS")
 
             elif activity_roll <= 75:
                 self.stats.increment_stats_value_money(6500)
@@ -403,8 +403,8 @@ class Game:
                     "\nYou keep on wondering, how long it's going to take you to actually start coding."
                     "\nand doing something more meaningful then standing an entire night at a door."
                     "\nAt-least - the money they pay here is really something else."
-                    "\n[OUTCOME]: +4500 CZK, +5 PCR HATRED"
                 )
+                Interaction.show_outcome("+4500 CZK, +5 PCR HATRED")
 
 
             elif activity_roll <= 95:
@@ -416,9 +416,9 @@ class Game:
                     "\n“Ty vole, to je POLDA!”"
                     "\nWhen the responding patrol arrives, the looks they give you are suffocating. "
                     "\nTwo colleagues whisper. One smirks."
-                    "\nYour boss isn’t thrilled about the chaos either and gives you only a partial payout."
-                    "\n[OUTCOME]: - 1000CZK, + 25 PCR HATRED"
+                    "\nYour boss isn't thrilled about the chaos either and gives you only a partial payout."
                 )
+                Interaction.show_outcome("- 1000CZK, + 25 PCR HATRED")
 
             elif activity_roll <= 100:
                 self.stats.increment_stats_value_money(-12500)
@@ -432,8 +432,8 @@ class Game:
                     "\nyou’re a full-time officer moonlighting illegally."
                     "\nYour boss is furious. You get fined by your colleagues."
                     "\nYou stagger home with a headache powerful enough to knock your IQ back several points."
-                    "\n[OUTCOME]: -12500 CZK, +35 PCR HATRED, -5 CODING SKILLS"
                 )
+                Interaction.show_outcome("-12500 CZK, +35 PCR HATRED, -5 CODING SKILLS")
 
             self.stats.get_stats_command()
             input("\nCONTINUE...")
@@ -533,20 +533,20 @@ class Game:
         if activity_roll <= 65:
             self.stats.increment_stats_coding_skill(10)
             print("\nYou jump on a call with a mid-level developer from Fiverr.")
-            print("He’s practical. He shows you how to structure your files and fixes bad habits.")
-            print(f"\n[OUTCOME]: - {cost} CZK, + 10 CODING SKILLS")
+            print("He's practical. He shows you how to structure your files and fixes bad habits.")
+            Interaction.show_outcome(f"- {cost} CZK, + 10 CODING SKILLS")
 
         elif activity_roll <= 90:
             self.stats.increment_stats_coding_skill(15)
             print("\nYou luck out. Your tutor is sharp as hell.")
             print("They explain OOP in a way that finally clicks with your brain.")
-            print(f"\n[OUTCOME]: - {cost} CZK, + 15 CODING SKILLS")
+            Interaction.show_outcome(f"- {cost} CZK, + 15 CODING SKILLS")
 
         else:
             self.stats.increment_stats_coding_skill(25)
             print("\nYou accidentally booked a beast. Senior dev, ten years in the field.")
             print("Code review, patterns, mental models. This was a paradigm shift.")
-            print(f"\n[OUTCOME]: - {cost} CZK, + 25 CODING SKILLS")
+            Interaction.show_outcome(f"- {cost} CZK, + 25 CODING SKILLS")
 
         self.stats.get_stats_command()
         continue_prompt()
@@ -585,7 +585,7 @@ class Game:
         print("\nYou sign a contract and pay for an on-line Python bootcamp.")
         print("Deadlines, assignments, code reviews. The full package.")
         print("This is no longer a hobby. This is a commitment.")
-        print(f"\n[OUTCOME]: - {cost} CZK, [BOOTCAMP BUFF ACTIVATED]")
+        Interaction.show_outcome(f"- {cost} CZK, [BOOTCAMP BUFF ACTIVATED]")
 
         self.python_bootcamp = True
         self.stats.get_stats_command()
